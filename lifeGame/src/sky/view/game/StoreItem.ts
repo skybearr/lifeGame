@@ -1,0 +1,4 @@
+class StoreItem {
+	public constructor() {
+	}
+}

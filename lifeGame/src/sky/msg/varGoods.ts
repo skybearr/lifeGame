@@ -1,0 +1,4 @@
+class varGoods {
+	public constructor() {
+	}
+}

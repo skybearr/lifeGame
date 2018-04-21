@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="StartSkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="162d237403c" ></w:Config>
+	<e:Rect width="640" height="1136" x="0" y="0" fillColor="0xd7b1db" locked="true"/>
+	<e:Image source="qua_1_png" y="74" anchorOffsetX="0" width="282" scale9Grid="6,6,36,36" height="80" horizontalCenter="0"/>
+	<e:Label id="lbl_name" text="134534457447" y="92" horizontalCenter="0.5" textColor="0x022ff4" verticalAlign="middle" textAlign="center" size="40"/>
+	<e:Label id="lbl_content" text="222222" y="212.72" anchorOffsetY="0" height="550" anchorOffsetX="0" width="514" textColor="0x000000" horizontalCenter="0"/>
+	<e:Button id="btn_1" label="Button" y="780" skinName="BaseButtonSkin" horizontalCenter="0"/>
+	<e:Button id="btn_2" label="Button" y="880" skinName="BaseButtonSkin" horizontalCenter="0"/>
+	<e:Button id="btn_3" label="Button" y="980" skinName="BaseButtonSkin" horizontalCenter="0"/>
+</e:Skin>

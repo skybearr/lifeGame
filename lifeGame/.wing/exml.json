@@ -1,0 +1,10 @@
+{
+  "162d237403c": {
+    "path": "..\\resource\\skins\\StartSkin.ts",
+    "class": "StartSkin",
+    "parentPath": ""
+  },
+  "global": {
+    "globalAutoLayerMarkEnable": false
+  }
+}

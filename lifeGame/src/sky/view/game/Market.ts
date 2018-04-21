@@ -1,0 +1,4 @@
+class Market {
+	public constructor() {
+	}
+}
