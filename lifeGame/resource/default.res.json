@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "config_json,img_3_png,img_5_png,qua_0_png,qua_1_png,qua_4_png,qua_2_png,qua_3_png,qua_5_png,img_1_png,img_2_png,goods_json",
+			"keys": "config_json,img_3_png,img_5_png,qua_0_png,qua_1_png,qua_4_png,qua_2_png,qua_3_png,img_1_png,img_2_png,goods_json",
 			"name": "preload"
 		}
 	],
@@ -47,24 +47,19 @@
 			"name": "qua_3_png"
 		},
 		{
-			"url": "assets/img/qua_5.png",
+			"url": "assets/img/img_1.png",
 			"type": "image",
-			"name": "qua_5_png"
+			"name": "img_1_png"
 		},
 		{
-			"name": "img_1_png",
+			"url": "assets/img/img_2.png",
 			"type": "image",
-			"url": "assets/img/img_1.png"
+			"name": "img_2_png"
 		},
 		{
-			"name": "img_2_png",
-			"type": "image",
-			"url": "assets/img/img_2.png"
-		},
-		{
-			"name": "goods_json",
+			"url": "assets/data/goods.json",
 			"type": "json",
-			"url": "assets/data/goods.json"
+			"name": "goods_json"
 		}
 	]
 }

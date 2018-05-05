@@ -10,8 +10,7 @@ class StartUI extends eui.Component {
 
 	protected childrenCreated() {
 		super.childrenCreated();
-
-
+		
 		let data = GameLogic.getInstance().data;
 		this.lbl_name.text = data['name'];
 		this.lbl_content.text = data['content'];

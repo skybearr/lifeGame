@@ -28,6 +28,9 @@ var GameLogic = (function (_super) {
         if (this.data == null) {
             this.data = RES.getRes("config_json");
         }
+        if (this.goods == null) {
+            this.goods = RES.getRes("goods_json");
+        }
     };
     GameLogic.prototype.startGame = function () {
         this.main.removeChildren();
