@@ -9,8 +9,8 @@
 		"libs/modules/promise/promise.js"
 	],
 	"game": [
-		"bin-debug/AssetAdapter.js",
 		"bin-debug/LoadingUI.js",
+		"bin-debug/sky/msg/msgGoodsBuyRsp.js",
 		"bin-debug/Main.js",
 		"bin-debug/Platform.js",
 		"bin-debug/ThemeAdapter.js",
@@ -19,7 +19,7 @@
 		"bin-debug/sky/model/DataBase.js",
 		"bin-debug/sky/model/GameConst.js",
 		"bin-debug/sky/msg/Int64.js",
-		"bin-debug/sky/msg/msgGoodsBuyRsp.js",
+		"bin-debug/AssetAdapter.js",
 		"bin-debug/sky/msg/msgGoodsStoreRsp.js",
 		"bin-debug/sky/msg/msgLifeDataRsp.js",
 		"bin-debug/sky/msg/varGoods.js",

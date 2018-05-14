@@ -92,8 +92,9 @@ class GameUI extends eui.Component {
 	}
 
 	private setLeft() {
-		this.leftStore = this.getStoreNum();
-		this.lbl_store.text = this.leftStore.toString() + "/" + this.data.dwMaxStoreNum;
+		let n = this.getStoreNum();
+		this.leftStore = this.data.dwMaxStoreNum - n;
+		this.lbl_store.text = n + "/" + this.data.dwMaxStoreNum;
 	}
 
 	private getStoreNum(): number {
@@ -146,12 +147,12 @@ class GameUI extends eui.Component {
 		}
 		this.setLeft();
 	}
-	
+
 	private crtStoreItem: StoreItem;
 	private clickStoreItem(e: egret.TouchEvent) {
 		let item = e.currentTarget as StoreItem;
-		if (this.crtMarketItem != null) {
-			this.crtMarketItem.select = false;
+		if (this.crtStoreItem != null) {
+			this.crtStoreItem.select = false;
 		}
 		this.crtStoreItem = item;
 		this.crtStoreItem.select = true;

@@ -64,8 +64,9 @@ var GameUI = (function (_super) {
         this.lbl_day.text = (maxday - this.data.dwTimes) + "/" + maxday + "天";
     };
     GameUI.prototype.setLeft = function () {
-        this.leftStore = this.data.dwMaxStoreNum - this.getStoreNum();
-        this.lbl_store.text = this.leftStore.toString() + "/" + this.data.dwMaxStoreNum;
+        var n = this.getStoreNum();
+        this.leftStore = this.data.dwMaxStoreNum - n;
+        this.lbl_store.text = n + "/" + this.data.dwMaxStoreNum;
     };
     GameUI.prototype.getStoreNum = function () {
         var n = 0;
@@ -109,15 +110,12 @@ var GameUI = (function (_super) {
             this.store_arr.push(item);
             this.gp_store.addChild(item);
         }
-        this.setStoreLabel();
-    };
-    GameUI.prototype.setStoreLabel = function () {
-        this['lbl_store'].text = this.store_arr.length + "";
+        this.setLeft();
     };
     GameUI.prototype.clickStoreItem = function (e) {
         var item = e.currentTarget;
-        if (this.crtMarketItem != null) {
-            this.crtMarketItem.select = false;
+        if (this.crtStoreItem != null) {
+            this.crtStoreItem.select = false;
         }
         this.crtStoreItem = item;
         this.crtStoreItem.select = true;
@@ -157,7 +155,6 @@ var GameUI = (function (_super) {
     };
     GameUI.prototype.initView = function () {
         this.cb_0.selected = GameLogic.getInstance().cbSelected;
-        this.setStoreLabel();
     };
     GameUI.prototype.initEvent = function () {
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
