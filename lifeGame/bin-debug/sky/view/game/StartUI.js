@@ -18,8 +18,8 @@ var StartUI = (function (_super) {
     StartUI.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
         var data = GameLogic.getInstance().data;
-        this.lbl_name.text = data['name'];
-        this.lbl_content.text = data['content'];
+        this.lbl_name.text = StringUtil.getSwfLangStr("s1");
+        this.lbl_content.text = StringUtil.getSwfLangStr("s2");
         for (var i = 1; i <= 3; i++) {
             var o = data['config' + i];
             var str = i == 1 ? "开始游戏" : o['rmb'] + "元  开始";

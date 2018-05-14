@@ -20,12 +20,36 @@ var GameUI = (function (_super) {
         GameLogic.getInstance().gameui = this;
         this.market_arr = [];
         this.store_arr = [];
+        this.eventlist = [];
         this.initView();
         this.initEvent();
         GameCommand.getInstance().startGame();
     };
     /**出现事件 */
     GameUI.prototype.eventAppear = function (str) {
+        if (GameLogic.getInstance().cbSelected) {
+            return;
+        }
+        if (this.eventpoping) {
+            this.eventlist.push(str);
+            return;
+        }
+        this.popEvent(str);
+    };
+    GameUI.prototype.eventNext = function () {
+        this.eventpoping = false;
+        if (this.eventlist.length > 0) {
+            var str = this.eventlist.shift();
+            this.popEvent(str);
+        }
+        else {
+            this.pop(0);
+        }
+    };
+    GameUI.prototype.popEvent = function (str) {
+        this.eventpoping = true;
+        this.pop(11);
+        this['lbl_event_1'].text = str;
     };
     /**刷新基本数据*/
     GameUI.prototype.initData = function (msg) {
@@ -36,9 +60,12 @@ var GameUI = (function (_super) {
         this.lbl_3.text = this.data.dwDebt.toString();
         this.lbl_4.text = this.data.dwPow.toString();
         this.lbl_5.text = this.data.dwFame.toString();
+        var maxday = GameLogic.getInstance().data['maxday'];
+        this.lbl_day.text = (maxday - this.data.dwTimes) + "/" + maxday + "天";
     };
     GameUI.prototype.setLeft = function () {
         this.leftStore = this.data.dwMaxStoreNum - this.getStoreNum();
+        this.lbl_store.text = this.leftStore.toString() + "/" + this.data.dwMaxStoreNum;
     };
     GameUI.prototype.getStoreNum = function () {
         var n = 0;
@@ -82,6 +109,10 @@ var GameUI = (function (_super) {
             this.store_arr.push(item);
             this.gp_store.addChild(item);
         }
+        this.setStoreLabel();
+    };
+    GameUI.prototype.setStoreLabel = function () {
+        this['lbl_store'].text = this.store_arr.length + "";
     };
     GameUI.prototype.clickStoreItem = function (e) {
         var item = e.currentTarget;
@@ -102,23 +133,64 @@ var GameUI = (function (_super) {
     };
     /**结算 */
     GameUI.prototype.over = function () {
+        this['gp_over'].visible = true;
+        var str = "";
+        if (this.data.dwPow <= 0) {
+            str += StringUtil.getSwfLangStr("s20") + "\n";
+            this['btn_27'].visible = false;
+        }
+        else {
+            str += StringUtil.getSwfLangStr("s11") + "\n";
+            str += StringUtil.getSwfLangStrVarByID("s21", [DataBase.money + ""]) + "\n";
+            str += StringUtil.getSwfLangStr("s12") + "\n";
+            for (var i = 0; i < 5; i++) {
+                str += StringUtil.getSwfLangStrVarByID("s1" + (3 + i), [DataBase.achives[i] + ""]) + "\n";
+            }
+            str += StringUtil.getSwfLangStr("s19") + "\n";
+            str += StringUtil.getSwfLangStr("s50") + "\n";
+            this['btn_27'].visible = true;
+        }
+        this['lbl_over_1'].text = str;
     };
     GameUI.prototype.errorRsp = function (i) {
-        console.log("error:", i);
+        this.eventAppear(StringUtil.getSwfLangStr("e" + i));
     };
     GameUI.prototype.initView = function () {
+        this.cb_0.selected = GameLogic.getInstance().cbSelected;
+        this.setStoreLabel();
     };
     GameUI.prototype.initEvent = function () {
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
-        for (var i = 1; i <= 27; i++) {
+        for (var i = 0; i <= 27; i++) {
             var btn = this['btn_' + i];
             btn.name = i + "";
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
-        for (var i = 1; i <= 7; i++) {
+        for (var i = 0; i <= 7; i++) {
             var lbl = this['lbl_num' + i];
             lbl.name = 'lbl' + i;
             lbl.addEventListener(egret.Event.CHANGE, this.txtChange, this);
+            lbl.addEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
+        }
+        this.cb_0.addEventListener(egret.Event.CHANGE, this.cbChange, this);
+        this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
+    };
+    GameUI.prototype.cbChange = function () {
+        GameLogic.getInstance().cbSelected = this.cb_0.selected;
+    };
+    GameUI.prototype.clickRect = function (e) {
+        this.eventNext();
+    };
+    GameUI.prototype.txtClick = function (e) {
+        var lbl = e.currentTarget;
+        var i = parseInt(lbl.name.slice(3));
+        switch (i) {
+            case 1://存款
+                this.max_num = this.data.dwMoney;
+                break;
+            case 2://取款
+                this.max_num = this.data.dwDeposit;
+                break;
         }
     };
     GameUI.prototype.txtChange = function (e) {
@@ -136,18 +208,65 @@ var GameUI = (function (_super) {
             }
         }
         switch (i) {
+            case 0://捐款
+                this.pop(0);
+                GameCommand.getInstance().charity(parseInt(this['lbl_num0'].text));
+                break;
             case 1:
             case 2:
             case 3:
+                this.pop(0);
                 GameCommand.getInstance().passOneDay();
                 break;
             case 4://慈善
-                break;
-            case 5:
-            case 6:
-            case 7:
-            case 8:
                 this.pop(i);
+                this.max_num = this.data.dwMoney;
+                this['lbl_charity'].text = StringUtil.getSwfLangStr("s10");
+                this['lbl_num0'].text = "0";
+                break;
+            case 5://银行
+                this.pop(i);
+                this['lbl_num1'].text = this.data.dwMoney + "";
+                this['lbl_num2'].text = this.data.dwDeposit + "";
+                break;
+            case 6://医院
+                this.pop(i);
+                var n = 100 - this.data.dwPow;
+                if (n <= 0) {
+                    this['lbl_hos_1'].text = StringUtil.getSwfLangStr("s6");
+                    this.max_num = 0;
+                }
+                else {
+                    this['lbl_hos_1'].text = StringUtil.getSwfLangStrVarByID("s7", [GameLogic.getInstance().data['hospital'] + ""]);
+                    this.max_num = n;
+                }
+                this['lbl_num3'].text = this.max_num + "";
+                break;
+            case 7://中介
+                this.pop(i);
+                var n7 = GameLogic.getInstance().data['maxstore'] - this.data.dwMaxStoreNum;
+                if (n7 <= 0) {
+                    this['lbl_medi_1'].text = StringUtil.getSwfLangStr("s8");
+                }
+                else {
+                    var n70 = GameLogic.getInstance().data['storeprice'];
+                    var n71 = Math.floor(Math.random() * n70 / 5) + n70;
+                    this['lbl_medi_1'].text = StringUtil.getSwfLangStrVarByID("s9", [n71 + ""]);
+                }
+                break;
+            case 8://邮局
+                this.pop(i);
+                var n8 = this.data.dwDebt;
+                var n80 = this.data.dwMoney > n8 ? n8 : this.data.dwMoney;
+                if (n8 <= 0) {
+                    this['lbl_post_1'].text = StringUtil.getSwfLangStr("s10");
+                    this.max_num = 0;
+                }
+                else {
+                    this['lbl_post_1'].text = StringUtil.getSwfLangStr("s11");
+                    this.max_num = n80;
+                }
+                this['lbl_num5'].text = this.max_num + "";
                 break;
             case 9://转发
                 break;
@@ -155,26 +274,35 @@ var GameUI = (function (_super) {
                 break;
             case 11://排行榜
                 break;
-            case 12://重新开始
+            case 12: //重新开始
+            case 26:
                 this.restart();
                 break;
             case 13://存钱
+                GameCommand.getInstance().cun(parseInt(this['lbl_num1'].text));
+                this.pop(0);
                 break;
             case 14://取钱
+                GameCommand.getInstance().qu(parseInt(this['lbl_num2'].text));
+                this.pop(0);
                 break;
             case 15://治疗
-                break;
-            case 16: //关闭
-            case 18:
-            case 20:
-            case 22:
-            case 24:
-            case 25:
+                if (this.data.dwPow < 100) {
+                    GameCommand.getInstance().treat(100 - this.data.dwPow);
+                }
                 this.pop(0);
                 break;
             case 17://买柜子
+                var n17 = GameLogic.getInstance().data['storeprice'];
+                n17 = Math.floor(Math.random() * n17 / 5) + n17;
+                GameCommand.getInstance().buyStore(n17);
+                this.pop(0);
                 break;
             case 19://还债
+                var n19 = parseInt(this['lbl_num5'].text);
+                n19 = this.data.dwMoney < n19 ? this.data.dwMoney : n19;
+                GameCommand.getInstance().huan(n19);
+                this.pop(0);
                 break;
             case 21://购买
                 var n21 = parseInt(this['lbl_num6'].text);
@@ -190,7 +318,15 @@ var GameUI = (function (_super) {
                 }
                 this.pop(0);
                 break;
-            case 26://再来一次
+            case 16: //关闭
+            case 18:
+            case 20:
+            case 22:
+            case 24:
+                this.pop(0);
+                break;
+            case 25:
+                this.eventNext();
                 break;
             case 27://炫耀
                 break;
@@ -202,6 +338,9 @@ var GameUI = (function (_super) {
             if (gp_1 != null) {
                 gp_1.visible = false;
             }
+        }
+        if (i == 0) {
+            this.eventpoping = false;
         }
         var gp = this['gp_' + i];
         if (gp != null) {
@@ -240,10 +379,17 @@ var GameUI = (function (_super) {
     };
     GameUI.prototype.clearEvent = function () {
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
-        for (var i = 1; i <= 27; i++) {
+        for (var i = 0; i <= 27; i++) {
             var btn = this['btn_' + i];
             btn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
+        for (var i = 0; i <= 7; i++) {
+            var lbl = this['lbl_num' + i];
+            lbl.removeEventListener(egret.Event.CHANGE, this.txtChange, this);
+            lbl.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
+        }
+        this.cb_0.removeEventListener(egret.Event.CHANGE, this.cbChange, this);
+        this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
     };
     return GameUI;
 }(eui.Component));

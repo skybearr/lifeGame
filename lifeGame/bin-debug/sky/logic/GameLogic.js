@@ -31,6 +31,9 @@ var GameLogic = (function (_super) {
         if (this.goods == null) {
             this.goods = RES.getRes("goods_json");
         }
+        if (this.strings == null) {
+            this.strings = RES.getRes("string_json");
+        }
     };
     GameLogic.prototype.startGame = function () {
         this.main.removeChildren();

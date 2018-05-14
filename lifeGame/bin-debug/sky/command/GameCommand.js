@@ -26,10 +26,10 @@ var GameCommand = (function (_super) {
     };
     /**-------------------------------------------------- 服务器发送 -------------------------------------------------------- */
     GameCommand.prototype.sendData = function (b) {
-        if (b === void 0) { b = true; }
+        if (b === void 0) { b = false; }
         //利息计算
         if (b) {
-            DataBase.debt = Math.floor(DataBase.debt * 1.1);
+            DataBase.debt = Math.floor(DataBase.debt * 1.15);
             DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
         }
         var msg = this.getData();
@@ -48,34 +48,41 @@ var GameCommand = (function (_super) {
         msg.goods = DataBase.storeGoods;
         GameLogic.getInstance().gameui.initStore(msg);
     };
-    GameCommand.prototype.sendBuy = function () {
-    };
-    GameCommand.prototype.sendSell = function () {
-    };
-    /**还债 */
-    GameCommand.prototype.sendDebt = function () {
-    };
-    /**存款/取款 */
-    GameCommand.prototype.sendDeposit = function () {
-    };
     GameCommand.prototype.sendEvent = function () {
         this.dealOtherEvent();
         var arr = DataBase.events;
         for (var i = 0; i < arr.length; i++) {
             GameLogic.getInstance().gameui.eventAppear(arr[i]);
         }
+        DataBase.events = [];
     };
     GameCommand.prototype.sendError = function (i) {
         GameLogic.getInstance().gameui.errorRsp(i);
     };
-    GameCommand.prototype.sendOver = function () {
+    GameCommand.prototype.sendOver = function (t) {
         DataBase.gameState = 0;
-        //结算
-        DataBase.debt = Math.floor(DataBase.debt * 1.1);
-        DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
+        if (t == 0) {
+            //结算
+            DataBase.debt = Math.floor(DataBase.debt * 1.15);
+            DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
+            DataBase.money = DataBase.money + DataBase.deposit - DataBase.debt + this.getStorePrice();
+            DataBase.debt = 0;
+            DataBase.deposit = 0;
+        }
+        else if (t == 1) {
+        }
+        this.sendData();
         GameLogic.getInstance().gameui.over();
     };
     /**----------------------------------------------- 数据获得 --------------------------------------------------------------------- */
+    GameCommand.prototype.getStorePrice = function () {
+        var p = 0;
+        for (var i = 0; i < DataBase.storeGoods.length; i++) {
+            var good = DataBase.storeGoods[i];
+            p += good.dwPrice * good.dwNum;
+        }
+        return p;
+    };
     GameCommand.prototype.getData = function () {
         var msg = new msgLifeDataRsp();
         msg.dwMoney = DataBase.money;
@@ -123,11 +130,54 @@ var GameCommand = (function (_super) {
             var a = Math.floor(Math.random() * 4) + 1;
             var b_1 = Math.random() < 0.5 ? 1 : 2;
             var c = Math.floor(Math.random() * 3) + 1;
-            var key = "evt" + a + b_1 + c;
-            var str = GameLogic.getInstance().goods[key];
-            if (str != null) {
-                DataBase.events.push(str);
+            this.addEvent(a, b_1, c);
+        }
+    };
+    GameCommand.prototype.addEvent = function (a, b, c) {
+        var id = a * 100 + b * 10 + c;
+        var o = GameLogic.getInstance().goods["evt" + id];
+        if (o == null) {
+            return;
+        }
+        var isadd = b == 2;
+        var value = o['value'];
+        if (a < 5) {
+            switch (a) {
+                case 1://money
+                    if (value <= 1) {
+                        value = Math.floor(DataBase.money * value);
+                    }
+                    else {
+                        value = Math.floor(Math.random() * value / 5);
+                    }
+                    DataBase.money = DataBase.money + (isadd ? value : -value);
+                    DataBase.money = DataBase.money <= 0 ? 0 : DataBase.money;
+                    break;
+                case 2://deposit
+                    if (value <= 1) {
+                        value = Math.floor(DataBase.money * value);
+                    }
+                    else {
+                        value = Math.floor(Math.random() * value / 5);
+                    }
+                    DataBase.deposit = DataBase.deposit + (isadd ? value : -value);
+                    DataBase.deposit = DataBase.deposit <= 0 ? 0 : DataBase.deposit;
+                    break;
+                case 3://pow
+                    DataBase.pow = DataBase.pow + (isadd ? value : -value);
+                    DataBase.pow = DataBase.pow <= 0 ? 0 : DataBase.pow;
+                    break;
+                case 4://fame
+                    DataBase.fame = DataBase.fame + (isadd ? value : -value);
+                    DataBase.fame = DataBase.fame <= 0 ? 0 : DataBase.fame;
+                    break;
             }
+        }
+        if (typeof (o) == "string") {
+            DataBase.events.push(StringUtil.getSwfLangStr(o));
+        }
+        else {
+            DataBase.events.push(StringUtil.getSwfLangStrVar(o['str'], [value]));
         }
     };
     GameCommand.prototype.getRandom1 = function () {
@@ -176,6 +226,26 @@ var GameCommand = (function (_super) {
     GameCommand.prototype.sortfun = function (a, b) {
         return a < b ? -1 : 1;
     };
+    GameCommand.prototype.saveAchieve = function () {
+        if (DataBase.money > DataBase.achives[0]) {
+            DataBase.achives[0] = DataBase.money;
+        }
+        if (DataBase.deposit > DataBase.achives[1]) {
+            DataBase.achives[1] = DataBase.deposit;
+        }
+        if (DataBase.debt > DataBase.achives[2]) {
+            DataBase.achives[2] = DataBase.debt;
+        }
+        if (DataBase.pow < DataBase.achives[3]) {
+            DataBase.achives[3] = DataBase.pow;
+        }
+        if (DataBase.fame < DataBase.achives[4]) {
+            DataBase.achives[4] = DataBase.fame;
+        }
+        if (DataBase.fame > DataBase.achives[5]) {
+            DataBase.achives[5] = DataBase.fame;
+        }
+    };
     GameCommand.prototype.getPriceInMarket = function (id) {
         var arr = DataBase.marketGoods;
         for (var i = 0; i < arr.length; i++) {
@@ -200,25 +270,40 @@ var GameCommand = (function (_super) {
         DataBase.pow = o['pow'];
         DataBase.maxStoreNum = 100;
         DataBase.fame = o['fame'];
-        DataBase.gameState = 1;
+        DataBase.marketGoods = [];
         DataBase.storeGoods = [];
-        this.sendData(false);
+        DataBase.events = [];
+        DataBase.achives = [0, 0, 0, 0, 0];
+        DataBase.gameState = 1;
+        this.sendData();
         this.sendMarket(false);
     };
     /**过一天 */
     GameCommand.prototype.passOneDay = function () {
-        DataBase.times++;
-        if (DataBase.times >= 40) {
-            this.sendOver();
+        if (DataBase.gameState == 0) {
             return;
         }
-        this.sendData(true);
+        DataBase.times++;
+        if (DataBase.times >= 40) {
+            this.sendOver(0);
+            return;
+        }
         this.sendMarket(true);
         this.sendEvent();
+        this.sendData(true);
+        if (DataBase.pow <= 0) {
+            this.sendOver(1);
+            return;
+        }
+        this.saveAchieve();
     };
     GameCommand.prototype.buyGoods = function (id, num) {
         if (num == 0) {
             this.sendError(ERROR.BUY_ZERO);
+            return;
+        }
+        if (id == 9 && DataBase.gamePackage != 3) {
+            this.sendError(ERROR.NEED_LICIENCE);
             return;
         }
         var arr = DataBase.marketGoods;
@@ -228,6 +313,7 @@ var GameCommand = (function (_super) {
                 var n = good.dwPrice * num;
                 if (n > DataBase.money) {
                     this.sendError(ERROR.MONEY_NOT_ENOUGH);
+                    return;
                 }
                 else {
                     var arr1 = DataBase.storeGoods;
@@ -242,6 +328,7 @@ var GameCommand = (function (_super) {
                     }
                     if (total + num > DataBase.maxStoreNum) {
                         this.sendError(ERROR.STORE_NOT_ENOUGH);
+                        return;
                     }
                     else {
                         DataBase.money -= n;
@@ -255,8 +342,8 @@ var GameCommand = (function (_super) {
                             arr1.push(g);
                         }
                         else {
-                            var nn = g.dwNum + n;
-                            var p = Math.floor((g.dwPrice * g.dwNum + good.dwPrice * n) / nn);
+                            var nn = g.dwNum + num;
+                            var p = Math.floor((g.dwPrice * g.dwNum + good.dwPrice * num) / nn);
                             g.dwNum = nn;
                             g.dwPrice = p;
                             arr1[index] = g;
@@ -292,6 +379,96 @@ var GameCommand = (function (_super) {
                 this.sendStore();
                 break;
             }
+        }
+    };
+    GameCommand.prototype.cun = function (num) {
+        if (num > 0 && num <= DataBase.money) {
+            DataBase.deposit += num;
+            DataBase.money -= num;
+            this.sendData();
+        }
+    };
+    GameCommand.prototype.qu = function (num) {
+        if (num > 0 && num <= DataBase.deposit) {
+            DataBase.deposit -= num;
+            DataBase.money += num;
+            this.sendData();
+        }
+    };
+    GameCommand.prototype.huan = function (num) {
+        if (num > 0 && num <= DataBase.money && num <= DataBase.debt) {
+            DataBase.debt -= num;
+            DataBase.money -= num;
+            this.sendData();
+        }
+    };
+    GameCommand.prototype.treat = function (n) {
+        if (n > 0 && n < 100) {
+            if (n + DataBase.pow > 100) {
+                n = 100 - DataBase.pow;
+            }
+            var needmoney = n * GameLogic.getInstance().data['hospital'];
+            if (needmoney >= DataBase.money) {
+                this.sendError(ERROR.MONEY_NOT_ENOUGH);
+                return;
+            }
+            DataBase.money -= needmoney;
+            DataBase.pow += n;
+            this.sendData();
+        }
+    };
+    GameCommand.prototype.charity = function (n) {
+        if (n > DataBase.money) {
+            this.sendError(ERROR.MONEY_NOT_ENOUGH);
+            return;
+        }
+        var charity = GameLogic.getInstance().data['charity'];
+        var c;
+        if (n < charity) {
+            var r = Math.random() * 100;
+            if (r < 2) {
+                DataBase.fame += 3;
+                c = 0;
+            }
+            else {
+                c = 1;
+            }
+        }
+        else {
+            var i = Math.floor(n / charity);
+            DataBase.fame += i;
+            c = i < 10 ? 2 : (i < 100 ? 3 : 4);
+        }
+        this.addEvent(5, 1, c);
+        DataBase.money -= n;
+        this.sendData();
+        this.sendEvent();
+    };
+    GameCommand.prototype.buyStore = function (price) {
+        var max = GameLogic.getInstance().data['maxstore'];
+        if (DataBase.maxStoreNum >= max) {
+            this.sendError(ERROR.MAX_STORE_NUM);
+            return;
+        }
+        var n = GameLogic.getInstance().data['storeprice'];
+        if (price < n) {
+            console.log("价格低于标准值，请勿作弊");
+            return;
+        }
+        if (DataBase.money < price) {
+            this.sendError(ERROR.MONEY_NOT_ENOUGH);
+            return;
+        }
+        else {
+            DataBase.maxStoreNum += 10;
+            if (DataBase.maxStoreNum >= max) {
+                DataBase.maxStoreNum = max;
+            }
+            var r = Math.floor(Math.random() * n / 5);
+            DataBase.money -= (price + r);
+            this.sendData();
+            this.addEvent(5, 0, 0);
+            this.sendEvent();
         }
     };
     return GameCommand;

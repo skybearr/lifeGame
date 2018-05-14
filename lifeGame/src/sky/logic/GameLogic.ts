@@ -18,6 +18,9 @@ class GameLogic extends egret.EventDispatcher {
 
 	public data:Object;
 	public goods:Object;
+	public strings:Object;
+
+	public cbSelected:boolean;
 
 
 	public openStart(){
@@ -34,6 +37,9 @@ class GameLogic extends egret.EventDispatcher {
 		}
 		if(this.goods == null){
 			this.goods = RES.getRes("goods_json");
+		}
+		if(this.strings == null){
+			this.strings = RES.getRes("string_json");
 		}
 	}
 

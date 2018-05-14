@@ -12,8 +12,8 @@ class StartUI extends eui.Component {
 		super.childrenCreated();
 		
 		let data = GameLogic.getInstance().data;
-		this.lbl_name.text = data['name'];
-		this.lbl_content.text = data['content'];
+		this.lbl_name.text = StringUtil.getSwfLangStr("s1");
+		this.lbl_content.text = StringUtil.getSwfLangStr("s2");
 
 		for (let i: number = 1; i <= 3; i++) {
 			let o = data['config' + i];
