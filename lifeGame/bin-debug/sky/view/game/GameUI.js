@@ -266,6 +266,7 @@ var GameUI = (function (_super) {
                 this['lbl_num5'].text = this.max_num + "";
                 break;
             case 9://转发
+                GameLogic.getInstance().share(1);
                 break;
             case 10://广告
                 break;

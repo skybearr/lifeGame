@@ -39,6 +39,19 @@ var GameLogic = (function (_super) {
         this.main.removeChildren();
         this.main.addChild(new GameUI());
     };
+    /**转发 */
+    GameLogic.prototype.share = function (type) {
+        var wx = window["wx"];
+        wx.onShareAppMessage(function () {
+            return {
+                title: '转发标题',
+                imageUrl: 'qua_3_png',
+                success: function (res) {
+                    console.log('转发成功');
+                }
+            };
+        });
+    };
     return GameLogic;
 }(egret.EventDispatcher));
 __reflect(GameLogic.prototype, "GameLogic");
