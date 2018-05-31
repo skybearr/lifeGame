@@ -19,7 +19,7 @@ class StartUI extends eui.Component {
 			let o = data['config' + i];
 			let str = i == 1 ? "开始游戏" : o['rmb'] + "元  开始";
 
-			str += "\n" + o['pow'] + "体力 " + o['debt'] + "欠债 " + o['money'] + "启动资金\n";
+			// str += "\n" + o['pow'] + "体力 " + o['debt'] + "欠债 " + o['money'] + "启动资金\n";
 			if (i == 3) {
 				str += "(可获炒房证)";
 			}

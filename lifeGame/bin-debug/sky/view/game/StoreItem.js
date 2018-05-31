@@ -46,4 +46,3 @@ var StoreItem = (function (_super) {
     return StoreItem;
 }(eui.Component));
 __reflect(StoreItem.prototype, "StoreItem");
-//# sourceMappingURL=StoreItem.js.map

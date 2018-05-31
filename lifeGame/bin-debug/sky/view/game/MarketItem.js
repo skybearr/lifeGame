@@ -38,4 +38,3 @@ var MarketItem = (function (_super) {
     return MarketItem;
 }(eui.Component));
 __reflect(MarketItem.prototype, "MarketItem");
-//# sourceMappingURL=MarketItem.js.map

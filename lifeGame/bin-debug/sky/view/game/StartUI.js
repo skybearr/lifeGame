@@ -23,7 +23,7 @@ var StartUI = (function (_super) {
         for (var i = 1; i <= 3; i++) {
             var o = data['config' + i];
             var str = i == 1 ? "开始游戏" : o['rmb'] + "元  开始";
-            str += "\n" + o['pow'] + "体力 " + o['debt'] + "欠债 " + o['money'] + "启动资金\n";
+            // str += "\n" + o['pow'] + "体力 " + o['debt'] + "欠债 " + o['money'] + "启动资金\n";
             if (i == 3) {
                 str += "(可获炒房证)";
             }
@@ -48,4 +48,3 @@ var StartUI = (function (_super) {
     return StartUI;
 }(eui.Component));
 __reflect(StartUI.prototype, "StartUI");
-//# sourceMappingURL=StartUI.js.map

@@ -100,19 +100,20 @@ var Main = (function (_super) {
     };
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var userInfo;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
-                        _a.sent();
+                        _b.sent();
                         this.createGameScene();
                         return [4 /*yield*/, platform.login()];
                     case 2:
-                        _a.sent();
+                        _b.sent();
+                        _a = GameLogic.getInstance();
                         return [4 /*yield*/, platform.getUserInfo()];
                     case 3:
-                        userInfo = _a.sent();
+                        _a.userInfo = _b.sent();
                         return [2 /*return*/];
                 }
             });
@@ -163,9 +164,8 @@ var Main = (function (_super) {
      * Create scene interface
      */
     Main.prototype.createGameScene = function () {
-        GameLogic.getInstance().openStart();
+        GameLogic.getInstance().init();
     };
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
-//# sourceMappingURL=Main.js.map

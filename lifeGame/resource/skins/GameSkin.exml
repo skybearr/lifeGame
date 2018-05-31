@@ -62,7 +62,7 @@
 		<e:Label text="欠债" x="20" y="100" textColor="0x07f70f" locked="true"/>
 		<e:Label text="体力" x="400" y="20" scaleX="1" scaleY="1" textColor="0x07f70f" locked="true"/>
 		<e:Label text="名声" x="400" y="60" scaleX="1" scaleY="1" textColor="0x07f70f" locked="true"/>
-		<e:Label text="QQ" x="400" y="100" scaleX="1" scaleY="1" textColor="0x07f70f" width="96" anchorOffsetX="0"/>
+		<e:Label text="Q群" x="400" y="100" scaleX="1" scaleY="1" textColor="0x07f70f" width="96" anchorOffsetX="0"/>
 		<e:Label id="lbl_1" text="012345678912345678" x="90" y="20" width="302"/>
 		<e:Label id="lbl_4" text="0123" x="470" y="20" width="100"/>
 		<e:Label id="lbl_5" text="0123" x="470" y="60" width="100"/>
@@ -83,16 +83,16 @@
 			<e:Button id="btn_14" label="取钱" x="475.34" y="76" skinName="BaseButtonSkin" anchorOffsetX="0" width="140" anchorOffsetY="0" height="48"/>
 		</e:Group>
 		<e:Group id="gp_6" y="0" width="100%" height="144" touchEnabled="false" horizontalCenter="0" visible="false">
-			<e:Label id="lbl_hos_1" text="LabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLabsLabsLabsLabsbsLabsLabsLabsLabsLabsLabsLabsLabs" y="0" anchorOffsetX="0" width="480" anchorOffsetY="0" height="90" touchEnabled="false" x="140"/>
+			<e:Label id="lbl_hos_1" text="LabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLabsLabsLabsLabsbsLabsLabsLabsLabsLabsLabsLabsLabs" y="0" anchorOffsetX="0" width="563" anchorOffsetY="0" height="90" touchEnabled="false" x="57"/>
 			<e:Label id="lbl_num3" text="999" x="140" y="96" anchorOffsetX="0" width="80" anchorOffsetY="0" height="40" verticalAlign="middle" textAlign="left" type="input" textColor="0x7f0cf2"/>
 			<e:Button id="btn_15" label="治疗" x="230" y="94" skinName="BaseButtonSkin" anchorOffsetX="0" width="142" anchorOffsetY="0" height="48"/>
 			<e:Button id="btn_16" label="我不要" x="390" y="94" skinName="BaseButtonSkin" anchorOffsetX="0" width="226" anchorOffsetY="0" height="48"/>
 		</e:Group>
 		<e:Group id="gp_7" y="0" width="100%" height="144" touchEnabled="false" horizontalCenter="0" visible="false">
-			<e:Label id="lbl_medi_1" text="LabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLabsLabsLabsLabsbsLabsLabsLabsLabsLabsLabsLabsLabs" y="0" anchorOffsetX="0" width="480" anchorOffsetY="0" height="90" touchEnabled="false" x="140"/>
+			<e:Label id="lbl_medi_1" text="LabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLabsLabsLabsLabsbsLabsLabsLabsLabsLabsLabsLabsLabs" y="0" anchorOffsetX="0" width="578" anchorOffsetY="0" height="90" touchEnabled="false" x="42"/>
 			<e:Label id="lbl_num4" text="Label" x="142.67" y="96" anchorOffsetX="0" width="236.36" anchorOffsetY="0" height="40" verticalAlign="middle" textAlign="left" type="input" textColor="0x7F0CF2" visible="false"/>
 			<e:Button id="btn_17" label="成交" x="380" y="94" skinName="BaseButtonSkin" anchorOffsetX="0" width="110" anchorOffsetY="0" height="48"/>
-			<e:Button id="btn_18" label="滚蛋" x="500" y="94" skinName="BaseButtonSkin" anchorOffsetX="0" width="110" anchorOffsetY="0" height="48"/>
+			<e:Button id="btn_18" label="不要" x="500" y="94" skinName="BaseButtonSkin" anchorOffsetX="0" width="110" anchorOffsetY="0" height="48"/>
 		</e:Group>
 		<e:Group id="gp_8" y="0" width="100%" height="144" touchEnabled="false" horizontalCenter="0" visible="false">
 			<e:Label id="lbl_post_1" text="LabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLabsLabsLabsLabsbsLabsLabsLabsLabsLabsLabsLabsLabs" y="0" anchorOffsetX="0" width="480" anchorOffsetY="0" height="90" touchEnabled="false" x="140"/>

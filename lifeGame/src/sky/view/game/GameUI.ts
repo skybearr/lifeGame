@@ -309,23 +309,23 @@ class GameUI extends eui.Component {
 				let n8 = this.data.dwDebt;
 				let n80 = this.data.dwMoney > n8 ? n8 : this.data.dwMoney;
 				if (n8 <= 0) {//没有债务
-					this['lbl_post_1'].text = StringUtil.getSwfLangStr("s10");
+					this['lbl_post_1'].text = StringUtil.getSwfLangStr("s102");
 					this.max_num = 0;
 				}
 				else {
-					this['lbl_post_1'].text = StringUtil.getSwfLangStr("s11");
+					this['lbl_post_1'].text = StringUtil.getSwfLangStr("s101");
 					this.max_num = n80;
 				}
 				this['lbl_num5'].text = this.max_num + "";
 				break;
 			case 9://转发
-				GameLogic.getInstance().share(1);
+				GameLogic.getInstance().share();
 				break;
 			case 10://广告
 
 				break;
 			case 11://排行榜
-
+				GameLogic.getInstance().openFriendRank(true);
 				break;
 			case 12://重新开始
 			case 26:

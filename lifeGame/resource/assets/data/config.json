@@ -2,8 +2,8 @@
     "name": "lifeGame",
     "content": "this is a story",
     "config1": {
-        "money": 5000,
-        "debt": 10000,
+        "money": 50000,
+        "debt": 0,
         "pow": 70,
         "fame": 30,
         "rmb": 0
@@ -24,7 +24,7 @@
     },
     "trans": 10000,
     "maxstore": 150,
-    "maxday": 40,
+    "maxday": 20,
     "hospital": 10000,
     "storeprice": 25000,
     "charity": 1000000

@@ -70,6 +70,10 @@ class GameCommand extends egret.EventDispatcher {
 		}
 		this.sendData();
 		GameLogic.getInstance().gameui.over();
+
+		if(t == 0){
+			GameLogic.getInstance().setUserCloudStorage();
+		}
 	}
 
 
@@ -104,7 +108,8 @@ class GameCommand extends egret.EventDispatcher {
 		msg.goods = [];
 		let len = 4 + Math.floor(Math.random() * 6);
 		let arr = this.bases.slice();
-		let lll = DataBase.gamePackage < 2 ? arr.length : arr.length - 1;
+		// let lll = DataBase.gamePackage < 2 ? arr.length : arr.length - 1;
+		let lll = arr.length;
 		let goodIds = [];
 		for (let i: number = 0; i < len; i++) {
 			let i = Math.floor(Math.random() * lll);
@@ -279,7 +284,6 @@ class GameCommand extends egret.EventDispatcher {
 		return null;
 	}
 
-
 	/**-------------------------------------------- 客户端发送  ------------------------------------------------------------------------ */
 
 	public selectPackage(i: number) {
@@ -314,7 +318,7 @@ class GameCommand extends egret.EventDispatcher {
 			return;
 		}
 		DataBase.times++;
-		if (DataBase.times >= 40) {
+		if (DataBase.times >= GameLogic.getInstance().data['maxday']) {
 			this.sendOver(0);
 			return;
 		}
@@ -333,10 +337,10 @@ class GameCommand extends egret.EventDispatcher {
 			this.sendError(ERROR.BUY_ZERO);
 			return;
 		}
-		if(id == 9 && DataBase.gamePackage != 3){
-			this.sendError(ERROR.NEED_LICIENCE);
-			return;
-		}
+		// if(id == 9 && DataBase.gamePackage != 3){
+		// 	this.sendError(ERROR.NEED_LICIENCE);
+		// 	return;
+		// }
 		let arr = DataBase.marketGoods;
 		for (let i: number = 0; i < arr.length; i++) {
 			let good = arr[i];

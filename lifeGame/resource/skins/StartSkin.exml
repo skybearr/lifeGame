@@ -6,6 +6,6 @@
 	<e:Label id="lbl_name" text="134534457447" y="92" horizontalCenter="0.5" textColor="0x022ff4" verticalAlign="middle" textAlign="center" size="40"/>
 	<e:Label id="lbl_content" text="222222" y="212.72" anchorOffsetY="0" height="550" anchorOffsetX="0" width="514" textColor="0x000000" horizontalCenter="0"/>
 	<e:Button id="btn_1" label="Button" y="780" skinName="BaseButtonSkin" horizontalCenter="0"/>
-	<e:Button id="btn_2" label="Button" y="880" skinName="BaseButtonSkin" horizontalCenter="0"/>
-	<e:Button id="btn_3" label="Button" y="980" skinName="BaseButtonSkin" horizontalCenter="0"/>
+	<e:Button id="btn_2" label="Button" y="880" skinName="BaseButtonSkin" horizontalCenter="0" visible="false"/>
+	<e:Button id="btn_3" label="Button" y="980" skinName="BaseButtonSkin" horizontalCenter="0" visible="false"/>
 </e:Skin>

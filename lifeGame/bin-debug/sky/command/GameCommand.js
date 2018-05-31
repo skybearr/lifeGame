@@ -73,6 +73,9 @@ var GameCommand = (function (_super) {
         }
         this.sendData();
         GameLogic.getInstance().gameui.over();
+        if (t == 0) {
+            GameLogic.getInstance().setUserCloudStorage();
+        }
     };
     /**----------------------------------------------- 数据获得 --------------------------------------------------------------------- */
     GameCommand.prototype.getStorePrice = function () {
@@ -99,7 +102,8 @@ var GameCommand = (function (_super) {
         msg.goods = [];
         var len = 4 + Math.floor(Math.random() * 6);
         var arr = this.bases.slice();
-        var lll = DataBase.gamePackage < 2 ? arr.length : arr.length - 1;
+        // let lll = DataBase.gamePackage < 2 ? arr.length : arr.length - 1;
+        var lll = arr.length;
         var goodIds = [];
         for (var i = 0; i < len; i++) {
             var i_1 = Math.floor(Math.random() * lll);
@@ -284,7 +288,7 @@ var GameCommand = (function (_super) {
             return;
         }
         DataBase.times++;
-        if (DataBase.times >= 40) {
+        if (DataBase.times >= GameLogic.getInstance().data['maxday']) {
             this.sendOver(0);
             return;
         }
@@ -302,10 +306,10 @@ var GameCommand = (function (_super) {
             this.sendError(ERROR.BUY_ZERO);
             return;
         }
-        if (id == 9 && DataBase.gamePackage != 3) {
-            this.sendError(ERROR.NEED_LICIENCE);
-            return;
-        }
+        // if(id == 9 && DataBase.gamePackage != 3){
+        // 	this.sendError(ERROR.NEED_LICIENCE);
+        // 	return;
+        // }
         var arr = DataBase.marketGoods;
         for (var i = 0; i < arr.length; i++) {
             var good = arr[i];
@@ -474,4 +478,3 @@ var GameCommand = (function (_super) {
     return GameCommand;
 }(egret.EventDispatcher));
 __reflect(GameCommand.prototype, "GameCommand");
-//# sourceMappingURL=GameCommand.js.map

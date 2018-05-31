@@ -64,8 +64,8 @@ class Main extends eui.UILayer {
         await this.loadResource()
         this.createGameScene();
         await platform.login();
-        const userInfo = await platform.getUserInfo();
-
+        GameLogic.getInstance().userInfo = await platform.getUserInfo();
+        
     }
 
     private async loadResource() {
@@ -99,6 +99,6 @@ class Main extends eui.UILayer {
      * Create scene interface
      */
     protected createGameScene(): void {
-        GameLogic.getInstance().openStart();
+        GameLogic.getInstance().init();
     }
 }
