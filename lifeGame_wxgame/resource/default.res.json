@@ -1,0 +1,75 @@
+{
+	"groups": [
+		{
+			"keys": "config_json,img_3_png,img_5_png,qua_0_png,qua_1_png,qua_4_png,qua_2_png,qua_3_png,img_1_png,img_2_png,goods_json,public_8_png,strings_json",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/data/config.json",
+			"type": "json",
+			"name": "config_json"
+		},
+		{
+			"url": "assets/img/img_3.png",
+			"type": "image",
+			"name": "img_3_png"
+		},
+		{
+			"url": "assets/img/img_5.png",
+			"type": "image",
+			"name": "img_5_png"
+		},
+		{
+			"url": "assets/img/qua_0.png",
+			"type": "image",
+			"name": "qua_0_png"
+		},
+		{
+			"url": "assets/img/qua_1.png",
+			"type": "image",
+			"name": "qua_1_png"
+		},
+		{
+			"url": "assets/img/qua_4.png",
+			"type": "image",
+			"name": "qua_4_png"
+		},
+		{
+			"url": "assets/img/qua_2.png",
+			"type": "image",
+			"name": "qua_2_png"
+		},
+		{
+			"url": "assets/img/qua_3.png",
+			"type": "image",
+			"name": "qua_3_png"
+		},
+		{
+			"url": "assets/img/img_1.png",
+			"type": "image",
+			"name": "img_1_png"
+		},
+		{
+			"url": "assets/img/img_2.png",
+			"type": "image",
+			"name": "img_2_png"
+		},
+		{
+			"url": "assets/data/goods.json",
+			"type": "json",
+			"name": "goods_json"
+		},
+		{
+			"url": "assets/img/public_8.png",
+			"type": "image",
+			"name": "public_8_png"
+		},
+		{
+			"url": "assets/data/strings.json",
+			"type": "json",
+			"name": "strings_json"
+		}
+	]
+}
