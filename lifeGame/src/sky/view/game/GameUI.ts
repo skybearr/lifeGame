@@ -427,7 +427,7 @@ class GameUI extends eui.Component {
 	}
 
 	private restart() {
-		GameLogic.getInstance().openStart();
+		GameLogic.getInstance().startGame();
 	}
 
 	private clear() {

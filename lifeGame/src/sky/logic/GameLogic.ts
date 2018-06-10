@@ -25,6 +25,8 @@ class GameLogic extends egret.EventDispatcher {
 	public cbSelected: boolean;
 
 	public init() {
+		this.initData();
+
 		this.showShareMenu();
 
 		this.openStart();
@@ -33,22 +35,23 @@ class GameLogic extends egret.EventDispatcher {
 	}
 
 	public openStart() {
-		this.initData();
+		
 
 		this.main.removeChildren();
 
 		this.main.addChild(new StartUI());
 	}
 
+	private loadingGoods:boolean;
 	private initData() {
 		if (this.data == null) {
 			this.data = RES.getRes("config_json");
 		}
-		if (this.goods == null) {
-			this.goods = RES.getRes("goods_json");
-		}
 		if (this.strings == null) {
 			this.strings = RES.getRes("strings_json");
+		}
+		if (this.goods == null) {
+			this.goods = RES.getRes("goods_json");
 		}
 	}
 

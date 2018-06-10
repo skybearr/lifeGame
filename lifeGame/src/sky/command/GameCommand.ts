@@ -287,7 +287,7 @@ class GameCommand extends egret.EventDispatcher {
 	/**-------------------------------------------- 客户端发送  ------------------------------------------------------------------------ */
 
 	public selectPackage(i: number) {
-		DataBase.gamePackage = i;
+		DataBase.gamePackage = 1;
 	}
 
 	/**根据type 刷数据 */

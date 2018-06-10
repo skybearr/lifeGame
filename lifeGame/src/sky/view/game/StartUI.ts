@@ -6,6 +6,7 @@ class StartUI extends eui.Component {
 
 	private lbl_name: eui.Label;
 	private lbl_content: eui.Label;
+	private lbl_log:eui.Label;
 
 
 	protected childrenCreated() {
@@ -33,6 +34,10 @@ class StartUI extends eui.Component {
 	}
 
 	private clickBtn(e: egret.TouchEvent) {
+		if(GameLogic.getInstance().strings == null){
+			this.lbl_log.text = "正在形成市场，请稍后...";
+			return;
+		}
 		let i = parseInt(e.currentTarget.name);
 		GameCommand.getInstance().selectPackage(i);
 		GameLogic.getInstance().startGame();

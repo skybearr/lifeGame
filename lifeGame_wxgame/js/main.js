@@ -179,6 +179,7 @@ var Main = (function (_super) {
                         return [4 /*yield*/, platform.getUserInfo()];
                     case 3:
                         _a.userInfo = _b.sent();
+                        console.log("userinfo:", GameLogic.getInstance().userInfo);
                         return [2 /*return*/];
                 }
             });
@@ -572,7 +573,7 @@ var GameCommand = (function (_super) {
     };
     /**-------------------------------------------- 客户端发送  ------------------------------------------------------------------------ */
     GameCommand.prototype.selectPackage = function (i) {
-        DataBase.gamePackage = i;
+        DataBase.gamePackage = 1;
     };
     /**根据type 刷数据 */
     GameCommand.prototype.startGame = function () {
@@ -800,12 +801,12 @@ var GameLogic = (function (_super) {
         return this._instance;
     };
     GameLogic.prototype.init = function () {
+        this.initData();
         this.showShareMenu();
         this.openStart();
         this.checkShareInfo();
     };
     GameLogic.prototype.openStart = function () {
-        this.initData();
         this.main.removeChildren();
         this.main.addChild(new StartUI());
     };
@@ -813,11 +814,11 @@ var GameLogic = (function (_super) {
         if (this.data == null) {
             this.data = RES.getRes("config_json");
         }
-        if (this.goods == null) {
-            this.goods = RES.getRes("goods_json");
-        }
         if (this.strings == null) {
             this.strings = RES.getRes("strings_json");
+        }
+        if (this.goods == null) {
+            this.goods = RES.getRes("goods_json");
         }
     };
     GameLogic.prototype.startGame = function () {
@@ -1836,7 +1837,7 @@ var GameUI = (function (_super) {
         this.crtStoreItem = null;
     };
     GameUI.prototype.restart = function () {
-        GameLogic.getInstance().openStart();
+        GameLogic.getInstance().startGame();
     };
     GameUI.prototype.clear = function () {
         this.clearEvent();
@@ -1918,6 +1919,10 @@ var StartUI = (function (_super) {
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
     };
     StartUI.prototype.clickBtn = function (e) {
+        if (GameLogic.getInstance().strings == null) {
+            this.lbl_log.text = "正在形成市场，请稍后...";
+            return;
+        }
         var i = parseInt(e.currentTarget.name);
         GameCommand.getInstance().selectPackage(i);
         GameLogic.getInstance().startGame();

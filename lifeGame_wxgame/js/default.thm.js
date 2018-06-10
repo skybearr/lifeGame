@@ -1431,11 +1431,11 @@ var egret = window.egret;
 	__extends(StartSkin, _super);
 	function StartSkin() {
 		_super.call(this);
-		this.skinParts = ["lbl_name","lbl_content","btn_1","btn_2","btn_3"];
+		this.skinParts = ["lbl_name","lbl_log","lbl_content","btn_1","btn_2","btn_3"];
 		
 		this.height = 1136;
 		this.width = 640;
-		this.elementsContent = [this._Rect1_i(),this._Image1_i(),this.lbl_name_i(),this.lbl_content_i(),this.btn_1_i(),this.btn_2_i(),this.btn_3_i()];
+		this.elementsContent = [this._Rect1_i(),this._Image1_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this.btn_2_i(),this.btn_3_i()];
 	}
 	var _proto = StartSkin.prototype;
 
@@ -1469,6 +1469,18 @@ var egret = window.egret;
 		t.textColor = 0x022ff4;
 		t.verticalAlign = "middle";
 		t.y = 92;
+		return t;
+	};
+	_proto.lbl_log_i = function () {
+		var t = new eui.Label();
+		this.lbl_log = t;
+		t.horizontalCenter = 0;
+		t.size = 40;
+		t.text = "";
+		t.textAlign = "center";
+		t.textColor = 0x8ef202;
+		t.verticalAlign = "middle";
+		t.y = 873;
 		return t;
 	};
 	_proto.lbl_content_i = function () {

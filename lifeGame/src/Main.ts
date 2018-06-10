@@ -65,6 +65,8 @@ class Main extends eui.UILayer {
         this.createGameScene();
         await platform.login();
         GameLogic.getInstance().userInfo = await platform.getUserInfo();
+        console.log("userinfo:",GameLogic.getInstance().userInfo);
+        
         
     }
 

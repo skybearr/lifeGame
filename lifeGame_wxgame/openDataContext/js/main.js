@@ -37,7 +37,7 @@ var Main = (function (_super) {
         console.log("openFriendCloud");
         wx.getFriendCloudStorage({
             //keylist 需要获取排行榜中的数据的key
-            keyList: ["money", "fame", "achives"],
+            keyList: ["money"],
             success: function (res) {
                 _this.initItems(userinfo, res.data, true);
             },
@@ -65,7 +65,7 @@ var Main = (function (_super) {
             //keylist 需要获取排行榜中的数据的key
             keyList: ["money", "fame", "achives"],
             success: function (res) {
-                _this.initItems(userinfo, res.data, true);
+                _this.initItems(userinfo, res.data, false);
             },
             fail: function (err) {
                 console.log("getFriendCloudStorage:error:", err);
@@ -138,6 +138,7 @@ var Main = (function (_super) {
         this.addChild(this.scrollView);
         var url = userinfo != null ? userinfo.avatarUrl : "-1";
         var myrank = -1;
+        datarray = datarray.sort(this.sortfun);
         for (var i = 0; i < datarray.length; i++) {
             var data = datarray[i];
             if (url == data.avatarUrl) {
@@ -149,7 +150,18 @@ var Main = (function (_super) {
         }
         this.getUserInfo(myrank, userinfo);
     };
+    Main.prototype.sortfun = function (a, b) {
+        if (a.KVDataList[0].key < b.KVDataList[0].key) {
+            return -1;
+        }
+        else {
+            return 1;
+        }
+    };
     Main.prototype.initMyItem = function (i, userinfo, datarray) {
+        if (userinfo == null || userinfo.avatarUrl == null) {
+            return;
+        }
         var data = {};
         data['avatarUrl'] = userinfo.avatarUrl;
         data['nickname'] = userinfo.nickName;

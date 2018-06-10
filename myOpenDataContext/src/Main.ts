@@ -25,7 +25,7 @@ class Main extends egret.DisplayObjectContainer {
         
         wx.getFriendCloudStorage({
             //keylist 需要获取排行榜中的数据的key
-            keyList: ["money", "fame", "achives"],
+            keyList: ["money"],
             success: res => {
                 this.initItems(userinfo,res.data,true)
             },
@@ -144,6 +144,7 @@ class Main extends egret.DisplayObjectContainer {
         
         let url = userinfo != null ? userinfo.avatarUrl : "-1"
         let myrank = -1;
+        datarray = datarray.sort(this.sortfun);
         for (let i: number = 0; i < datarray.length; i++) {
             let data = datarray[i];
             if(url == data.avatarUrl){
@@ -157,8 +158,17 @@ class Main extends egret.DisplayObjectContainer {
         this.getUserInfo(myrank,userinfo);
     }
 
+    private sortfun(a:any,b:any){
+        if(a.KVDataList[0].key < b.KVDataList[0].key){
+            return -1;
+        }
+        else{
+            return 1;
+        }
+    }
+
     private initMyItem(i,userinfo, datarray) {
-        if(userinfo == null){
+        if(userinfo == null || userinfo.avatarUrl == null){
             return;
         }
         let data = {};

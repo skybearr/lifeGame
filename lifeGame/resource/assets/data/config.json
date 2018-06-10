@@ -24,7 +24,7 @@
     },
     "trans": 10000,
     "maxstore": 150,
-    "maxday": 20,
+    "maxday": 40,
     "hospital": 10000,
     "storeprice": 25000,
     "charity": 1000000
