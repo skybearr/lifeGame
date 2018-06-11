@@ -1,0 +1,33 @@
+1，wx.getLaunchOptionsSync()获取shareTicket一定要转发到群里的才会有
+2，白鹭发布成微信开发工具项目时，可能造成丢失资源，关闭开发工具重新发布（可能是更新版本后导致的）
+3，wx.getLaunchOptionsSync()里的query是一个object，是将设置时的key=value改成的object
+4，ios闪屏：把主域和开放域帧频改成60，保证最后小游戏项目的game.js里帧频为60
+
+
+
+
+微信开发者工具 v1.02.1803210 更新到v1.02.1805181时，重新安装会package.json会丢失
+把v1.02.1803210 的复制过来，修改版本号，并修改-load-extension=后面的路径 ，
+把/package.nw去掉（路径多了一层），否则会报错丢失js/extensions/devtools清单文件
+
+
+
+1，引擎5.1.8
+2，复制资源代码：http://developer.egret.com/cn/github/egret-docs/Engine2D/minigame/publish/index.html
+3，修改jszip：jszip.js第一个方法改成 ! function(a) {
+    window.JSZip = a();
+}(function() {
+4，修改PahFinding： PahFinding.js第一个方法改成 ! function(e) {
+    window.PF = e();
+}(function() {
+      wxgame.ts添加：	if (filename == "libs/modules/PathFinding/PathFinding.js" || filename == 'libs/modules/PathFinding/PathFinding.min.js') {
+                    
+	content += ";window.PF = PF;"
+                }
+5，删除LoadManager，MyImageLoader
+6，//自定义嵌套eui需要挂在到 window 对象
+	window["BaseLabel"] = BaseLabel;
+7，//入口类中加入如下代码，开启纹理跨域	egret.ImageLoader.crossOrigin = "anonymous";
+8，content += ';window.socket = WebSocket';
+   
+9，Namespace 'RES' has no exported member 'PromiseTaskReporter'. --> 删掉modules 重新编译引擎
