@@ -19,6 +19,11 @@ class StoreItem extends eui.Component {
 		this.update();
 	}
 
+	/**贵的显示箭头 */
+	public upState(b:boolean){
+		this.img_up.visible = b;
+	}
+
 	public updateGood(o:varGoods){
 		this.good = o;
 		this.update();
@@ -41,6 +46,5 @@ class StoreItem extends eui.Component {
 
 	public clear(){
 		this.good = null;
-		
 	}
 }

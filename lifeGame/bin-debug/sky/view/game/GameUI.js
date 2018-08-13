@@ -47,6 +47,13 @@ var GameUI = (function (_super) {
         }
     };
     GameUI.prototype.popEvent = function (str) {
+        if (str == "playerdescription") {
+            this['lbl_event_1'].height = 280;
+            str = StringUtil.getSwfLangStr("s2");
+        }
+        else {
+            this['lbl_event_1'].height = 90;
+        }
         this.eventpoping = true;
         this.pop(11);
         this['lbl_event_1'].text = str;
@@ -79,12 +86,30 @@ var GameUI = (function (_super) {
     /**刷新商店*/
     GameUI.prototype.initMarket = function (msg) {
         this.clearMarket();
+        var storeuparr = [];
         for (var i = 0; i < msg.goods.length; i++) {
             var item = new MarketItem(msg.goods[i]);
             item.y = (item.height + 2) * i;
             item.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickMarketItem, this);
             this.market_arr.push(item);
             this.gp_market.addChild(item);
+            for (var j = 0; j < this.store_arr.length; j++) {
+                var storeItem = this.store_arr[j];
+                var g = storeItem.good;
+                if (g != null && g.dwID == item.good.dwID) {
+                    item.same(true);
+                    if (g.dwPrice < msg.goods[i].dwPrice) {
+                        storeuparr.push(g.dwID);
+                    }
+                    break;
+                }
+            }
+        }
+        //store里面加个高的出箭头
+        for (var j = 0; j < this.store_arr.length; j++) {
+            var storeItem = this.store_arr[j];
+            var bool = storeuparr.indexOf(storeItem.good.dwID) != -1;
+            storeItem.upState(bool);
         }
     };
     GameUI.prototype.clickMarketItem = function (e) {
@@ -269,9 +294,10 @@ var GameUI = (function (_super) {
                 GameLogic.getInstance().share();
                 break;
             case 10://广告
+                this.popEvent("playerdescription");
                 break;
             case 11://排行榜
-                GameLogic.getInstance().openFriendRank(true);
+                GameLogic.getInstance().openRank();
                 break;
             case 12: //重新开始
             case 26:
@@ -368,7 +394,7 @@ var GameUI = (function (_super) {
         this.crtStoreItem = null;
     };
     GameUI.prototype.restart = function () {
-        GameLogic.getInstance().openStart();
+        GameLogic.getInstance().startGame();
     };
     GameUI.prototype.clear = function () {
         this.clearEvent();
@@ -393,3 +419,4 @@ var GameUI = (function (_super) {
     return GameUI;
 }(eui.Component));
 __reflect(GameUI.prototype, "GameUI");
+//# sourceMappingURL=GameUI.js.map

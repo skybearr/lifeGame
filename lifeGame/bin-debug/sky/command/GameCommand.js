@@ -29,7 +29,7 @@ var GameCommand = (function (_super) {
         if (b === void 0) { b = false; }
         //利息计算
         if (b) {
-            DataBase.debt = Math.floor(DataBase.debt * 1.15);
+            DataBase.debt = Math.floor(DataBase.debt * 1.1);
             DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
         }
         var msg = this.getData();
@@ -262,7 +262,7 @@ var GameCommand = (function (_super) {
     };
     /**-------------------------------------------- 客户端发送  ------------------------------------------------------------------------ */
     GameCommand.prototype.selectPackage = function (i) {
-        DataBase.gamePackage = i;
+        DataBase.gamePackage = 1;
     };
     /**根据type 刷数据 */
     GameCommand.prototype.startGame = function () {
@@ -478,3 +478,4 @@ var GameCommand = (function (_super) {
     return GameCommand;
 }(egret.EventDispatcher));
 __reflect(GameCommand.prototype, "GameCommand");
+//# sourceMappingURL=GameCommand.js.map

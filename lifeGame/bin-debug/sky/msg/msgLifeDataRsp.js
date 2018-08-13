@@ -17,3 +17,4 @@ var msgLifeDataRsp = (function () {
     return msgLifeDataRsp;
 }());
 __reflect(msgLifeDataRsp.prototype, "msgLifeDataRsp");
+//# sourceMappingURL=msgLifeDataRsp.js.map

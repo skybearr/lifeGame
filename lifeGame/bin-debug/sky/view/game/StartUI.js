@@ -35,6 +35,10 @@ var StartUI = (function (_super) {
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
     };
     StartUI.prototype.clickBtn = function (e) {
+        if (GameLogic.getInstance().strings == null) {
+            this.lbl_log.text = "正在形成市场，请稍后...";
+            return;
+        }
         var i = parseInt(e.currentTarget.name);
         GameCommand.getInstance().selectPackage(i);
         GameLogic.getInstance().startGame();
@@ -48,3 +52,4 @@ var StartUI = (function (_super) {
     return StartUI;
 }(eui.Component));
 __reflect(StartUI.prototype, "StartUI");
+//# sourceMappingURL=StartUI.js.map

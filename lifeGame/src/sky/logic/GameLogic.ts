@@ -193,6 +193,10 @@ class GameLogic extends egret.EventDispatcher {
 
 	}
 
+	public openRank(){
+		
+	}
+
 	/**
      * 排行榜遮罩，为了避免点击开放数据域影响到主域，在主域中建立一个遮罩层级来屏蔽点击事件.</br>
      * 根据自己的需求来设置遮罩的 alpha 值 0~1.</br>

@@ -114,6 +114,7 @@ var Main = (function (_super) {
                         return [4 /*yield*/, platform.getUserInfo()];
                     case 3:
                         _a.userInfo = _b.sent();
+                        console.log("userinfo:", GameLogic.getInstance().userInfo);
                         return [2 /*return*/];
                 }
             });
@@ -169,3 +170,4 @@ var Main = (function (_super) {
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map

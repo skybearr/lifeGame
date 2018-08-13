@@ -21,6 +21,9 @@ var MarketItem = (function (_super) {
         this.lbl_name.text = this.good.strName;
         this.lbl_price.text = this.good.dwPrice + "";
     };
+    MarketItem.prototype.same = function (b) {
+        this.rect_same.visible = b;
+    };
     Object.defineProperty(MarketItem.prototype, "select", {
         get: function () {
             return this._select;
@@ -38,3 +41,4 @@ var MarketItem = (function (_super) {
     return MarketItem;
 }(eui.Component));
 __reflect(MarketItem.prototype, "MarketItem");
+//# sourceMappingURL=MarketItem.js.map

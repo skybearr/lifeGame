@@ -23,7 +23,7 @@ class GameUI extends eui.Component {
 	/**未知 */
 	private lbl_6: eui.Label;
 	private rect_evt: eui.Rect;
-	private cb_0:eui.CheckBox;
+	private cb_0: eui.CheckBox;
 
 	private crtPop: number;
 
@@ -53,7 +53,7 @@ class GameUI extends eui.Component {
 	private eventpoping: boolean;
 	/**出现事件 */
 	public eventAppear(str: string) {
-		if(GameLogic.getInstance().cbSelected){
+		if (GameLogic.getInstance().cbSelected) {
 			return;
 		}
 		if (this.eventpoping) {
@@ -73,6 +73,13 @@ class GameUI extends eui.Component {
 		}
 	}
 	private popEvent(str: string) {
+		if (str == "playerdescription") {
+			this['lbl_event_1'].height = 280;
+			str = StringUtil.getSwfLangStr("s2");
+		}
+		else {
+			this['lbl_event_1'].height = 90;
+		}
 		this.eventpoping = true;
 		this.pop(11);
 		this['lbl_event_1'].text = str;
@@ -109,13 +116,35 @@ class GameUI extends eui.Component {
 	/**刷新商店*/
 	public initMarket(msg: msgGoodsBuyRsp) {
 		this.clearMarket();
-
+		let storeuparr = [];
 		for (let i: number = 0; i < msg.goods.length; i++) {
 			let item = new MarketItem(msg.goods[i]);
 			item.y = (item.height + 2) * i;
 			item.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickMarketItem, this);
 			this.market_arr.push(item);
 			this.gp_market.addChild(item);
+
+			for (let j: number = 0; j < this.store_arr.length; j++)//判断是否仓库内有这个商品，有的话显示底， 如果价格比仓库的高，入upArr然后通知他修改
+			{
+				let storeItem = this.store_arr[j];
+				let g =  storeItem.good;
+				if(g != null && g.dwID == item.good.dwID){
+					item.same(true);
+					if (g.dwPrice < msg.goods[i].dwPrice) {
+						storeuparr.push(g.dwID);
+					}
+					break;
+				}
+			}
+		}
+		
+		//store里面加个高的出箭头
+		for (let j: number = 0; j < this.store_arr.length; j++)//判断是否仓库内有这个商品，有的话显示底， 如果价格比仓库的高，入upArr然后通知他修改
+		{
+			let storeItem = this.store_arr[j];
+			let bool = storeuparr.indexOf(storeItem.good.dwID) != -1;
+			storeItem.upState(bool);
+
 		}
 	}
 	private crtMarketItem: MarketItem;
@@ -174,7 +203,7 @@ class GameUI extends eui.Component {
 	/**结算 */
 	public over() {
 		this['gp_over'].visible = true;
-		let str:string = "";
+		let str: string = "";
 
 		if (this.data.dwPow <= 0) {
 			str += StringUtil.getSwfLangStr("s20") + "\n";
@@ -191,7 +220,7 @@ class GameUI extends eui.Component {
 			str += StringUtil.getSwfLangStr("s50") + "\n";
 			this['btn_27'].visible = true;
 		}
-		
+
 		this['lbl_over_1'].text = str;
 	}
 
@@ -217,11 +246,11 @@ class GameUI extends eui.Component {
 			lbl.addEventListener(egret.Event.CHANGE, this.txtChange, this);
 			lbl.addEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
-		this.cb_0.addEventListener(egret.Event.CHANGE,this.cbChange,this);
+		this.cb_0.addEventListener(egret.Event.CHANGE, this.cbChange, this);
 		this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
 	}
 
-	private cbChange(){
+	private cbChange() {
 		GameLogic.getInstance().cbSelected = this.cb_0.selected;
 	}
 
@@ -322,10 +351,10 @@ class GameUI extends eui.Component {
 				GameLogic.getInstance().share();
 				break;
 			case 10://广告
-
+				this.popEvent("playerdescription");
 				break;
 			case 11://排行榜
-				GameLogic.getInstance().openFriendRank(true);
+				GameLogic.getInstance().openRank();
 				break;
 			case 12://重新开始
 			case 26:
@@ -451,7 +480,7 @@ class GameUI extends eui.Component {
 			lbl.removeEventListener(egret.Event.CHANGE, this.txtChange, this);
 			lbl.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
-		this.cb_0.removeEventListener(egret.Event.CHANGE,this.cbChange,this);
+		this.cb_0.removeEventListener(egret.Event.CHANGE, this.cbChange, this);
 		this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
 	}
 }

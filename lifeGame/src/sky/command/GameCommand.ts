@@ -17,7 +17,7 @@ class GameCommand extends egret.EventDispatcher {
 	public sendData(b: boolean = false) {
 		//利息计算
 		if (b) {
-			DataBase.debt = Math.floor(DataBase.debt * 1.15);
+			DataBase.debt = Math.floor(DataBase.debt * 1.1);
 			DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
 		}
 		let msg = this.getData();

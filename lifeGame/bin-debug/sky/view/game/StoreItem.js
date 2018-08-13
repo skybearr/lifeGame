@@ -20,6 +20,10 @@ var StoreItem = (function (_super) {
         _super.prototype.childrenCreated.call(this);
         this.update();
     };
+    /**贵的显示箭头 */
+    StoreItem.prototype.upState = function (b) {
+        this.img_up.visible = b;
+    };
     StoreItem.prototype.updateGood = function (o) {
         this.good = o;
         this.update();
@@ -46,3 +50,4 @@ var StoreItem = (function (_super) {
     return StoreItem;
 }(eui.Component));
 __reflect(StoreItem.prototype, "StoreItem");
+//# sourceMappingURL=StoreItem.js.map

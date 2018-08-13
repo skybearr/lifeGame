@@ -12,3 +12,4 @@ var varGoods = (function () {
     return varGoods;
 }());
 __reflect(varGoods.prototype, "varGoods");
+//# sourceMappingURL=varGoods.js.map

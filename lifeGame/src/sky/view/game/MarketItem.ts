@@ -8,6 +8,7 @@ class MarketItem extends eui.Component {
 	public lbl_name:eui.Label;
 	public lbl_price:eui.Label;
 	public rect_bg:eui.Rect;
+	public rect_same:eui.Rect;
 
 	public good:varGoods;
 
@@ -17,6 +18,10 @@ class MarketItem extends eui.Component {
 		this.lbl_name.text = this.good.strName;
 		this.lbl_price.text = this.good.dwPrice + "";
 		
+	}
+
+	public same(b:boolean){
+		this.rect_same.visible = b;
 	}
 
 	private _select:boolean;

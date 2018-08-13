@@ -48,9 +48,9 @@
 		<e:Button label="市场二" id="btn_2" x="156" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
 		<e:Button label="市场三" id="btn_3" x="306" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
 		<e:Button label="慈善" id="btn_4" x="456" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
-		<e:Button label="转发" id="btn_9" x="4" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
-		<e:Button label="惊喜" id="btn_10" x="160" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
-		<e:Button label="排行榜" id="btn_11" x="310" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
+		<e:Button label="转发" id="btn_9" x="4" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56" visible="false"/>
+		<e:Button label="玩法说明" id="btn_10" x="160" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
+		<e:Button label="排行榜" id="btn_11" x="310" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56" visible="false"/>
 		<e:Button label="重新开始" id="btn_12" x="460" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="130" anchorOffsetY="0" height="56"/>
 		<e:layout>
 		<e:TileLayout orientation="rows" horizontalAlign="center" verticalAlign="middle" requestedRowCount="3" horizontalGap="20" verticalGap="12"/>
@@ -62,11 +62,11 @@
 		<e:Label text="欠债" x="20" y="100" textColor="0x07f70f" locked="true"/>
 		<e:Label text="体力" x="400" y="20" scaleX="1" scaleY="1" textColor="0x07f70f" locked="true"/>
 		<e:Label text="名声" x="400" y="60" scaleX="1" scaleY="1" textColor="0x07f70f" locked="true"/>
-		<e:Label text="Q群" x="400" y="100" scaleX="1" scaleY="1" textColor="0x07f70f" width="96" anchorOffsetX="0"/>
+		<e:Label text="Q群" x="400" y="100" scaleX="1" scaleY="1" textColor="0x07f70f" width="96" anchorOffsetX="0" visible="false"/>
 		<e:Label id="lbl_1" text="012345678912345678" x="90" y="20" width="302"/>
 		<e:Label id="lbl_4" text="0123" x="470" y="20" width="100"/>
 		<e:Label id="lbl_5" text="0123" x="470" y="60" width="100"/>
-		<e:Label id="lbl_6" text="40344680" x="470" y="100" width="146" anchorOffsetX="0"/>
+		<e:Label id="lbl_6" text="40344680" x="470" y="100" width="146" anchorOffsetX="0" visible="false"/>
 		<e:Label id="lbl_2" text="012345678912345678" x="90" y="60" width="302"/>
 		<e:Label id="lbl_3" text="012345678912345678" x="90" y="100" width="302"/>
 	</e:Group>
@@ -115,8 +115,8 @@
 		<e:Image id="img_pop" source="qua_2_png" x="20" scale9Grid="6,6,36,36" width="96" height="96" verticalCenter="0" y="-204" scaleX="1" scaleY="1" locked="true" visible="false"/>
 	</e:Group>
 	<e:Group id="gp_11" y="0" width="100%" height="100%" touchEnabled="false" horizontalCenter="0" visible="false">
-		<e:Rect id="rect_evt" width="100%" height="100%" strokeAlpha="1" fillAlpha="0.3"/>
-		<e:Label id="lbl_event_1" text="LabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLaLabsLabsLabsLabsLabsLabsLabsbsLabsLabsLabsLabsLabsLabsLabsLabs" y="728" anchorOffsetX="0" width="480" anchorOffsetY="0" height="90" touchEnabled="false" horizontalCenter="0"/>
+		<e:Rect id="rect_evt" width="100%" height="100%" strokeAlpha="1" fillAlpha="0.5"/>
+		<e:Label id="lbl_event_1" text="你将扮演一位外地来苏州打工的青年。一开始你的兜里只剩5000元，还欠了村长5500元债务。这些债务每天的利息高达10%。如果不及时还清，你可能会因为压力太大影响身体健康。你可以在市场之间倒卖各种物品来发财致富，最终荣登富人榜。你会遭遇各种事件，让你感到浮生艰难。\n        你只能在苏州呆40天，每次奔走一个市场都算一天。一开始，你的出租屋只能放100个东西，有钱了可以找中介扩充出租屋。" anchorOffsetX="0" width="480" anchorOffsetY="90" touchEnabled="false" horizontalCenter="0" bottom="326" height="90" background="true" backgroundColor="0xc1aaaa"/>
 		<e:Button id="btn_25" label="知道了" y="818" skinName="BaseButtonSkin" anchorOffsetX="0" width="142" anchorOffsetY="0" height="48" horizontalCenter="0"/>
 	</e:Group>
 	<e:Group id="gp_over" width="640" height="1136" horizontalCenter="0" verticalCenter="0" visible="false">

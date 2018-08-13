@@ -20,12 +20,12 @@ var GameLogic = (function (_super) {
         return this._instance;
     };
     GameLogic.prototype.init = function () {
+        this.initData();
         this.showShareMenu();
-        this.checkShareInfo();
         this.openStart();
+        this.checkShareInfo();
     };
     GameLogic.prototype.openStart = function () {
-        this.initData();
         this.main.removeChildren();
         this.main.addChild(new StartUI());
     };
@@ -33,11 +33,11 @@ var GameLogic = (function (_super) {
         if (this.data == null) {
             this.data = RES.getRes("config_json");
         }
-        if (this.goods == null) {
-            this.goods = RES.getRes("goods_json");
-        }
         if (this.strings == null) {
             this.strings = RES.getRes("strings_json");
+        }
+        if (this.goods == null) {
+            this.goods = RES.getRes("goods_json");
         }
     };
     GameLogic.prototype.startGame = function () {
@@ -70,7 +70,7 @@ var GameLogic = (function (_super) {
             return;
         }
         wx.showShareMenu();
-        this.onShare();
+        this.onShare("rightup=1");
     };
     /**主动转发
      * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
@@ -92,12 +92,13 @@ var GameLogic = (function (_super) {
      * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
      */
     GameLogic.prototype.onShare = function (query) {
-        if (query === void 0) { query = null; }
+        if (query === void 0) { query = "rightup=1"; }
         var wx = window["wx"];
         if (wx == null) {
             return;
         }
         this.updateShareMenu(true);
+        console.log("onShare:query:", query);
         wx.onShareAppMessage(function () {
             return {
                 title: '右上角转发一起来苏州浮生吧',
@@ -116,13 +117,13 @@ var GameLogic = (function (_super) {
         wx.updateShareMenu({
             withShareTicket: withShareTicket,
             success: function (res) {
-                console.log("success:", res);
+                console.log("updateShareMenu:success:", res);
             },
             fail: function (res) {
-                console.log("fail:", res);
+                console.log("updateShareMenu:fail:", res);
             },
             complete: function () {
-                console.log("complete:");
+                console.log("updateShareMenu:complete:");
             }
         });
     };
@@ -139,22 +140,24 @@ var GameLogic = (function (_super) {
         //如果是从群里点开的
         if (info != null && info.shareTicket != null && info.shareTicket != "") {
             //查看群排行
-            if (info.query != null && info.query.indexOf("grouprank==1")) {
+            if (info.query != null && info.query.grouprank == "1") {
                 wx.getShareInfo({
                     shareTicket: info.shareTicket,
                     success: function (res) {
-                        console.log("success:", res);
+                        console.log("getShareInfo:success:", res);
                         _this.openFriendRank(false, info.shareTicket);
                     },
                     fail: function (res) {
-                        console.log("fail:", res);
+                        console.log("getShareInfo:fail:", res);
                     },
                     complete: function () {
-                        console.log("complete:");
+                        console.log("getShareInfo:complete:");
                     }
                 });
             }
         }
+    };
+    GameLogic.prototype.openRank = function () {
     };
     /**获取好友排行榜数据 */
     GameLogic.prototype.openFriendRank = function (friend, shareTicket) {
@@ -203,6 +206,7 @@ var GameLogic = (function (_super) {
             bitmapdata.webGLTexture = null;
             return false;
         }, this);
+        console.log("postMessage:", this.userInfo);
         // //发送消息
         wx.getOpenDataContext().postMessage({
             head: friend ? "friend" : "group",
@@ -224,7 +228,12 @@ var GameLogic = (function (_super) {
     };
     /**获取群内数据,实际上只是一个转发 */
     GameLogic.prototype.openGroupRank = function () {
-        this.share("grouprank=1");
+        if (this.isFriend) {
+            this.share("grouprank=1");
+        }
+        else {
+            this.closeGroupRank();
+        }
     };
     GameLogic.prototype.closeGroupRank = function () {
         this.closeFriendRank();
@@ -294,3 +303,4 @@ var GameLogic = (function (_super) {
     return GameLogic;
 }(egret.EventDispatcher));
 __reflect(GameLogic.prototype, "GameLogic");
+//# sourceMappingURL=GameLogic.js.map

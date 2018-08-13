@@ -8,3 +8,4 @@ var msgGoodsBuyRsp = (function () {
     return msgGoodsBuyRsp;
 }());
 __reflect(msgGoodsBuyRsp.prototype, "msgGoodsBuyRsp");
+//# sourceMappingURL=msgGoodsBuyRsp.js.map
