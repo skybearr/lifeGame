@@ -6,6 +6,8 @@
 	"exmls": [
 		"resource/skins/BaseButtonSkin.exml",
 		"resource/skins/GameSkin.exml",
+		"resource/skins/MainBtn.exml",
+		"resource/skins/MainBtnSend.exml",
 		"resource/skins/MarketItemSkin.exml",
 		"resource/skins/RankSkin.exml",
 		"resource/skins/StartSkin.exml",

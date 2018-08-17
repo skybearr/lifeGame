@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "config_json,img_3_png,img_5_png,qua_0_png,qua_1_png,qua_4_png,qua_2_png,qua_3_png,img_1_png,img_2_png,goods_json,public_8_png,strings_json,arrowup_png",
+			"keys": "config_json,img_3_png,img_5_png,qua_0_png,qua_1_png,qua_4_png,qua_2_png,qua_3_png,img_1_png,img_2_png,goods_json,public_8_png,strings_json,arrowup_png,yong_1_png,yong_2_png,yong_3_png,yong_4_png,yong_6_png,yong_7_png,yong_8_png,yong_9_png,yong_10_png,yong_11_png,yong_12_png,yong_13_png,yong_14_png,yong_15_png,b_bg43_png,n_sta_17_png,yong_16_png,h_putong_button_h_png,h_putong_button_png,soulhecheng_3_png",
 			"name": "preload"
 		}
 	],
@@ -72,9 +72,109 @@
 			"name": "strings_json"
 		},
 		{
-			"name": "arrowup_png",
+			"url": "assets/img/arrowup.png",
 			"type": "image",
-			"url": "assets/img/arrowup.png"
+			"name": "arrowup_png"
+		},
+		{
+			"url": "assets/img/yong_1.png",
+			"type": "image",
+			"name": "yong_1_png"
+		},
+		{
+			"name": "yong_2_png",
+			"type": "image",
+			"url": "assets/img/yong_2.png"
+		},
+		{
+			"name": "yong_3_png",
+			"type": "image",
+			"url": "assets/img/yong_3.png"
+		},
+		{
+			"name": "yong_4_png",
+			"type": "image",
+			"url": "assets/img/yong_4.png"
+		},
+		{
+			"name": "yong_6_png",
+			"type": "image",
+			"url": "assets/img/yong_6.png"
+		},
+		{
+			"name": "yong_7_png",
+			"type": "image",
+			"url": "assets/img/yong_7.png"
+		},
+		{
+			"name": "yong_8_png",
+			"type": "image",
+			"url": "assets/img/yong_8.png"
+		},
+		{
+			"name": "yong_9_png",
+			"type": "image",
+			"url": "assets/img/yong_9.png"
+		},
+		{
+			"name": "yong_10_png",
+			"type": "image",
+			"url": "assets/img/yong_10.png"
+		},
+		{
+			"name": "yong_11_png",
+			"type": "image",
+			"url": "assets/img/yong_11.png"
+		},
+		{
+			"name": "yong_12_png",
+			"type": "image",
+			"url": "assets/img/yong_12.png"
+		},
+		{
+			"name": "yong_13_png",
+			"type": "image",
+			"url": "assets/img/yong_13.png"
+		},
+		{
+			"name": "yong_14_png",
+			"type": "image",
+			"url": "assets/img/yong_14.png"
+		},
+		{
+			"name": "yong_15_png",
+			"type": "image",
+			"url": "assets/img/yong_15.png"
+		},
+		{
+			"name": "b_bg43_png",
+			"type": "image",
+			"url": "assets/img/b_bg43.png"
+		},
+		{
+			"name": "n_sta_17_png",
+			"type": "image",
+			"url": "assets/img/n_sta_17.png"
+		},
+		{
+			"name": "yong_16_png",
+			"type": "image",
+			"url": "assets/img/yong_16.png"
+		},
+		{
+			"name": "h_putong_button_h_png",
+			"type": "image",
+			"url": "assets/img/h_putong_button_h.png"
+		},
+		{
+			"name": "h_putong_button_png",
+			"type": "image",
+			"url": "assets/img/h_putong_button.png"
+		},
+		{
+			"name": "soulhecheng_3_png",
+			"type": "image",
+			"url": "assets/img/soulhecheng_3.png"
 		}
 	]
 }
