@@ -3,7 +3,10 @@ class GameUI extends eui.Component {
 		super();
 		this.skinName = "GameSkin";
 	}
-
+	private rect_bg:eui.Rect;
+	private gp_bg:eui.Group;
+	private img_over_bg0:eui.Image;
+	private img_over_bg1:eui.Image;
 	private gp_market: eui.Group;
 	private gp_store: eui.Group;
 	private gp_over: eui.Group;
@@ -38,6 +41,8 @@ class GameUI extends eui.Component {
 	protected childrenCreated() {
 		super.childrenCreated();
 
+		this.checkFit();
+
 		GameLogic.getInstance().gameui = this;
 		this.market_arr = [];
 		this.store_arr = [];
@@ -45,8 +50,13 @@ class GameUI extends eui.Component {
 
 		this.initView();
 		this.initEvent();
-
+		
 		GameCommand.getInstance().startGame();
+	}
+
+	private checkFit(){
+		this.rect_bg.height = this.img_over_bg0.height = this.img_over_bg1.height = 
+		this.rect_evt.height = GameLogic.getInstance().GameStage.stageHeight;
 	}
 
 	private eventlist: string[];
@@ -73,13 +83,6 @@ class GameUI extends eui.Component {
 		}
 	}
 	private popEvent(str: string) {
-		if (str == "playerdescription") {
-			this['lbl_event_1'].height = 280;
-			str = StringUtil.getSwfLangStr("s2");
-		}
-		else {
-			this['lbl_event_1'].height = 90;
-		}
 		this.eventpoping = true;
 		this.pop(11);
 		this['lbl_event_1'].text = str;
@@ -351,7 +354,7 @@ class GameUI extends eui.Component {
 				GameLogic.getInstance().share();
 				break;
 			case 10://广告
-				this.popEvent("playerdescription");
+				
 				break;
 			case 11://排行榜
 				GameLogic.getInstance().openRank();

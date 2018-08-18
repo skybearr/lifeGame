@@ -17,6 +17,7 @@ var GameUI = (function (_super) {
     }
     GameUI.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        this.checkFit();
         GameLogic.getInstance().gameui = this;
         this.market_arr = [];
         this.store_arr = [];
@@ -24,6 +25,10 @@ var GameUI = (function (_super) {
         this.initView();
         this.initEvent();
         GameCommand.getInstance().startGame();
+    };
+    GameUI.prototype.checkFit = function () {
+        this.rect_bg.height = this.img_over_bg0.height = this.img_over_bg1.height =
+            this.rect_evt.height = GameLogic.getInstance().GameStage.stageHeight;
     };
     /**出现事件 */
     GameUI.prototype.eventAppear = function (str) {
@@ -47,13 +52,6 @@ var GameUI = (function (_super) {
         }
     };
     GameUI.prototype.popEvent = function (str) {
-        if (str == "playerdescription") {
-            this['lbl_event_1'].height = 280;
-            str = StringUtil.getSwfLangStr("s2");
-        }
-        else {
-            this['lbl_event_1'].height = 90;
-        }
         this.eventpoping = true;
         this.pop(11);
         this['lbl_event_1'].text = str;
@@ -294,7 +292,6 @@ var GameUI = (function (_super) {
                 GameLogic.getInstance().share();
                 break;
             case 10://广告
-                this.popEvent("playerdescription");
                 break;
             case 11://排行榜
                 GameLogic.getInstance().openRank();

@@ -1,4 +1,0 @@
-class GameEvent {
-	public constructor() {
-	}
-}

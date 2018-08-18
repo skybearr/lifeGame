@@ -106,7 +106,6 @@ var Main = (function (_super) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
                         _b.sent();
-                        this.createGameScene();
                         return [4 /*yield*/, platform.login()];
                     case 2:
                         _b.sent();
@@ -115,6 +114,7 @@ var Main = (function (_super) {
                     case 3:
                         _a.userInfo = _b.sent();
                         console.log("userinfo:", GameLogic.getInstance().userInfo);
+                        this.createGameScene();
                         return [2 /*return*/];
                 }
             });

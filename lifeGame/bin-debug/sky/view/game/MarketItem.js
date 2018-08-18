@@ -30,7 +30,7 @@ var MarketItem = (function (_super) {
         },
         set: function (b) {
             this._select = b;
-            this.rect_bg.fillAlpha = b ? 1 : 0;
+            this.rect_bg.visible = b;
         },
         enumerable: true,
         configurable: true

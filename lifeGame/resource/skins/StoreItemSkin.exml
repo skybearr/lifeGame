@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="StoreItemSkin" width="356" height="40" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Rect id="rect_bg" touchEnabled="false" width="100%" height="100%" fillColor="0x444444" fillAlpha="0"/>
-	<e:Label id="lbl_name" text="一二三四五六" width="154" size="22" anchorOffsetX="0" left="2" verticalCenter="0" textColor="0x0cff00" strokeColor="0x282828" stroke="2"/>
-	<e:Label id="lbl_price" text="100000000" size="22" verticalCenter="0" textAlign="left" x="157" textColor="0xffffff" strokeColor="0x282828" stroke="2"/>
-	<e:Label id="lbl_num" text="111" size="22" verticalCenter="0" textAlign="left" right="22" textColor="0xff0000" strokeColor="0x282828" stroke="2"/>
-	<e:Image id="img_up" source="arrowup_png" x="336" verticalCenter="0" height="30" visible="false"/>
+<e:Skin class="StoreItemSkin" width="400" height="40" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Rect touchEnabled="false" width="100%" height="100%" fillAlpha="0" fillColor="0x43E829" alpha="0"/>
+	<e:Rect id="rect_bg" touchEnabled="false" width="100%" height="100%" fillAlpha="1" fillColor="0x43e829" visible="false"/>
+	<e:Label id="lbl_name" text="一二三四五六" width="154" size="22" anchorOffsetX="0" left="2" verticalCenter="0" stroke="1" strokeColor="0xffffff" textColor="0x000000" bold="true" fontFamily="SimHei"/>
+	<e:Label id="lbl_price" text="100000000" size="22" verticalCenter="0" textAlign="left" x="157" stroke="1" strokeColor="0xffffff" textColor="0x000000" bold="true" fontFamily="SimHei"/>
+	<e:Label id="lbl_num" text="111" size="22" verticalCenter="0" textAlign="left" right="53" stroke="1" strokeColor="0xffffff" textColor="0x000000" bold="true" fontFamily="SimHei"/>
+	<e:Image id="img_up" x="362" verticalCenter="0" height="30" source="game_json.arrowup" visible="false"/>
 </e:Skin>

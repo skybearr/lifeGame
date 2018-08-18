@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="MainBtnSend" width="300" height="110" xmlns:e="http://ns.egret.com/eui" states="up,down" >
-	<e:Image left="0" right="0" top="0" bottom="0" source="h_putong_button_h_png" scale9Grid="55,29,137,52" visible.up="false"/>
-	<e:Image left="0" right="0" top="0" bottom="0" source="h_putong_button_png" scale9Grid="55,29,137,52" visible.down="false"/>
+	<e:Image left="0" right="0" top="0" bottom="0" source="game_json.h_putong_button_h" scale9Grid="55,29,137,52" visible.up="false"/>
+	<e:Image left="0" right="0" top="0" bottom="0" source="game_json.h_putong_button" scale9Grid="55,29,137,52" visible.down="false"/>
 	<e:Label id="labelDisplay" text="开始游戏" verticalAlign="middle" textAlign="center" size="42" anchorOffsetY="0" left="30" right="30" top="3" fontFamily="Microsoft JhengHei" left.down="30" right.down="30" top.down="6" bottom.down="9" textColor.down="0xc4c4c4" bold="true" bottom="16" textColor="0xffffff" stroke="2"/>
 </e:Skin>

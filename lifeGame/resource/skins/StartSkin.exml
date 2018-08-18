@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="StartSkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+<e:Skin class="StartSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="162d237403c" ></w:Config>
-	<e:Image source="yong_11_png" scale9Grid="22,18,139,114" left="0" right="0" top="0" bottom="0"/>
-	<e:Image y="74" anchorOffsetX="0" width="578" height="160" horizontalCenter="0" source="yong_9_png" scale9Grid="68,0,17,160"/>
-	<e:Image y="272" anchorOffsetX="0" width="578" height="636" horizontalCenter="2" source="yong_4_png" scale9Grid="68,66,129,96" anchorOffsetY="0"/>
+	<e:Image id="img_bg" source="game_json.yong_11" scale9Grid="22,18,139,114" height="1334" width="750" x="0" verticalCenter="0"/>
+	<e:Image anchorOffsetX="0" width="578" height="160" horizontalCenter="0" source="game_json.yong_9" scale9Grid="68,0,17,160" verticalCenter="-414"/>
+	<e:Image anchorOffsetX="0" width="578" height="636" source="game_json.yong_4" scale9Grid="68,66,129,96" anchorOffsetY="0" horizontalCenter="0" verticalCenter="22"/>
 	<e:Label id="lbl_name" text="134534457447" y="120" horizontalCenter="1" verticalAlign="middle" textAlign="center" size="65" strokeColor="0x545454" bold="false" border="false" fontFamily="Microsoft YaHei" textColor="0x7a3232" visible="false"/>
 	<e:Label id="lbl_log" text="" y="873" verticalAlign="middle" textAlign="center" size="40" horizontalCenter="0" textColor="0x8ef202"/>
-	<e:Label id="lbl_content" text="222222" y="332.72" anchorOffsetY="0" height="550" anchorOffsetX="0" width="514" horizontalCenter="0" textColor="0x353535" fontFamily="Microsoft JhengHei" verticalAlign="justify" lineSpacing="20" wordWrap="false" size="26"/>
-	<e:Button id="btn_1" label="开始游戏" y="940" horizontalCenter="0" skinName="MainBtn"/>
+	<e:Label id="lbl_content" text="222222" anchorOffsetY="0" height="550" anchorOffsetX="0" width="514" horizontalCenter="0" fontFamily="Microsoft JhengHei" verticalAlign="justify" lineSpacing="20" wordWrap="false" size="26" textColor="0x000000" bold="true" verticalCenter="40"/>
+	<e:Button id="btn_1" label="开始游戏" horizontalCenter="0" skinName="MainBtn" anchorOffsetX="200" anchorOffsetY="79" verticalCenter="460"/>
 	<e:Button id="btn_2" label="Button" y="880" skinName="BaseButtonSkin" horizontalCenter="0" visible="false"/>
 	<e:Button id="btn_3" label="Button" y="980" skinName="BaseButtonSkin" horizontalCenter="0" visible="false"/>
-	<e:Image width="438" height="50" y="127.5" source="yong_10_png" horizontalCenter="15"/>
+	<e:Image width="438" height="50" source="game_json.yong_10" horizontalCenter="15" verticalCenter="-415"/>
 </e:Skin>

@@ -4,6 +4,9 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 var GameConst = (function () {
     function GameConst() {
     }
+    /**web测试 0微信  1web本地 */
+    GameConst.web = 1;
+    GameConst.version = "201808181130";
     return GameConst;
 }());
 __reflect(GameConst.prototype, "GameConst");

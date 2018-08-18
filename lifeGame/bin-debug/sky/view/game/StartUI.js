@@ -17,8 +17,8 @@ var StartUI = (function (_super) {
     }
     StartUI.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        this.checkFit();
         var data = GameLogic.getInstance().data;
-        this.lbl_name.text = StringUtil.getSwfLangStr("s1");
         this.lbl_content.text = StringUtil.getSwfLangStr("s2");
         for (var i = 1; i <= 3; i++) {
             var o = data['config' + i];
@@ -33,6 +33,9 @@ var StartUI = (function (_super) {
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
+    };
+    StartUI.prototype.checkFit = function () {
+        this.img_bg.height = GameLogic.getInstance().GameStage.stageHeight;
     };
     StartUI.prototype.clickBtn = function (e) {
         if (GameLogic.getInstance().strings == null) {

@@ -27,7 +27,7 @@ class MarketItem extends eui.Component {
 	private _select:boolean;
 	public set select(b:boolean){
 		this._select = b;
-		this.rect_bg.fillAlpha = b ? 1 : 0;
+		this.rect_bg.visible = b;
 	}
 	public get select():boolean{
 		return this._select;

@@ -5,8 +5,8 @@
 	"autoGenerateExmlsList": true,
 	"exmls": [
 		"resource/skins/BaseButtonSkin.exml",
-		"resource/skins/GameSkin.exml",
 		"resource/skins/MainBtn.exml",
+		"resource/skins/GameSkin.exml",
 		"resource/skins/MainBtnSend.exml",
 		"resource/skins/MarketItemSkin.exml",
 		"resource/skins/RankSkin.exml",

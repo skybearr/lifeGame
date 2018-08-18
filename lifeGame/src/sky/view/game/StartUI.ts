@@ -4,16 +4,17 @@ class StartUI extends eui.Component {
 		this.skinName = "StartSkin";
 	}
 
-	private lbl_name: eui.Label;
+	private img_bg:eui.Image;
 	private lbl_content: eui.Label;
 	private lbl_log:eui.Label;
 
 
 	protected childrenCreated() {
 		super.childrenCreated();
+
+		this.checkFit();
 		
 		let data = GameLogic.getInstance().data;
-		this.lbl_name.text = StringUtil.getSwfLangStr("s1");
 		this.lbl_content.text = StringUtil.getSwfLangStr("s2");
 
 		for (let i: number = 1; i <= 3; i++) {
@@ -31,6 +32,10 @@ class StartUI extends eui.Component {
 		}
 
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
+	}
+
+	private checkFit(){
+		this.img_bg.height = GameLogic.getInstance().GameStage.stageHeight;
 	}
 
 	private clickBtn(e: egret.TouchEvent) {

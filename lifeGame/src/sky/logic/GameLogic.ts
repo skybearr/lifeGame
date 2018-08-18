@@ -1,5 +1,3 @@
-declare const wx: any
-
 class GameLogic extends egret.EventDispatcher {
 	public constructor() {
 		super();
