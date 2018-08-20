@@ -43,12 +43,20 @@ var GameUI = (function (_super) {
     };
     GameUI.prototype.eventNext = function () {
         this.eventpoping = false;
-        if (this.eventlist.length > 0) {
-            var str = this.eventlist.shift();
-            this.popEvent(str);
+        var b = this.cb_0.selected;
+        if (b) {
+            this.eventlist = [];
+            this.pop(0);
+            GameLogic.getInstance().cbSelected = b;
         }
         else {
-            this.pop(0);
+            if (this.eventlist.length > 0) {
+                var str = this.eventlist.shift();
+                this.popEvent(str);
+            }
+            else {
+                this.pop(0);
+            }
         }
     };
     GameUI.prototype.popEvent = function (str) {
@@ -177,11 +185,10 @@ var GameUI = (function (_super) {
         this.eventAppear(StringUtil.getSwfLangStr("e" + i));
     };
     GameUI.prototype.initView = function () {
-        this.cb_0.selected = GameLogic.getInstance().cbSelected;
     };
     GameUI.prototype.initEvent = function () {
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
-        for (var i = 0; i <= 27; i++) {
+        for (var i = 0; i <= 28; i++) {
             var btn = this['btn_' + i];
             btn.name = i + "";
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
@@ -192,11 +199,9 @@ var GameUI = (function (_super) {
             lbl.addEventListener(egret.Event.CHANGE, this.txtChange, this);
             lbl.addEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
         }
-        this.cb_0.addEventListener(egret.Event.CHANGE, this.cbChange, this);
         this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
     };
     GameUI.prototype.cbChange = function () {
-        GameLogic.getInstance().cbSelected = this.cb_0.selected;
     };
     GameUI.prototype.clickRect = function (e) {
         this.eventNext();
@@ -351,6 +356,10 @@ var GameUI = (function (_super) {
                 this.eventNext();
                 break;
             case 27://炫耀
+                WxApi.getInstance().share();
+                break;
+            case 28://成就
+                this.addChild(new AchieveUI());
                 break;
         }
     };
@@ -401,7 +410,7 @@ var GameUI = (function (_super) {
     };
     GameUI.prototype.clearEvent = function () {
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
-        for (var i = 0; i <= 27; i++) {
+        for (var i = 0; i <= 28; i++) {
             var btn = this['btn_' + i];
             btn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
@@ -410,7 +419,6 @@ var GameUI = (function (_super) {
             lbl.removeEventListener(egret.Event.CHANGE, this.txtChange, this);
             lbl.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
         }
-        this.cb_0.removeEventListener(egret.Event.CHANGE, this.cbChange, this);
         this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
     };
     return GameUI;

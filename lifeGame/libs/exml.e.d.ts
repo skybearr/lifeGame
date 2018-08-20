@@ -1,3 +1,5 @@
+declare class AchieveSkin extends eui.Skin{
+}
 declare class BaseButtonSkin extends eui.Skin{
 }
 declare class GameSkin extends eui.Skin{

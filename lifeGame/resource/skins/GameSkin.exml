@@ -3,7 +3,7 @@
 	<w:Config id="165470d63c3" />
 	<e:Rect id="rect_bg" touchChildren="false" touchEnabled="false" width="750" verticalCenter="0" x="0" height="1334"
 	        fillColor="0x162b5b"  locked="true"/>
-	<e:Group id="gp_bg" width="750" x="0" verticalCenter="-246" touchEnabled="true" touchChildren="true" locked="true">
+	<e:Group id="gp_bg" width="750" x="0" verticalCenter="-246" touchEnabled="true" touchChildren="true">
 		<e:Image width="455" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="0"
 		         height="420" y="-43" scale9Grid="197,31,277,52" touchEnabled="false" />
 		<e:Image height="420" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" y="-43" scaleX="-1" right="0"
@@ -38,25 +38,17 @@
 			         textAlign="left" fontFamily="SimHei" stroke="2" textColor="0xc3e218" />
 			<e:Label text="出租屋" x="398.29" y="125.12" touchEnabled="false" stroke="2" strokeColor="0x424242" textColor="0xffea00"
 			         bold="true" size="36" fontFamily="SimHei" />
-			<e:Label text="屏蔽事件" x="54.32" y="71.92" touchEnabled="false" size="22" anchorOffsetX="0" width="142"
-			         anchorOffsetY="0" height="24" verticalAlign="middle" textAlign="left" textColor="0xffffff"
-			         fontFamily="SimHei" />
+
 			<e:Label id="lbl_day" text="40/40天" x="147.36" y="129.13" width="120" verticalAlign="middle" textAlign="left"
 			         touchEnabled="false" fontFamily="SimHei" textColor="0xc3e218" stroke="2" />
-			<e:CheckBox id="cb_0" label="" y="70.09" scaleX="0.6" scaleY="0.6" x="15.91" touchChildren="true" touchEnabled="true"
-			            width="48" height="48">
-				<e:Skin states="up,down,disabled">
-					<e:Image width="48" height="48" source="game_json.yong_3" />
-					<e:Image includeIn="down" source="game_json.public_8" width="48" height="48"/>
-				</e:Skin>
-			</e:CheckBox>
+
 		</e:Group>
 	</e:Group>
 	<e:Group id="gp_market" width="296" height="444" x="18" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false"
-	         verticalCenter="-144" locked="true"></e:Group>
+	         verticalCenter="-144"></e:Group>
 	<e:Group id="gp_store" width="404" height="444" x="330" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false"
-	         verticalCenter="-144" locked="true"></e:Group>
-	<e:Group id="gp_btn" x="0" width="750" verticalCenter="499" locked="true">
+	         verticalCenter="-144"></e:Group>
+	<e:Group id="gp_btn" x="0" width="750" verticalCenter="499">
 		<e:Image anchorOffsetX="0" anchorOffsetY="0" source="game_json.soulhecheng_3" x="0" width="100%"
 		         scale9Grid="42,62,125,86" scaleX="0.4" scaleY="0.4" height="540" />
 		<e:Group touchEnabled="false" anchorOffsetX="0" anchorOffsetY="0" x="43" y="24">
@@ -76,12 +68,12 @@
 			          anchorOffsetY="0" height="52" />
 			<e:Button label="邮局" id="btn_8" x="456" y="70" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
-			<e:Button label="转发" id="btn_9" x="4" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
-			          anchorOffsetY="0" height="52" />
-			<e:Button label="重新开始" id="btn_12" x="465.67" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
-			          anchorOffsetY="0" height="52" />
-			<e:Button label="排行榜" id="btn_11" x="310" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
-			          anchorOffsetY="0" height="52" />
+			<e:Button label="排行榜" id="btn_11" x="310" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160" anchorOffsetY="0" height="52"/>
+			<e:Button label="转发" id="btn_9" x="4" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160" anchorOffsetY="0" height="52"/>
+			<e:Button label="重新开始" id="btn_12" x="465.67" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160" anchorOffsetY="0" height="52"/>
+
+
+
 			<e:Button label="玩法说明" id="btn_10" x="160" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
 			<e:layout>
@@ -90,7 +82,7 @@
 			</e:layout>
 		</e:Group>
 	</e:Group>
-	<e:Group id="gp_pop" height="180" anchorOffsetY="0" touchEnabled="false" width="750" verticalCenter="181" locked="true">
+	<e:Group id="gp_pop" height="180" anchorOffsetY="0" touchEnabled="false" width="750" verticalCenter="181">
 		<e:Image left="0" right="0" top="0" bottom="0" scaleX="0.3" scaleY="0.3" source="game_json.soulhecheng_3"
 		         scale9Grid="38,37,119,122" />
 		<e:Group id="gp_4" y="16" width="100%" height="144" touchEnabled="false" x="0" visible="false">
@@ -183,7 +175,7 @@
 			          height="48" scaleX="1" scaleY="1" />
 		</e:Group>
 	</e:Group>
-	<e:Group id="gp_value" x="0" verticalCenter="341" touchChildren="false" touchEnabled="false" locked="true">
+	<e:Group id="gp_value" x="0" verticalCenter="341" touchChildren="false" touchEnabled="false">
 		<e:Image width="455" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" scaleY="-1" x="0" y="121.13"
 		         scaleX="1" scale9Grid="197,27,277,63" height="400" />
 		<e:Image source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" width="320" scaleX="-1" scaleY="-1" x="750"
@@ -223,19 +215,27 @@
 		         height="72.44" background="false" backgroundColor="0xc1aaaa" stroke="1" strokeColor="0xffffff" size="24"
 		         lineSpacing="10"  horizontalCenter="0" verticalCenter="150" textColor="0x000000"/>
 		<e:Button id="btn_25" label="知道了" skinName="BaseButtonSkin" anchorOffsetX="0" anchorOffsetY="0"
-		          height="48"  verticalCenter="219" horizontalCenter="0"/>
+		          height="48"  verticalCenter="219" horizontalCenter="121"/>
+		<e:CheckBox id="cb_0" label="" y="870.2" scaleX="0.6" scaleY="0.6" x="315" touchChildren="true" touchEnabled="true" height="48">
+			<e:Skin states="up,down,disabled">
+			<e:Image width="48" height="48" source="game_json.yong_4"/>
+			<e:Image includeIn="down" source="game_json.public_8" width="48" height="48"/>
+	<e:Label text="不再显示" x="51" textColor="0x8e6a08" size="22" fontFamily="SimHei" verticalCenter="0" stroke="1"/>
+			</e:Skin>
+		</e:CheckBox>
 	</e:Group>
 	<e:Group id="gp_over" width="750" horizontalCenter="0" verticalCenter="0" visible="false">
-		<e:Image id="img_over_bg1" y="0" width="500" height="1000" source="game_json.yong_15" scale9Grid="32,26,104,7"
+		<e:Image id="img_over_bg1" y="0" width="500" height="1334" source="game_json.yong_15" scale9Grid="32,26,104,7"
 		         left="0" />
-		<e:Image id="img_over_bg0" source="game_json.yong_15" width="500" height="1000" scale9Grid="32,26,104,7" scaleX="-1"
-		         right="0" />
+		<e:Image id="img_over_bg0" source="game_json.yong_15" width="500" height="1334" scale9Grid="32,26,104,7" scaleX="-1"
+		         right="2" />
 		<e:Image source="game_json.yong_3" scale9Grid="50,51,41,30" anchorOffsetX="0" width="666" anchorOffsetY="0"
 		         horizontalCenter="0" height="693.64" verticalCenter="-140" />
 		<e:Label id="lbl_over_1" text="Label" width="600" anchorOffsetY="0" horizontalCenter="0" height="609.09"
 		         verticalCenter="-146.5" textColor="0x000000" fontFamily="SimHei" />
-		<e:Button id="btn_26" label="重新开始" anchorOffsetY="0" skinName="MainBtn" anchorOffsetX="0" horizontalCenter="0"
-		          verticalCenter="306" />
-		<e:Button id="btn_27" label="炫耀" horizontalCenter="0" skinName="MainBtn" verticalCenter="473" />
+		<e:Button id="btn_26" label="重新开始" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="0"
+		          verticalCenter="450"  skinName="BaseButtonSkin" scaleY="1.5" scaleX="1.5"/>
+		<e:Button id="btn_28" label="实现梦想" anchorOffsetY="0" skinName="BaseButtonSkin" anchorOffsetX="0" verticalCenter="140" horizontalCenter="0" scaleX="1.5" scaleY="1.5"/>
+		<e:Button id="btn_27" label="炫耀" horizontalCenter="0" verticalCenter="320"  skinName="BaseButtonSkin" scaleX="1.5" scaleY="1.5"/>
 	</e:Group>
 </e:Skin>

@@ -3,10 +3,10 @@ class GameUI extends eui.Component {
 		super();
 		this.skinName = "GameSkin";
 	}
-	private rect_bg:eui.Rect;
-	private gp_bg:eui.Group;
-	private img_over_bg0:eui.Image;
-	private img_over_bg1:eui.Image;
+	private rect_bg: eui.Rect;
+	private gp_bg: eui.Group;
+	private img_over_bg0: eui.Image;
+	private img_over_bg1: eui.Image;
 	private gp_market: eui.Group;
 	private gp_store: eui.Group;
 	private gp_over: eui.Group;
@@ -26,7 +26,6 @@ class GameUI extends eui.Component {
 	/**未知 */
 	private lbl_6: eui.Label;
 	private rect_evt: eui.Rect;
-	private cb_0: eui.CheckBox;
 
 	private crtPop: number;
 
@@ -37,6 +36,7 @@ class GameUI extends eui.Component {
 	private max_num: number;
 	private data: msgLifeDataRsp;
 	private leftStore: number;
+	private cb_0: eui.CheckBox;
 
 	protected childrenCreated() {
 		super.childrenCreated();
@@ -50,13 +50,13 @@ class GameUI extends eui.Component {
 
 		this.initView();
 		this.initEvent();
-		
+
 		GameCommand.getInstance().startGame();
 	}
 
-	private checkFit(){
-		this.rect_bg.height = this.img_over_bg0.height = this.img_over_bg1.height = 
-		this.rect_evt.height = GameLogic.getInstance().GameStage.stageHeight;
+	private checkFit() {
+		this.rect_bg.height = this.img_over_bg0.height = this.img_over_bg1.height =
+			this.rect_evt.height = GameLogic.getInstance().GameStage.stageHeight;
 	}
 
 	private eventlist: string[];
@@ -74,12 +74,20 @@ class GameUI extends eui.Component {
 	}
 	private eventNext() {
 		this.eventpoping = false;
-		if (this.eventlist.length > 0) {
-			let str = this.eventlist.shift();
-			this.popEvent(str);
+		let b = this.cb_0.selected;
+		if (b) {
+			this.eventlist = [];
+			this.pop(0);
+			GameLogic.getInstance().cbSelected = b;
 		}
 		else {
-			this.pop(0);
+			if (this.eventlist.length > 0) {
+				let str = this.eventlist.shift();
+				this.popEvent(str);
+			}
+			else {
+				this.pop(0);
+			}
 		}
 	}
 	private popEvent(str: string) {
@@ -130,8 +138,8 @@ class GameUI extends eui.Component {
 			for (let j: number = 0; j < this.store_arr.length; j++)//判断是否仓库内有这个商品，有的话显示底， 如果价格比仓库的高，入upArr然后通知他修改
 			{
 				let storeItem = this.store_arr[j];
-				let g =  storeItem.good;
-				if(g != null && g.dwID == item.good.dwID){
+				let g = storeItem.good;
+				if (g != null && g.dwID == item.good.dwID) {
 					item.same(true);
 					if (g.dwPrice < msg.goods[i].dwPrice) {
 						storeuparr.push(g.dwID);
@@ -140,7 +148,7 @@ class GameUI extends eui.Component {
 				}
 			}
 		}
-		
+
 		//store里面加个高的出箭头
 		for (let j: number = 0; j < this.store_arr.length; j++)//判断是否仓库内有这个商品，有的话显示底， 如果价格比仓库的高，入upArr然后通知他修改
 		{
@@ -232,12 +240,12 @@ class GameUI extends eui.Component {
 	}
 
 	private initView() {
-		this.cb_0.selected = GameLogic.getInstance().cbSelected;
+
 	}
 
 	private initEvent() {
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
-		for (let i: number = 0; i <= 27; i++) {
+		for (let i: number = 0; i <= 28; i++) {
 			let btn: eui.Button = this['btn_' + i];
 			btn.name = i + "";
 			btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
@@ -249,12 +257,11 @@ class GameUI extends eui.Component {
 			lbl.addEventListener(egret.Event.CHANGE, this.txtChange, this);
 			lbl.addEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
-		this.cb_0.addEventListener(egret.Event.CHANGE, this.cbChange, this);
 		this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
 	}
 
 	private cbChange() {
-		GameLogic.getInstance().cbSelected = this.cb_0.selected;
+
 	}
 
 	private clickRect(e: egret.TouchEvent) {
@@ -354,7 +361,7 @@ class GameUI extends eui.Component {
 				GameLogic.getInstance().share();
 				break;
 			case 10://广告
-				
+
 				break;
 			case 11://排行榜
 				GameLogic.getInstance().openRank();
@@ -414,8 +421,11 @@ class GameUI extends eui.Component {
 				this.eventNext();
 				break;
 			case 27://炫耀
-
+				WxApi.getInstance().share();
 				break;
+			case 28://成就
+				this.addChild(new AchieveUI());
+			break;
 		}
 	}
 
@@ -473,7 +483,7 @@ class GameUI extends eui.Component {
 
 	private clearEvent() {
 		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
-		for (let i: number = 0; i <= 27; i++) {
+		for (let i: number = 0; i <= 28; i++) {
 			let btn: eui.Button = this['btn_' + i];
 			btn.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
@@ -483,7 +493,6 @@ class GameUI extends eui.Component {
 			lbl.removeEventListener(egret.Event.CHANGE, this.txtChange, this);
 			lbl.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
-		this.cb_0.removeEventListener(egret.Event.CHANGE, this.cbChange, this);
 		this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
 	}
 }
