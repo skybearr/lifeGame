@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="GameSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" height="1334">
 	<w:Config id="165470d63c3" />
-	<e:Rect id="rect_bg" touchChildren="false" touchEnabled="false" width="750" verticalCenter="0" x="0" height="1334"
-	        fillColor="0x162b5b"  locked="true"/>
-	<e:Group id="gp_bg" width="750" x="0" verticalCenter="-246" touchEnabled="true" touchChildren="true">
+	<e:Rect id="rect_bg" touchChildren="false" touchEnabled="false" width="750" x="0" height="1334"
+	        fillColor="0x162b5b"  top="0"/>
+	<e:Group id="gp_bg" width="750" x="0" touchEnabled="true" touchChildren="true" top="87">
 		<e:Image width="455" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="0"
 		         height="420" y="-43" scale9Grid="197,31,277,52" touchEnabled="false" />
 		<e:Image height="420" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" y="-43" scaleX="-1" right="0"
@@ -45,18 +45,18 @@
 		</e:Group>
 	</e:Group>
 	<e:Group id="gp_market" width="296" height="444" x="18" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false"
-	         verticalCenter="-144"></e:Group>
+	         top="301"></e:Group>
 	<e:Group id="gp_store" width="404" height="444" x="330" anchorOffsetX="0" anchorOffsetY="0" touchEnabled="false"
-	         verticalCenter="-144"></e:Group>
-	<e:Group id="gp_btn" x="0" width="750" verticalCenter="499">
+	         top="301"></e:Group>
+	<e:Group id="gp_btn" x="0" width="750" top="1058">
 		<e:Image anchorOffsetX="0" anchorOffsetY="0" source="game_json.soulhecheng_3" x="0" width="100%"
 		         scale9Grid="42,62,125,86" scaleX="0.4" scaleY="0.4" height="540" />
 		<e:Group touchEnabled="false" anchorOffsetX="0" anchorOffsetY="0" x="43" y="24">
-			<e:Button label="市场一" id="btn_1" x="0" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
+			<e:Button label="观前街" id="btn_1" x="0" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
-			<e:Button label="市场二" id="btn_2" x="156" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
+			<e:Button label="石路" id="btn_2" x="156" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
-			<e:Button label="市场三" id="btn_3" x="306" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
+			<e:Button label="苏州中心" id="btn_3" x="306" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
 			<e:Button label="慈善" id="btn_4" x="456" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
@@ -82,7 +82,7 @@
 			</e:layout>
 		</e:Group>
 	</e:Group>
-	<e:Group id="gp_pop" height="180" anchorOffsetY="0" touchEnabled="false" width="750" verticalCenter="181">
+	<e:Group id="gp_pop" height="180" anchorOffsetY="0" touchEnabled="false" width="750" top="758">
 		<e:Image left="0" right="0" top="0" bottom="0" scaleX="0.3" scaleY="0.3" source="game_json.soulhecheng_3"
 		         scale9Grid="38,37,119,122" />
 		<e:Group id="gp_4" y="16" width="100%" height="144" touchEnabled="false" x="0" visible="false">
@@ -175,7 +175,7 @@
 			          height="48" scaleX="1" scaleY="1" />
 		</e:Group>
 	</e:Group>
-	<e:Group id="gp_value" x="0" verticalCenter="341" touchChildren="false" touchEnabled="false">
+	<e:Group id="gp_value" x="0" touchChildren="false" touchEnabled="false" top="947">
 		<e:Image width="455" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" scaleY="-1" x="0" y="121.13"
 		         scaleX="1" scale9Grid="197,27,277,63" height="400" />
 		<e:Image source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" width="320" scaleX="-1" scaleY="-1" x="750"
@@ -204,8 +204,8 @@
 			         fontFamily="SimHei" />
 		</e:Group>
 	</e:Group>
-	<e:Group id="gp_11" width="100%" height="100%" horizontalCenter="0" verticalCenter="0"
-	         visible="false">
+	<e:Group id="gp_11" width="100%" height="100%" horizontalCenter="0"
+	         top="0" visible="false">
 		<e:Rect id="rect_evt" width="750" strokeAlpha="1" fillAlpha="1"  alpha="0.7" height="1334" verticalCenter="0"/>
 		<e:Image width="1435.16" height="324.12" source="game_json.yong_3" anchorOffsetX="0" anchorOffsetY="0"
 		         scale9Grid="53,48,41,33" scaleX="0.5" scaleY="0.5"  horizontalCenter="0" verticalCenter="178"/>
@@ -224,7 +224,7 @@
 			</e:Skin>
 		</e:CheckBox>
 	</e:Group>
-	<e:Group id="gp_over" width="750" horizontalCenter="0" verticalCenter="0" visible="false">
+	<e:Group id="gp_over" width="750" horizontalCenter="0" top="0" visible="false">
 		<e:Image id="img_over_bg1" y="0" width="500" height="1334" source="game_json.yong_15" scale9Grid="32,26,104,7"
 		         left="0" />
 		<e:Image id="img_over_bg0" source="game_json.yong_15" width="500" height="1334" scale9Grid="32,26,104,7" scaleX="-1"

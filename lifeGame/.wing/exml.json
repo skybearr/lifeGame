@@ -5,7 +5,7 @@
     "parentPath": ""
   },
   "global": {
-    "globalAutoLayerMarkEnable": false
+    "globalAutoLayerMarkEnable": true
   },
   "165470d63c3": {
     "guideLines": [

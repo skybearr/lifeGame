@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "config_json,goods_json,strings_json,game_json",
+			"keys": "config_json,goods_json,strings_json,game_json,QQ截图20180821214253_png",
 			"name": "preload"
 		}
 	],
@@ -22,10 +22,15 @@
 			"name": "strings_json"
 		},
 		{
-			"name": "game_json",
-			"type": "sheet",
 			"url": "assets/img/game.json",
-			"subkeys": "n_sta_17,public_8,soulhecheng_3,yong_1,yong_2,yong_3,yong_4,yong_6,yong_7,yong_8,yong_9,yong_10,yong_11,yong_12,yong_13,yong_14,yong_15,yong_16,arrowup,b_bg43"
+			"type": "sheet",
+			"name": "game_json",
+			"subkeys": "arrowup,b_bg43,help0,help1,help2,help3,help4,help5,help6,help7,help8,n_sta_17,public_8,soulhecheng_3,yong_1,yong_10,yong_11,yong_12,yong_13,yong_14,yong_15,yong_16,yong_2,yong_3,yong_4,yong_6,yong_7,yong_8,yong_9"
+		},
+		{
+			"name": "QQ截图20180821214253_png",
+			"type": "image",
+			"url": "assets/img/QQ截图20180821214253.png"
 		}
 	]
 }
