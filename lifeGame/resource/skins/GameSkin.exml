@@ -213,7 +213,7 @@
 		         text="会因为压力太大影响身体健康"
 		         anchorOffsetX="0" width="630" anchorOffsetY="72.44" touchEnabled="false"
 		         height="72.44" background="false" backgroundColor="0xc1aaaa" stroke="1" strokeColor="0xffffff" size="24"
-		         lineSpacing="10"  horizontalCenter="0" verticalCenter="150" textColor="0x000000"/>
+		         lineSpacing="10"  horizontalCenter="0" verticalCenter="150" textColor="0x000000" bold="true"/>
 		<e:Button id="btn_25" label="知道了" skinName="BaseButtonSkin" anchorOffsetX="0" anchorOffsetY="0"
 		          height="48"  verticalCenter="219" horizontalCenter="121"/>
 		<e:CheckBox id="cb_0" label="" y="870.2" scaleX="0.6" scaleY="0.6" x="315" touchChildren="true" touchEnabled="true" height="48">

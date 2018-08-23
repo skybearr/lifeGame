@@ -17,8 +17,8 @@ class GameCommand extends egret.EventDispatcher {
 	public sendData(b: boolean = false) {
 		//利息计算
 		if (b) {
-			DataBase.debt = Math.floor(DataBase.debt * 1.1);
-			DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
+			DataBase.debt = Formula.getDebt(DataBase.debt);
+			DataBase.deposit = Formula.getDeposit(DataBase.deposit);
 		}
 		let msg = this.getData();
 		GameLogic.getInstance().gameui.initData(msg);
@@ -50,7 +50,9 @@ class GameCommand extends egret.EventDispatcher {
 	}
 
 	public sendError(i: number) {
-		GameLogic.getInstance().gameui.errorRsp(i);
+		egret.setTimeout(()=>{
+			GameLogic.getInstance().gameui.errorRsp(i);
+		},this,100);
 	}
 
 	public sendOver(t:number) {
@@ -58,8 +60,8 @@ class GameCommand extends egret.EventDispatcher {
 		
 		if(t == 0){//时间到
 			//结算
-			DataBase.debt = Math.floor(DataBase.debt * 1.15);
-			DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
+			DataBase.debt = Formula.getDebt(DataBase.debt);
+			DataBase.deposit = Formula.getDeposit(DataBase.deposit);
 			DataBase.money = DataBase.money + DataBase.deposit - DataBase.debt + this.getStorePrice();
 
 			DataBase.debt = 0;
@@ -108,8 +110,7 @@ class GameCommand extends egret.EventDispatcher {
 		msg.goods = [];
 		let len = 4 + Math.floor(Math.random() * 6);
 		let arr = this.bases.slice();
-		// let lll = DataBase.gamePackage < 2 ? arr.length : arr.length - 1;
-		let lll = arr.length;
+		let lll = DataBase.gamePackage == 1 ? arr.length : arr.length - 1;
 		let goodIds = [];
 		for (let i: number = 0; i < len; i++) {
 			let i = Math.floor(Math.random() * lll);
@@ -136,17 +137,19 @@ class GameCommand extends egret.EventDispatcher {
 		return msg;
 	}
 
-	/**其他事件 */
+	/**其他事件触发几率 */
 	private dealOtherEvent() {
-		let b = Math.random() < 0.2;
-		if (b) {
-			let a = Math.floor(Math.random() * 4) + 1;
-			let b = Math.random() < 0.5 ? 1 : 2;
-			let c = Math.floor(Math.random() * 3) + 1;
-			this.addEvent(a, b, c);
+		let o = Formula.getOtherEvent();
+		if(o != null){
+			this.addEvent(o.a,o.b,o.c);
 		}
 	}
 
+	/**事件
+	 * @param a	类型  1现金 2存款 3健康 4声望 5
+	 * @param b 1减少 2增加
+	 * @param c	随机值
+	 */
 	private addEvent(a, b, c) {
 		let id = a * 100 + b * 10 + c;
 		let o = GameLogic.getInstance().goods["evt" + id];
@@ -156,7 +159,7 @@ class GameCommand extends egret.EventDispatcher {
 		let isadd = b == 2;
 		let value = o['value'];
 
-		if (a < 5) {
+		if (a < 5) {//其他事件
 			switch (a) {
 				case 1://money
 					if (value <= 1) {
@@ -196,25 +199,6 @@ class GameCommand extends egret.EventDispatcher {
 		}
 	}
 
-	private diss1: number[] = [0.2, 5, 10];
-	private getRandom1(): number {
-		let r = Math.random();
-		if (r < 0.1) {
-			let i = Math.floor(Math.random() * 3);
-			return this.diss1[i];
-		}
-		else {
-			return 1;
-		}
-	}
-
-	//事件概率
-	private diss2: number[] = [0.1, 0.2, 5, 10];
-	private getRandom2(): number {
-		let i = Math.floor(Math.random() * 4);
-		return this.diss2[i];
-	}
-
 
 
 	/**浮动区间	0.2,3,5,10
@@ -223,20 +207,22 @@ class GameCommand extends egret.EventDispatcher {
 	private getPrice(o: Object, evt: boolean): number {
 		//上下浮动 0.2~10
 		let n = o['price'];
-		let r1 = this.getRandom1();
+		let r1 = Formula.getRandom1();
+		//第一次随机后的价格
 		let v = Math.floor(n * r1);
 		// console.log(o['name'],"正常价格：",n,"范围浮动随机：",r1,"实际价格：",v);
 
-		let b2 = Math.random() < 0.5;
-		let v2 = Math.floor(v * Math.random() * 0.2);
+		let b2 = Formula.isAdd();
+		let v2 = Math.floor(v * Formula.getRandom2());
+		//随机值 看起来不是每次都一样的价格
 		v = b2 ? v + v2 : v - v2;
 		// console.log(o['name'],"正常价格：",n,"上下浮动随机0.2：",v);
 		if (evt) {
 			//出现事件概率 0.1
-			let b3 = Math.random() < 0.1;
+			let b3 = Formula.apperEvent();
 			if (b3) {
 				//事件翻倍数随机
-				let r3 = this.getRandom2();
+				let r3 = Formula.getRandom3();
 				v = Math.floor(v * r3);
 				// console.log(o['name'],"正常价格：",n,"事件浮动随机：",r3,"实际价格：",v);
 				//记录事件
@@ -287,7 +273,7 @@ class GameCommand extends egret.EventDispatcher {
 	/**-------------------------------------------- 客户端发送  ------------------------------------------------------------------------ */
 
 	public selectPackage(i: number) {
-		DataBase.gamePackage = 1;
+		DataBase.gamePackage = i;
 	}
 
 	/**根据type 刷数据 */
@@ -337,10 +323,10 @@ class GameCommand extends egret.EventDispatcher {
 			this.sendError(ERROR.BUY_ZERO);
 			return;
 		}
-		// if(id == 9 && DataBase.gamePackage != 3){
-		// 	this.sendError(ERROR.NEED_LICIENCE);
-		// 	return;
-		// }
+		if(id == this.bases[this.bases.length-1] && DataBase.gamePackage == 1){
+			this.sendError(ERROR.NEED_LICIENCE);
+			return;
+		}
 		let arr = DataBase.marketGoods;
 		for (let i: number = 0; i < arr.length; i++) {
 			let good = arr[i];
@@ -460,6 +446,7 @@ class GameCommand extends egret.EventDispatcher {
 		}
 	}
 
+	/**慈善 */
 	public charity(n:number){
 		if(n > DataBase.money){
 			this.sendError(ERROR.MONEY_NOT_ENOUGH);

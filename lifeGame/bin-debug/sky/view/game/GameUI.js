@@ -400,7 +400,7 @@ var GameUI = (function (_super) {
         this.crtStoreItem = null;
     };
     GameUI.prototype.restart = function () {
-        GameLogic.getInstance().startGame();
+        GameLogic.getInstance().openStart();
     };
     GameUI.prototype.clear = function () {
         this.clearEvent();

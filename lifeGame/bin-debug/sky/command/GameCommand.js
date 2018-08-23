@@ -13,9 +13,6 @@ var GameCommand = (function (_super) {
     function GameCommand() {
         var _this = _super.call(this) || this;
         _this.bases = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        _this.diss1 = [0.2, 5, 10];
-        //事件概率
-        _this.diss2 = [0.1, 0.2, 5, 10];
         return _this;
     }
     GameCommand.getInstance = function () {
@@ -29,8 +26,8 @@ var GameCommand = (function (_super) {
         if (b === void 0) { b = false; }
         //利息计算
         if (b) {
-            DataBase.debt = Math.floor(DataBase.debt * 1.1);
-            DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
+            DataBase.debt = Formula.getDebt(DataBase.debt);
+            DataBase.deposit = Formula.getDeposit(DataBase.deposit);
         }
         var msg = this.getData();
         GameLogic.getInstance().gameui.initData(msg);
@@ -57,14 +54,16 @@ var GameCommand = (function (_super) {
         DataBase.events = [];
     };
     GameCommand.prototype.sendError = function (i) {
-        GameLogic.getInstance().gameui.errorRsp(i);
+        egret.setTimeout(function () {
+            GameLogic.getInstance().gameui.errorRsp(i);
+        }, this, 100);
     };
     GameCommand.prototype.sendOver = function (t) {
         DataBase.gameState = 0;
         if (t == 0) {
             //结算
-            DataBase.debt = Math.floor(DataBase.debt * 1.15);
-            DataBase.deposit = Math.floor(DataBase.deposit * 1.04);
+            DataBase.debt = Formula.getDebt(DataBase.debt);
+            DataBase.deposit = Formula.getDeposit(DataBase.deposit);
             DataBase.money = DataBase.money + DataBase.deposit - DataBase.debt + this.getStorePrice();
             DataBase.debt = 0;
             DataBase.deposit = 0;
@@ -102,8 +101,7 @@ var GameCommand = (function (_super) {
         msg.goods = [];
         var len = 4 + Math.floor(Math.random() * 6);
         var arr = this.bases.slice();
-        // let lll = DataBase.gamePackage < 2 ? arr.length : arr.length - 1;
-        var lll = arr.length;
+        var lll = DataBase.gamePackage == 1 ? arr.length : arr.length - 1;
         var goodIds = [];
         for (var i = 0; i < len; i++) {
             var i_1 = Math.floor(Math.random() * lll);
@@ -127,16 +125,18 @@ var GameCommand = (function (_super) {
         }
         return msg;
     };
-    /**其他事件 */
+    /**其他事件触发几率 */
     GameCommand.prototype.dealOtherEvent = function () {
-        var b = Math.random() < 0.2;
-        if (b) {
-            var a = Math.floor(Math.random() * 4) + 1;
-            var b_1 = Math.random() < 0.5 ? 1 : 2;
-            var c = Math.floor(Math.random() * 3) + 1;
-            this.addEvent(a, b_1, c);
+        var o = Formula.getOtherEvent();
+        if (o != null) {
+            this.addEvent(o.a, o.b, o.c);
         }
     };
+    /**事件
+     * @param a	类型  1现金 2存款 3健康 4声望 5
+     * @param b 1减少 2增加
+     * @param c	随机值
+     */
     GameCommand.prototype.addEvent = function (a, b, c) {
         var id = a * 100 + b * 10 + c;
         var o = GameLogic.getInstance().goods["evt" + id];
@@ -184,39 +184,27 @@ var GameCommand = (function (_super) {
             DataBase.events.push(StringUtil.getSwfLangStrVar(o['str'], [value]));
         }
     };
-    GameCommand.prototype.getRandom1 = function () {
-        var r = Math.random();
-        if (r < 0.1) {
-            var i = Math.floor(Math.random() * 3);
-            return this.diss1[i];
-        }
-        else {
-            return 1;
-        }
-    };
-    GameCommand.prototype.getRandom2 = function () {
-        var i = Math.floor(Math.random() * 4);
-        return this.diss2[i];
-    };
     /**浮动区间	0.2,3,5,10
      *
      */
     GameCommand.prototype.getPrice = function (o, evt) {
         //上下浮动 0.2~10
         var n = o['price'];
-        var r1 = this.getRandom1();
+        var r1 = Formula.getRandom1();
+        //第一次随机后的价格
         var v = Math.floor(n * r1);
         // console.log(o['name'],"正常价格：",n,"范围浮动随机：",r1,"实际价格：",v);
-        var b2 = Math.random() < 0.5;
-        var v2 = Math.floor(v * Math.random() * 0.2);
+        var b2 = Formula.isAdd();
+        var v2 = Math.floor(v * Formula.getRandom2());
+        //随机值 看起来不是每次都一样的价格
         v = b2 ? v + v2 : v - v2;
         // console.log(o['name'],"正常价格：",n,"上下浮动随机0.2：",v);
         if (evt) {
             //出现事件概率 0.1
-            var b3 = Math.random() < 0.1;
+            var b3 = Formula.apperEvent();
             if (b3) {
                 //事件翻倍数随机
-                var r3 = this.getRandom2();
+                var r3 = Formula.getRandom3();
                 v = Math.floor(v * r3);
                 // console.log(o['name'],"正常价格：",n,"事件浮动随机：",r3,"实际价格：",v);
                 //记录事件
@@ -262,7 +250,7 @@ var GameCommand = (function (_super) {
     };
     /**-------------------------------------------- 客户端发送  ------------------------------------------------------------------------ */
     GameCommand.prototype.selectPackage = function (i) {
-        DataBase.gamePackage = 1;
+        DataBase.gamePackage = i;
     };
     /**根据type 刷数据 */
     GameCommand.prototype.startGame = function () {
@@ -306,10 +294,10 @@ var GameCommand = (function (_super) {
             this.sendError(ERROR.BUY_ZERO);
             return;
         }
-        // if(id == 9 && DataBase.gamePackage != 3){
-        // 	this.sendError(ERROR.NEED_LICIENCE);
-        // 	return;
-        // }
+        if (id == this.bases[this.bases.length - 1] && DataBase.gamePackage == 1) {
+            this.sendError(ERROR.NEED_LICIENCE);
+            return;
+        }
         var arr = DataBase.marketGoods;
         for (var i = 0; i < arr.length; i++) {
             var good = arr[i];
@@ -421,6 +409,7 @@ var GameCommand = (function (_super) {
             this.sendData();
         }
     };
+    /**慈善 */
     GameCommand.prototype.charity = function (n) {
         if (n > DataBase.money) {
             this.sendError(ERROR.MONEY_NOT_ENOUGH);

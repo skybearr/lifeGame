@@ -301,6 +301,10 @@ class GameLogic extends egret.EventDispatcher {
 	 * @param	KVDataList	要修改的 KV 数据列表	
 	*/
 	public setUserCloudStorage() {
+		let wx = window['wx'];
+		if(wx == null){
+			return;
+		}
 		let KVDataList = [];
 		let str: string = "";
 		for (let i: number = 0; i < DataBase.achives.length; i++) {

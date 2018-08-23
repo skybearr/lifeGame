@@ -6,8 +6,6 @@ declare class GameSkin extends eui.Skin{
 }
 declare class MainBtn extends eui.Skin{
 }
-declare class MainBtnSend extends eui.Skin{
-}
 declare class MarketItemSkin extends eui.Skin{
 }
 declare class NewGuildSkin extends eui.Skin{

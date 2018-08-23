@@ -469,7 +469,7 @@ class GameUI extends eui.Component {
 	}
 
 	private restart() {
-		GameLogic.getInstance().startGame();
+		GameLogic.getInstance().openStart();
 	}
 
 	private clear() {

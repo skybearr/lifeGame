@@ -242,6 +242,10 @@ var GameLogic = (function (_super) {
      * @param	KVDataList	要修改的 KV 数据列表
     */
     GameLogic.prototype.setUserCloudStorage = function () {
+        var wx = window['wx'];
+        if (wx == null) {
+            return;
+        }
         var KVDataList = [];
         var str = "";
         for (var i = 0; i < DataBase.achives.length; i++) {
