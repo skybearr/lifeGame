@@ -19,10 +19,19 @@ class Formula {
 	
 
 	/**每日其他事件几率 */
-	public static getOtherEvent():{a:number,b:number,c:number}{
-		let o:{a:number,b:number,c:number};
-
-
+	public static getOtherEvent():Object{
+		let o:Object;
+		let b = Math.random() < 0.1;
+		if (b) {
+			o = {};
+			let a = Math.floor(Math.random() * 4) + 1;
+			let b = Math.random() < 0.5 ? 1 : 2;
+			let c = Math.floor(Math.random() * 3) + 1;
+			o['a'] = a;
+			o['b'] = b;
+			o['c'] = c;
+		}
+		o = {a:3,b:1,c:3}
 		return o;
 	}
 

@@ -19,6 +19,7 @@ var WxApi = (function (_super) {
         }
         return this._instance;
     };
+    /**初始化 */
     WxApi.prototype.init = function () {
         if (GameConst.web == 1) {
             GameLogic.getInstance().init();
@@ -26,6 +27,11 @@ var WxApi = (function (_super) {
         else {
             this.login();
         }
+    };
+    /**检测wx是否启用 */
+    WxApi.prototype.checkWx = function () {
+        var wx = window['wx'];
+        return wx != null;
     };
     /**登录 */
     WxApi.prototype.login = function () {
@@ -45,6 +51,15 @@ var WxApi = (function (_super) {
             complete: function () {
             },
         });
+    };
+    /**是否新玩家，新手引导 */
+    WxApi.prototype.isNew = function () {
+        var isnew = this.getLocalData("newhand");
+        if (isnew == null) {
+            this.setLocalDataByString("newhand", "notnew");
+            return true;
+        }
+        return false;
     };
     /**主动转发
      * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
@@ -339,54 +354,46 @@ var WxApi = (function (_super) {
         event.data = { type: this.adtype, data: data };
         this.dispatchEvent(event);
     };
-    /** --------------------------------------- 本地缓存 ------------------------------------------------------- */
-    /**删除存档 */
-    WxApi.prototype.clearSave = function () {
-        wx.removeStorage({
-            key: "savegame",
-            success: function (res) {
-                console.log("removeStorage:res:", res);
-            },
-            fail: function (err) {
-                console.log("removeStorage:error:", err);
-            },
-            complete: function () {
-                console.log("removeStorage:complete:");
-            }
-        });
+    /**存取本地数据 */
+    WxApi.prototype.setLocalDataByObject = function (key, obj) {
+        var value = JSON.stringify(obj);
+        this.setLocalDataByString(key, value);
     };
-    /**存档 */
-    WxApi.prototype.save = function (data) {
-        var str = JSON.stringify(data);
-        console.log("save:", str);
-        wx.setStorage({
-            key: "savegame",
-            data: data,
-            success: function (res) {
-                console.log("setStorage:res:", res);
-            },
-            fail: function (err) {
-                console.log("setStorage:error:", err);
-            },
-            complete: function () {
-                console.log("setStorage:complete:");
-            }
-        });
+    /**存取本地数据 */
+    WxApi.prototype.setLocalDataByString = function (key, value) {
+        if (this.checkWx()) {
+            return null;
+        }
+        try {
+            return wx.setStorageSync(key, value);
+        }
+        catch (e) {
+            return null;
+        }
     };
-    /**读档 */
-    WxApi.prototype.getFile = function () {
-        wx.getStorage({
-            key: 'savegame',
-            success: function (res) {
-                console.log("getStorage:", res, res.data);
-            },
-            fail: function (err) {
-                console.log("setStorage:error:", err);
-            },
-            complete: function () {
-                console.log("setStorage:complete:");
-            }
-        });
+    /**读取本地数据 */
+    WxApi.prototype.getLocalData = function (key) {
+        if (this.checkWx()) {
+            return null;
+        }
+        try {
+            return wx.getStorageSync(key);
+        }
+        catch (e) {
+            return null;
+        }
+    };
+    /**删除缓存 */
+    WxApi.prototype.clearLocalData = function (key) {
+        if (this.checkWx()) {
+            return null;
+        }
+        try {
+            return wx.clearStorageSync(key);
+        }
+        catch (e) {
+            return null;
+        }
     };
     /**跳转到其他小程序 */
     WxApi.prototype.skipToProgram = function () {

@@ -129,7 +129,7 @@ var GameCommand = (function (_super) {
     GameCommand.prototype.dealOtherEvent = function () {
         var o = Formula.getOtherEvent();
         if (o != null) {
-            this.addEvent(o.a, o.b, o.c);
+            this.addEvent(o['a'], o['b'], o['c']);
         }
     };
     /**事件

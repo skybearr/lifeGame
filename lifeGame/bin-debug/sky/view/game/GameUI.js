@@ -25,10 +25,16 @@ var GameUI = (function (_super) {
         this.initView();
         this.initEvent();
         GameCommand.getInstance().startGame();
+        this.checkNewHand();
     };
     GameUI.prototype.checkFit = function () {
         this.rect_bg.height = this.img_over_bg0.height = this.img_over_bg1.height =
             this.rect_evt.height = GameLogic.getInstance().GameStage.stageHeight;
+    };
+    GameUI.prototype.checkNewHand = function () {
+        if (WxApi.getInstance().isNew()) {
+            this.addChild(new NewGuild());
+        }
     };
     /**出现事件 */
     GameUI.prototype.eventAppear = function (str) {
@@ -296,7 +302,8 @@ var GameUI = (function (_super) {
             case 9://转发
                 GameLogic.getInstance().share();
                 break;
-            case 10://广告
+            case 10://玩法说明
+                this.addChild(new NewGuild());
                 break;
             case 11://排行榜
                 GameLogic.getInstance().openRank();

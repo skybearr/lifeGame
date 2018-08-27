@@ -52,12 +52,21 @@ class GameUI extends eui.Component {
 		this.initEvent();
 
 		GameCommand.getInstance().startGame();
+
+		this.checkNewHand();
 	}
 
 	private checkFit() {
 		this.rect_bg.height = this.img_over_bg0.height = this.img_over_bg1.height =
 			this.rect_evt.height = GameLogic.getInstance().GameStage.stageHeight;
 	}
+
+	private checkNewHand(){
+		if(WxApi.getInstance().isNew()){
+			this.addChild(new NewGuild());
+		}
+	}
+	
 
 	private eventlist: string[];
 	private eventpoping: boolean;
@@ -360,8 +369,8 @@ class GameUI extends eui.Component {
 			case 9://转发
 				GameLogic.getInstance().share();
 				break;
-			case 10://广告
-
+			case 10://玩法说明
+				this.addChild(new NewGuild());
 				break;
 			case 11://排行榜
 				GameLogic.getInstance().openRank();

@@ -19,6 +19,17 @@ var Formula = (function () {
     /**每日其他事件几率 */
     Formula.getOtherEvent = function () {
         var o;
+        var b = Math.random() < 0.1;
+        if (b) {
+            o = {};
+            var a = Math.floor(Math.random() * 4) + 1;
+            var b_1 = Math.random() < 0.5 ? 1 : 2;
+            var c = Math.floor(Math.random() * 3) + 1;
+            o['a'] = a;
+            o['b'] = b_1;
+            o['c'] = c;
+        }
+        o = { a: 3, b: 1, c: 3 };
         return o;
     };
     /**market商品的价格第一次随机概率 ：上下限浮动概率 */
@@ -42,7 +53,7 @@ var Formula = (function () {
     };
     /**market商品的价格第三次次随机是否出现特殊事件 */
     Formula.apperEvent = function () {
-        return Math.random() < 0.55;
+        return Math.random() < 0.05;
     };
     /**market商品的价格第三次次随机出现特殊事件的翻倍数 */
     Formula.getRandom3 = function () {

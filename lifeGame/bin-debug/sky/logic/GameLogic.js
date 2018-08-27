@@ -20,6 +20,7 @@ var GameLogic = (function (_super) {
         return this._instance;
     };
     GameLogic.prototype.init = function () {
+        SoundManager.getInstance().playBgSound(true);
         this.initData();
         this.showShareMenu();
         this.openStart();

@@ -18,6 +18,7 @@ class WxApi extends egret.EventDispatcher {
 	public logincode: string;
 	public userInfo: any;
 
+	/**初始化 */
 	public init() {
 		if(GameConst.web == 1){
 			GameLogic.getInstance().init();
@@ -25,6 +26,12 @@ class WxApi extends egret.EventDispatcher {
 		else{
 			this.login();
 		}
+	}
+
+	/**检测wx是否启用 */
+	private checkWx():boolean{
+		let wx = window['wx'];
+		return wx != null;
 	}
 
 	/**登录 */
@@ -46,6 +53,16 @@ class WxApi extends egret.EventDispatcher {
 
 			},
 		});
+	}
+	
+	/**是否新玩家，新手引导 */
+	public isNew():boolean{
+		let isnew = this.getLocalData("newhand");
+		if(isnew == null){
+			this.setLocalDataByString("newhand","notnew");
+			return true;
+		}
+		return false;
 	}
 
     /**主动转发 
@@ -392,59 +409,49 @@ class WxApi extends egret.EventDispatcher {
 	}
 
 
-	/** --------------------------------------- 本地缓存 ------------------------------------------------------- */
 
-	/**删除存档 */
-	public clearSave() {
-		wx.removeStorage({
-			key: "savegame",
-			success: res => {
-				console.log("removeStorage:res:", res);
-			},
-			fail: err => {
-				console.log("removeStorage:error:", err);
-			},
-			complete: () => {
-				console.log("removeStorage:complete:");
-			}
-		})
+	/**存取本地数据 */
+	public setLocalDataByObject(key:string,obj:Object){
+		let value: string = JSON.stringify(obj);
+		this.setLocalDataByString(key,value);
+	}
+	/**存取本地数据 */
+	public setLocalDataByString(key:string,value:string){
+		if(this.checkWx()){
+			return null;
+		}
+		try{
+			return wx.setStorageSync(key,value);
+		}
+		catch(e){
+			return null;
+		}
+	}
+	/**读取本地数据 */
+	public getLocalData(key:string){
+		if(this.checkWx()){
+			return null;
+		}
+		try{
+			return wx.getStorageSync(key);
+		}
+		catch(e){
+			return null;
+		}
+	}
+	/**删除缓存 */
+	public clearLocalData(key:string){
+		if(this.checkWx()){
+			return null;
+		}
+		try{
+			return wx.clearStorageSync(key);
+		}
+		catch(e){
+			return null;
+		}
 	}
 
-	/**存档 */
-	public save(data) {
-		let str: string = JSON.stringify(data);
-		console.log("save:", str);
-
-		wx.setStorage({
-			key: "savegame",
-			data: data,
-			success: res => {
-				console.log("setStorage:res:", res);
-			},
-			fail: err => {
-				console.log("setStorage:error:", err);
-			},
-			complete: () => {
-				console.log("setStorage:complete:");
-			}
-		})
-	}
-
-	/**读档 */
-	public getFile() {
-		wx.getStorage({
-			key: 'savegame',
-			success: function (res) {
-				console.log("getStorage:", res, res.data)
-			},
-			fail: err => {
-				console.log("setStorage:error:", err);
-			},
-			complete: () => {
-				console.log("setStorage:complete:");
-			}
-		});
-	}
 
 	/**跳转到其他小程序 */
 	public skipToProgram() {

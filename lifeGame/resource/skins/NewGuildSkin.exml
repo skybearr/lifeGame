@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="NewGuildSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image source="QQ截图20180821214253_png" x="0" y="0" width="750" height="1334" locked="true"/>
-	<e:Rect id="rect_bg" width="750" height="1334" x="0" y="0" fillAlpha="0.8"/>
-	<e:Button id="btn_over" label="结束教程" skinName="BaseButtonSkin" left="0" y="1274"/>
-	<e:Button id="btn_next" label="下一步" skinName="BaseButtonSkin" right="0" y="1274"/>
-	<e:Group id="gp_0" width="750" y="0" height="1334" x="0" visible="false">
-		<e:Image source="game_json.help0" x="16" y="197" scaleX="1" scaleY="1" anchorOffsetX="0" width="303" anchorOffsetY="0" height="74"/>
-		<e:Label id="lbl_0" text="Label" x="360" y="310" anchorOffsetX="0" width="340" fontFamily="SimHei" textColor="0xedea17" stroke="2" anchorOffsetY="0" height="430"/>
+	<e:Rect id="rect_bg" width="750" height="1334" x="0" fillAlpha="0.8" top="0"/>
+	<e:Button id="btn_over" label="结束教程" skinName="BaseButtonSkin" left="0" bottom="0"/>
+	<e:Button id="btn_next" label="下一步" skinName="BaseButtonSkin" right="0" bottom="0"/>
+	<e:Group id="gp_0" width="750" x="0" top="87" visible="false">
+		<e:Image source="game_json.help0" x="16" y="108" scaleX="1" scaleY="1" anchorOffsetX="0" width="303" anchorOffsetY="0" height="74"/>
+		<e:Label id="lbl_0" text="Label" x="360" y="187" anchorOffsetX="0" width="340" fontFamily="SimHei" textColor="0xedea17" stroke="2" anchorOffsetY="0" height="430"/>
 	</e:Group>
-	<e:Group id="gp_1" width="750" height="1334" y="0" x="0" visible="false">
-		<e:Image x="16" y="271" scaleX="1" scaleY="1" anchorOffsetX="0" width="303" anchorOffsetY="0" height="517.7" source="game_json.help1"/>
+	<e:Group id="gp_1" width="750" y="0" x="0" top="87" visible="false">
+		<e:Image x="16" y="168" scaleX="1" scaleY="1" anchorOffsetX="0" width="303" anchorOffsetY="0" height="517.7" source="game_json.help1"/>
 		<e:Label id="lbl_1" text="Label" x="360" y="310" anchorOffsetX="0" width="340" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="430"/>
 	</e:Group>
-	<e:Group id="gp_2" width="750" height="1334" x="0" y="40" visible="false">
-		<e:Image x="14.76" y="174.27" scaleX="1" scaleY="1" anchorOffsetX="0" width="725.73" anchorOffsetY="0" height="574" source="game_json.help2"/>
-		<e:Label id="lbl_2" text="Label" x="60" y="773.86" anchorOffsetX="0" width="660.52" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="288.21"/>
+	<e:Group id="gp_2" width="750" x="0" top="87" visible="false">
+		<e:Image x="14.76" y="108" scaleX="1" scaleY="1" anchorOffsetX="0" width="725.73" anchorOffsetY="0" height="574" source="game_json.help2"/>
+		<e:Label id="lbl_2" text="Label" x="47.89" y="698.08" anchorOffsetX="0" width="660.52" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="288.21"/>
 	</e:Group>
-	<e:Group id="gp_3" width="750" height="1334" x="0" y="0" visible="false">
-		<e:Image x="8.68" y="984.61" scaleX="1" scaleY="1" anchorOffsetX="0" width="734.82" anchorOffsetY="0" height="137.64" source="game_json.help3"/>
-		<e:Label id="lbl_3" text="Label" y="733" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5"/>
+	<e:Group id="gp_3" width="750" x="0" top="945" visible="false"> top="0"
+		<e:Image x="8.68" scaleX="1" scaleY="1" anchorOffsetX="0" width="734.82" anchorOffsetY="0" height="138" source="game_json.help3" y="0"/>
+		<e:Label id="lbl_3" text="lable" y="-262.12" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="-2.5" verticalAlign="bottom"/>
 	</e:Group>
-	<e:Group id="gp_4" width="750" height="1334" x="0" y="0" visible="false">
-		<e:Image x="16" y="1116.25" scaleX="1" scaleY="1" anchorOffsetX="0" width="543" anchorOffsetY="0" height="74" source="game_json.help4"/>
-		<e:Label id="lbl_4" text="Label" y="883" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5"/>
+	<e:Group id="gp_4" width="750" x="0" y="0" top="1072" visible="false">
+		<e:Image x="16" scaleX="1" scaleY="1" anchorOffsetX="0" width="543" anchorOffsetY="0" height="74" source="game_json.help4"/>
+		<e:Label id="lbl_4" text="Label" y="-260.61" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5" verticalAlign="bottom"/>
 	</e:Group>
-	<e:Group id="gp_5" width="750" height="1334" x="0" y="0" visible="false">
-		<e:Image x="30" y="1185" scaleX="1" scaleY="1" anchorOffsetX="0" width="187" anchorOffsetY="0" height="66" source="game_json.help5"/>
-		<e:Label id="lbl_5" text="Label" y="883" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5"/>
+	<e:Group id="gp_5" width="750" x="0" y="0" top="1135" visible="false">
+		<e:Image x="30" scaleX="1" scaleY="1" anchorOffsetX="0" width="187" anchorOffsetY="0" height="66" source="game_json.help5"/>
+		<e:Label id="lbl_5" text="Label" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5" verticalAlign="bottom" y="-322.1"/>
 	</e:Group>
-	<e:Group id="gp_6" width="750" height="1334" x="0" y="0" visible="false">
-		<e:Image x="200" y="1190" scaleX="1" scaleY="1" anchorOffsetX="0" width="191" anchorOffsetY="0" height="64" source="game_json.help6"/>
-		<e:Label id="lbl_6" text="Label" y="883" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5"/>
+	<e:Group id="gp_6" width="750" x="0" y="0" top="1138" visible="false">
+		<e:Image x="200" scaleX="1" scaleY="1" anchorOffsetX="0" width="191" anchorOffsetY="0" height="64" source="game_json.help6"/>
+		<e:Label id="lbl_6" text="Label" y="-255.44" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5" verticalAlign="bottom"/>
 	</e:Group>
-	<e:Group id="gp_7" width="750" height="1334" x="0" y="0" visible="false">
-		<e:Image x="366" y="1191" scaleX="1" scaleY="1" anchorOffsetX="0" width="189" anchorOffsetY="0" height="62" source="game_json.help7"/>
-		<e:Label id="lbl_7" text="Label" y="883" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5"/>
+	<e:Group id="gp_7" width="750" x="0" y="0" top="1134" visible="false">
+		<e:Image x="366" scaleX="1" scaleY="1" anchorOffsetX="0" width="189" anchorOffsetY="0" height="62" source="game_json.help7"/>
+		<e:Label id="lbl_7" text="Label" y="-260" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5" verticalAlign="bottom"/>
 	</e:Group>
-	<e:Group id="gp_8" width="750" height="1334" x="0" y="0">
-		<e:Image x="545.82" y="1189" scaleX="1" scaleY="1" anchorOffsetX="0" width="185" anchorOffsetY="0" height="62" source="game_json.help8"/>
-		<e:Label id="lbl_8" text="Label" y="883" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5"/>
+	<e:Group id="gp_8" width="750" x="0" y="0" top="1134" visible="false">
+		<e:Image x="545.82" scaleX="1" scaleY="1" anchorOffsetX="0" width="185" anchorOffsetY="0" height="62" source="game_json.help8"/>
+		<e:Label id="lbl_8" text="Label" y="-260" anchorOffsetX="0" width="691" fontFamily="SimHei" textColor="0xEDEA17" stroke="2" anchorOffsetY="0" height="227" horizontalCenter="0.5"/>
 	</e:Group>
 </e:Skin>

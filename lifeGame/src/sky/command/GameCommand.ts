@@ -141,7 +141,7 @@ class GameCommand extends egret.EventDispatcher {
 	private dealOtherEvent() {
 		let o = Formula.getOtherEvent();
 		if(o != null){
-			this.addEvent(o.a,o.b,o.c);
+			this.addEvent(o['a'],o['b'],o['c']);
 		}
 	}
 
