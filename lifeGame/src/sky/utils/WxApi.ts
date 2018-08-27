@@ -12,6 +12,9 @@ class WxApi extends egret.EventDispatcher {
 		return this._instance;
 	}
 
+
+	public GameStage: egret.Stage;
+
 	private rewardAd;
 
 	/**登录 code */
@@ -20,19 +23,102 @@ class WxApi extends egret.EventDispatcher {
 
 	/**初始化 */
 	public init() {
-		if(GameConst.web == 1){
+		if (GameConst.web == 1) {
 			GameLogic.getInstance().init();
 		}
-		else{
+		else {
 			this.login();
 		}
 	}
 
 	/**检测wx是否启用 */
-	private checkWx():boolean{
+	private checkWx(): boolean {
 		let wx = window['wx'];
 		return wx != null;
 	}
+
+	/**是否新玩家，新手引导 */
+	public isNew(): boolean {
+		let isnew = this.getLocalData("newhand");
+		if (isnew == null) {
+			this.setLocalDataByString("newhand", "notnew");
+			return true;
+		}
+		return false;
+	}
+
+	/**------------------------------------------ 读写删 本地数据 -----------------------------------------*/
+
+	/**存取本地数据 */
+	public setLocalDataByObject(key: string, obj: Object) {
+		let value: string = JSON.stringify(obj);
+		this.setLocalDataByString(key, value);
+	}
+	/**存取本地数据 */
+	public setLocalDataByString(key: string, value: string) {
+		if (this.checkWx()) {
+			return null;
+		}
+		try {
+			return wx.setStorageSync(key, value);
+		}
+		catch (e) {
+			return null;
+		}
+	}
+	/**读取本地数据 */
+	public getLocalData(key: string) {
+		if (this.checkWx()) {
+			return null;
+		}
+		try {
+			return wx.getStorageSync(key);
+		}
+		catch (e) {
+			return null;
+		}
+	}
+	/**删除缓存 */
+	public clearLocalData(key: string) {
+		if (this.checkWx()) {
+			return null;
+		}
+		try {
+			return wx.clearStorageSync(key);
+		}
+		catch (e) {
+			return null;
+		}
+	}
+
+
+	/**-------------------------------------------- 好友排行榜 开放域数据  ----------------------------------------------- */
+
+	private rankbmp: egret.Bitmap;
+	/**打开好友排行榜
+	 * @param data 需要传递的数据  如果是群排行，传入shareticket
+	 */
+	public openRank(data:Object) {
+		let platform: any = window.platform;
+		if (platform == null || platform.openDataContext == null) {
+			console.log("platform或platform.openDataContext未初始化");
+			return;
+		}
+		this.rankbmp = platform.openDataContext.createDisplayObject(null, this.GameStage.stageWidth, this.GameStage.stageHeight);
+		this.GameStage.addChild(this.rankbmp);
+
+		//主域向子域发送自定义消息
+		platform.openDataContext.postMessage(data);
+	}
+
+
+
+
+
+
+
+
+
 
 	/**登录 */
 	public login() {
@@ -42,7 +128,7 @@ class WxApi extends egret.EventDispatcher {
 		}
 		wx.login({
 			success: (res) => {
-				console.log("wxloginsuccess:",res);
+				console.log("wxloginsuccess:", res);
 				this.logincode = res['code'];
 				GameLogic.getInstance().init();
 			},
@@ -54,16 +140,8 @@ class WxApi extends egret.EventDispatcher {
 			},
 		});
 	}
-	
-	/**是否新玩家，新手引导 */
-	public isNew():boolean{
-		let isnew = this.getLocalData("newhand");
-		if(isnew == null){
-			this.setLocalDataByString("newhand","notnew");
-			return true;
-		}
-		return false;
-	}
+
+
 
     /**主动转发 
 	 * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
@@ -410,47 +488,6 @@ class WxApi extends egret.EventDispatcher {
 
 
 
-	/**存取本地数据 */
-	public setLocalDataByObject(key:string,obj:Object){
-		let value: string = JSON.stringify(obj);
-		this.setLocalDataByString(key,value);
-	}
-	/**存取本地数据 */
-	public setLocalDataByString(key:string,value:string){
-		if(this.checkWx()){
-			return null;
-		}
-		try{
-			return wx.setStorageSync(key,value);
-		}
-		catch(e){
-			return null;
-		}
-	}
-	/**读取本地数据 */
-	public getLocalData(key:string){
-		if(this.checkWx()){
-			return null;
-		}
-		try{
-			return wx.getStorageSync(key);
-		}
-		catch(e){
-			return null;
-		}
-	}
-	/**删除缓存 */
-	public clearLocalData(key:string){
-		if(this.checkWx()){
-			return null;
-		}
-		try{
-			return wx.clearStorageSync(key);
-		}
-		catch(e){
-			return null;
-		}
-	}
 
 
 	/**跳转到其他小程序 */

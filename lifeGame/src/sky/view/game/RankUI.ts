@@ -1,0 +1,4 @@
+class RankUI {
+	public constructor() {
+	}
+}
