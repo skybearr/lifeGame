@@ -31,7 +31,6 @@ class Formula {
 			o['b'] = b;
 			o['c'] = c;
 		}
-		o = {a:3,b:1,c:3}
 		return o;
 	}
 

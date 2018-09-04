@@ -74,7 +74,7 @@ class GameCommand extends egret.EventDispatcher {
 		GameLogic.getInstance().gameui.over();
 
 		if(t == 0){
-			GameLogic.getInstance().setUserCloudStorage();
+			WxApi.getInstance().setHigherScore(DataBase.money);
 		}
 	}
 

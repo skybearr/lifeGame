@@ -1,4 +1,4 @@
-var __reflect = (this && this.__reflect) || function (p, c, t) {
+var egret = window.egret;var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
 var __extends = this && this.__extends || function __extends(t, e) { 
@@ -21,6 +21,29 @@ var Main = (function (_super) {
         _this.itemNumPerPage = 7;
         _this.myItemDisList = 20;
         _this.scrollView = new egret.ScrollView();
+        _this.item_bg_color1 = 0x1f1e23;
+        _this.item_bg_color2 = 0x2b2a30;
+        _this.item_rankx = 40;
+        _this.item_rankwidth = 50;
+        _this.item_rankheight = 36;
+        _this.item_ranksize = 36;
+        _this.item_rankcolor = 0xffffff;
+        _this.item_rankfont = "SimHei";
+        _this.item_headx = 98;
+        _this.item_headwidth = 48;
+        _this.item_headheight = 48;
+        _this.item_namex = 170;
+        _this.item_namewidth = 264;
+        _this.item_nameheight = 36;
+        _this.item_namesize = 30;
+        _this.item_namecolor = 0xffffff;
+        _this.item_namefont = "SimHei";
+        _this.item_scorex = 470;
+        _this.item_scorewidth = 118;
+        _this.item_scoreheight = 36;
+        _this.item_scoresize = 36;
+        _this.item_scorecolor = 0xffffff;
+        _this.item_scorefont = "SimHei";
         wx.onMessage(function (data) {
             console.log("openData:onMessage:data:", data);
             var command = data['command'];
@@ -96,7 +119,7 @@ var Main = (function (_super) {
         this.scrollView.removeContent();
     };
     Main.prototype.initItems = function (datarray, friend) {
-        console.log(datarray);
+        console.log("initItems:", datarray);
         var listContainer = new egret.DisplayObjectContainer();
         this.scrollView.setContent(listContainer);
         this.scrollView.width = this.listWidth;
@@ -106,7 +129,6 @@ var Main = (function (_super) {
         var url = this.userinfo.avatarUrl != null ? this.userinfo.avatarUrl : "-1";
         var myrank = -1;
         var mydata;
-        console.log("myrank:", myrank);
         var arr = [];
         for (var i = 0; i < datarray.length; i++) {
             var data = datarray[i];
@@ -119,7 +141,6 @@ var Main = (function (_super) {
                 arr.push(data);
             }
         }
-        // datarray = datarray.concat(datarray).concat(datarray).concat(datarray).concat(datarray).concat(datarray).concat(datarray).concat(datarray).concat(datarray).concat(datarray);
         arr = arr.sort(this.sortfun);
         for (var i = 0; i < arr.length; i++) {
             var data = arr[i];
@@ -128,10 +149,9 @@ var Main = (function (_super) {
             listContainer.addChild(item);
         }
         this.scrollView.y = this.listY;
-        console.log(this.stageH, this.scrollView.height, this.scrollView.y);
         this.initMyItem(myrank, mydata);
-        console.log(this.stage, this);
     };
+    //分数按从高到低排序
     Main.prototype.sortfun = function (a, b) {
         if (a.KVDataList[0] == null || b.KVDataList[0] == null) {
             return -1;
@@ -146,7 +166,7 @@ var Main = (function (_super) {
         }
     };
     Main.prototype.initMyItem = function (i, datarray) {
-        if (this.userinfo == null || this.userinfo.avatarUrl == null) {
+        if (datarray == null || this.userinfo == null || this.userinfo.avatarUrl == null) {
             return;
         }
         var data = {};
@@ -159,6 +179,7 @@ var Main = (function (_super) {
         this.addChild(item);
     };
     Main.prototype.addItem = function (i, data) {
+        var _this = this;
         var kvs = data.KVDataList;
         var kvo = {};
         if (kvs == null || kvs.length == 0) {
@@ -178,30 +199,22 @@ var Main = (function (_super) {
         item.height = this.itemHeight;
         //底
         var shape = new egret.Shape();
-        shape.graphics.beginFill(i % 2 == 0 ? 0x1f1e23 : 0x2b2a30);
+        shape.graphics.beginFill(i % 2 == 0 ? this.item_bg_color1 : this.item_bg_color2);
         shape.graphics.drawRect(0, 0, this.itemWidth, this.itemHeight);
         shape.graphics.endFill();
         item.addChild(shape);
-        //排名
-        var color = 0xffffff;
+        //排名，123名颜色区分
+        var color = this.item_rankcolor;
         if (i == 0) {
             color = 0xff094c;
         }
         else if (i == 1) {
             color = 0xff5317;
         }
-        else if (i == 3) {
+        else if (i == 2) {
             color = 0xffe117;
         }
-        var tf_rank = new egret.TextField();
-        tf_rank.textAlign = "center";
-        tf_rank.width = 50;
-        tf_rank.height = 36;
-        tf_rank.x = 40;
-        tf_rank.size = 36;
-        tf_rank.textColor = color;
-        tf_rank.fontFamily = "SimHei";
-        tf_rank.y = (item.height - tf_rank.height) >> 1;
+        var tf_rank = this.createTextField(this.item_rankx, item.height, this.item_rankwidth, this.item_rankheight, color, this.item_rankfont, this.item_ranksize);
         tf_rank.text = i == -1 ? "" : (i + 1) + "";
         item.addChild(tf_rank);
         //头像
@@ -210,39 +223,46 @@ var Main = (function (_super) {
             var imageLoader = event.currentTarget;
             var tr = new egret.Texture();
             tr._setBitmapData(imageLoader.data);
-            var bmp_head = new egret.Bitmap(tr);
-            bmp_head.width = bmp_head.height = 48;
-            bmp_head.x = 98;
-            bmp_head.y = (item.height - bmp_head.height) >> 1;
+            var bmp_head = _this.createBitmap(tr, _this.item_headx, item.height, _this.item_headwidth, _this.item_headheight);
             item.addChild(bmp_head);
         }, this);
         imageLoader.load(data.avatarUrl);
         //昵称
-        var tf_name = new egret.TextField();
-        tf_name.textAlign = "left";
-        tf_name.width = 264;
-        tf_name.height = 30;
-        tf_name.textColor = 0xffffff;
-        tf_name.x = 170;
-        tf_name.fontFamily = "SimHei";
-        tf_name.y = (item.height - tf_name.height) >> 1;
+        var tf_name = this.createTextField(this.item_namex, item.height, this.item_namewidth, this.item_nameheight, this.item_namecolor, this.item_namefont, this.item_namesize, "left");
         tf_name.text = this.checkSpeName(data.nickname);
         item.addChild(tf_name);
         //分数
-        var tf_score = new egret.TextField();
-        tf_score.textAlign = "left";
-        tf_score.width = 117;
-        tf_score.height = 36;
-        tf_score.textColor = 0xffffff;
-        tf_score.size = 36;
-        tf_score.x = 470;
-        tf_score.fontFamily = "SimHei";
-        tf_score.y = (item.height - tf_score.height) >> 1;
+        var tf_score = this.createTextField(this.item_scorex, item.height, this.item_scorewidth, this.item_scoreheight, this.item_scorecolor, this.item_scorefont, this.item_scoresize, "left");
         tf_score.text = kvo['score'];
         item.addChild(tf_score);
         return item;
     };
-    /**处理一些无法显示的名字 */
+    Main.prototype.createTextField = function (x, y, w, h, color, font, size, textalign, veralign) {
+        if (textalign === void 0) { textalign = "center"; }
+        if (veralign === void 0) { veralign = "middle"; }
+        var tf = new egret.TextField();
+        tf.touchEnabled = false;
+        tf.x = x;
+        tf.width = w;
+        tf.height = h;
+        tf.textColor = color;
+        tf.fontFamily = font;
+        tf.size = size;
+        tf.textAlign = textalign;
+        tf.verticalAlign = veralign;
+        tf.y = (y - h) / 2; //这个y是指父类的高度，y轴居中
+        return tf;
+    };
+    Main.prototype.createBitmap = function (tr, x, y, w, h) {
+        var bmp = new egret.Bitmap(tr);
+        bmp.touchEnabled = false;
+        bmp.x = x;
+        bmp.width = w;
+        bmp.height = h;
+        bmp.y = (y - h) / 2; //这个y是指父类的高度，y轴居中
+        return bmp;
+    };
+    /**处理一些特殊字符导致的无法显示的名字 */
     Main.prototype.checkSpeName = function (str) {
         var newstr = "";
         var i = 0;
@@ -260,73 +280,4 @@ var Main = (function (_super) {
     return Main;
 }(egret.DisplayObjectContainer));
 __reflect(Main.prototype, "Main");
-// // 微信关系数据的获取
-// // 上传方法类似、开发者自行填写
-// declare namespace wx {
-//     /**
-//      * 监听消息
-//      */
-//     const onMessage: (callback: (data: { [key: string]: any }) => void) => void;
-//     /**
-//      * 拉取当前用户所有同玩好友的托管数据。该接口只可在开放数据域下使用
-//      * @param keyList 要拉取的 key 列表
-//      * @param success 接口调用成功的回调函数
-//      * @param fail 	接口调用失败的回调函数
-//      * @param complete 接口调用结束的回调函数（调用成功、失败都会执行）
-//      */
-//     const getFriendCloudStorage: (Object: {
-//         keyList?: string[],
-//         success?: (res: {
-//             data: UserGameData[]
-//         }) => void,
-//         fail?: (err: any) => void,
-//         complete?: () => void,
-//     }) => void;
-//     const getUserInfo: (Object: {
-//         openIdList?: string[],
-//         lang: string,
-//         success?: (res: any) => void,
-//         fail?: (err: any) => void,
-//         complete?: () => void,
-//     }) => void;
-//     const getUserCloudStorage: (Object: {
-//         keyList?: string[],
-//         success?: (res: UserGameData) => void,
-//         fail?: (err: any) => void,
-//         complete?: () => void,
-//     }) => void;
-//     /**
-//      * 在小游戏是通过群分享卡片打开的情况下，可以通过调用该接口获取群同玩成员的游戏数据。该接口只可在开放数据域下使用。
-//      * @param shareTicket 群分享对应的 shareTicket
-//      * @param keyList 要拉取的 key 列表
-//      * @param success 接口调用成功的回调函数
-//      * @param fail 接口调用失败的回调函数
-//      * @param complete 接口调用结束的回调函数（调用成功、失败都会执行）
-//      */
-//     const getGroupCloudStorage: (Object: {
-//         shareTicket: string,
-//         keyList: string[],
-//         success?: (res: {
-//             data: UserGameData[]
-//         }) => void,
-//         fail?: (err?: any) => void,
-//         complete?: () => void,
-//     }) => void;
-//     /**
-//      * 用户数据
-//      */
-//     type UserGameData = {
-//         /** 用户的微信头像 url */
-//         avatarUrl: string,
-//         /** 用户的微信昵称 */
-//         nickName: string,
-//         /** 用户的 openId */
-//         openId: string,
-//         /**用户自定义数据 */
-//         KVList: KVData[]
-//     }
-//     type KVData = {
-//         key: string,
-//         value: string
-//     }
-// } 
+;window.Main = Main;

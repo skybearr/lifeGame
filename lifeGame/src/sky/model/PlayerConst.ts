@@ -3,4 +3,10 @@ class PlayerConst {
 	}
 
 	public static highestScore:number;
+
+
+	
+
+
+	public static hiscore:string = "hiscore";
 }

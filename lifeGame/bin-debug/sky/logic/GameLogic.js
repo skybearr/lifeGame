@@ -146,7 +146,7 @@ var GameLogic = (function (_super) {
                     shareTicket: info.shareTicket,
                     success: function (res) {
                         console.log("getShareInfo:success:", res);
-                        _this.openFriendRank(false, info.shareTicket);
+                        _this.openRank(info.shareTicket);
                     },
                     fail: function (res) {
                         console.log("getShareInfo:fail:", res);
@@ -158,7 +158,9 @@ var GameLogic = (function (_super) {
             }
         }
     };
-    GameLogic.prototype.openRank = function () {
+    GameLogic.prototype.openRank = function (shareticket) {
+        if (shareticket === void 0) { shareticket = null; }
+        this.main.addChild(new RankUI(shareticket));
     };
     /**获取好友排行榜数据 */
     GameLogic.prototype.openFriendRank = function (friend, shareTicket) {
@@ -257,7 +259,7 @@ var GameLogic = (function (_super) {
         }
         wx.setUserCloudStorage({
             KVDataList: [
-                { key: "money", value: DataBase.money + "" },
+                { key: "score", value: DataBase.money + "" },
                 { key: "fame", value: DataBase.fame + "" },
                 { key: "achives", value: str }
             ],

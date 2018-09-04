@@ -47,6 +47,7 @@ class WxApi extends egret.EventDispatcher {
 		return false;
 	}
 
+
 	/**------------------------------------------ 读写删 本地数据 -----------------------------------------*/
 
 	/**存取本地数据 */
@@ -98,7 +99,7 @@ class WxApi extends egret.EventDispatcher {
 	/**打开好友排行榜
 	 * @param data 需要传递的数据  如果是群排行，传入shareticket
 	 */
-	public openRank(data:Object) {
+	public openRank(data: Object) {
 		let platform: any = window.platform;
 		if (platform == null || platform.openDataContext == null) {
 			console.log("platform或platform.openDataContext未初始化");
@@ -371,11 +372,13 @@ class WxApi extends egret.EventDispatcher {
 			return;
 		}
 		PlayerConst.highestScore = v;
+		this.setLocalDataByString(PlayerConst.hiscore,v + "");
 		let KVDataList = [];
 
 		wx.setUserCloudStorage({
 			KVDataList: [
-				{ key: "newscore", value: v + "" }
+				{ key: "score", value: v + "" },
+				{ key: "date", value: new Date().getTime().toString() }
 			],
 			success: res => {
 				console.log("setUserCloudStorage:res:", res);

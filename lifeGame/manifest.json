@@ -33,6 +33,7 @@
 		"bin-debug/sky/view/game/GameUI.js",
 		"bin-debug/sky/view/game/MarketItem.js",
 		"bin-debug/sky/view/game/NewGuild.js",
+		"bin-debug/sky/view/game/RankUI.js",
 		"bin-debug/sky/view/game/StartUI.js",
 		"bin-debug/sky/view/game/StoreItem.js"
 	]

@@ -33,6 +33,71 @@ var WxApi = (function (_super) {
         var wx = window['wx'];
         return wx != null;
     };
+    /**是否新玩家，新手引导 */
+    WxApi.prototype.isNew = function () {
+        var isnew = this.getLocalData("newhand");
+        if (isnew == null) {
+            this.setLocalDataByString("newhand", "notnew");
+            return true;
+        }
+        return false;
+    };
+    /**------------------------------------------ 读写删 本地数据 -----------------------------------------*/
+    /**存取本地数据 */
+    WxApi.prototype.setLocalDataByObject = function (key, obj) {
+        var value = JSON.stringify(obj);
+        this.setLocalDataByString(key, value);
+    };
+    /**存取本地数据 */
+    WxApi.prototype.setLocalDataByString = function (key, value) {
+        if (this.checkWx()) {
+            return null;
+        }
+        try {
+            return wx.setStorageSync(key, value);
+        }
+        catch (e) {
+            return null;
+        }
+    };
+    /**读取本地数据 */
+    WxApi.prototype.getLocalData = function (key) {
+        if (this.checkWx()) {
+            return null;
+        }
+        try {
+            return wx.getStorageSync(key);
+        }
+        catch (e) {
+            return null;
+        }
+    };
+    /**删除缓存 */
+    WxApi.prototype.clearLocalData = function (key) {
+        if (this.checkWx()) {
+            return null;
+        }
+        try {
+            return wx.clearStorageSync(key);
+        }
+        catch (e) {
+            return null;
+        }
+    };
+    /**打开好友排行榜
+     * @param data 需要传递的数据  如果是群排行，传入shareticket
+     */
+    WxApi.prototype.openRank = function (data) {
+        var platform = window.platform;
+        if (platform == null || platform.openDataContext == null) {
+            console.log("platform或platform.openDataContext未初始化");
+            return;
+        }
+        this.rankbmp = platform.openDataContext.createDisplayObject(null, this.GameStage.stageWidth, this.GameStage.stageHeight);
+        this.GameStage.addChild(this.rankbmp);
+        //主域向子域发送自定义消息
+        platform.openDataContext.postMessage(data);
+    };
     /**登录 */
     WxApi.prototype.login = function () {
         var _this = this;
@@ -51,15 +116,6 @@ var WxApi = (function (_super) {
             complete: function () {
             },
         });
-    };
-    /**是否新玩家，新手引导 */
-    WxApi.prototype.isNew = function () {
-        var isnew = this.getLocalData("newhand");
-        if (isnew == null) {
-            this.setLocalDataByString("newhand", "notnew");
-            return true;
-        }
-        return false;
     };
     /**主动转发
      * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
@@ -260,7 +316,8 @@ var WxApi = (function (_super) {
         var KVDataList = [];
         wx.setUserCloudStorage({
             KVDataList: [
-                { key: "newscore", value: v + "" }
+                { key: "score", value: v + "" },
+                { key: "date", value: new Date().toDateString() }
             ],
             success: function (res) {
                 console.log("setUserCloudStorage:res:", res);
@@ -353,47 +410,6 @@ var WxApi = (function (_super) {
         var event = new GameEvent(eventname);
         event.data = { type: this.adtype, data: data };
         this.dispatchEvent(event);
-    };
-    /**存取本地数据 */
-    WxApi.prototype.setLocalDataByObject = function (key, obj) {
-        var value = JSON.stringify(obj);
-        this.setLocalDataByString(key, value);
-    };
-    /**存取本地数据 */
-    WxApi.prototype.setLocalDataByString = function (key, value) {
-        if (this.checkWx()) {
-            return null;
-        }
-        try {
-            return wx.setStorageSync(key, value);
-        }
-        catch (e) {
-            return null;
-        }
-    };
-    /**读取本地数据 */
-    WxApi.prototype.getLocalData = function (key) {
-        if (this.checkWx()) {
-            return null;
-        }
-        try {
-            return wx.getStorageSync(key);
-        }
-        catch (e) {
-            return null;
-        }
-    };
-    /**删除缓存 */
-    WxApi.prototype.clearLocalData = function (key) {
-        if (this.checkWx()) {
-            return null;
-        }
-        try {
-            return wx.clearStorageSync(key);
-        }
-        catch (e) {
-            return null;
-        }
     };
     /**跳转到其他小程序 */
     WxApi.prototype.skipToProgram = function () {

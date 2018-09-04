@@ -73,7 +73,7 @@ var GameCommand = (function (_super) {
         this.sendData();
         GameLogic.getInstance().gameui.over();
         if (t == 0) {
-            GameLogic.getInstance().setUserCloudStorage();
+            WxApi.getInstance().setHigherScore(DataBase.money);
         }
     };
     /**----------------------------------------------- 数据获得 --------------------------------------------------------------------- */

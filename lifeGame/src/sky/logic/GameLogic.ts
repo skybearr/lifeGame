@@ -32,6 +32,8 @@ class GameLogic extends egret.EventDispatcher {
 		this.openStart();
 
 		this.checkShareInfo();
+
+		this.getHiscore();
 	}
 
 	public openStart() {
@@ -40,6 +42,11 @@ class GameLogic extends egret.EventDispatcher {
 		this.main.removeChildren();
 
 		this.main.addChild(new StartUI());
+	}
+
+	private getHiscore(){
+		let s = WxApi.getInstance().getLocalData(PlayerConst.hiscore);
+		PlayerConst.highestScore = s == null ? 0 : s;
 	}
 
 	private loadingGoods:boolean;
@@ -179,7 +186,7 @@ class GameLogic extends egret.EventDispatcher {
 					shareTicket: info.shareTicket,
 					success: res => {
 						console.log("getShareInfo:success:", res);
-						this.openFriendRank(false,info.shareTicket);
+						this.openRank(info.shareTicket);
 					},
 					fail: res => {
 						console.log("getShareInfo:fail:", res);
@@ -193,8 +200,8 @@ class GameLogic extends egret.EventDispatcher {
 
 	}
 
-	public openRank(){
-		
+	public openRank(shareticket:string = null){
+		this.main.addChild(new RankUI(shareticket));
 	}
 
 	/**
@@ -317,7 +324,7 @@ class GameLogic extends egret.EventDispatcher {
 		}
 		wx.setUserCloudStorage({
 			KVDataList: [
-				{ key: "money", value: DataBase.money + "" },
+				{ key: "score", value: DataBase.money + "" },
 				{ key: "fame", value: DataBase.fame + "" },
 				{ key: "achives", value: str }
 			],

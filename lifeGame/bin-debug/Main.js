@@ -79,7 +79,11 @@ var Main = (function (_super) {
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
         GameLogic.getInstance().GameStage = this.stage;
+        WxApi.getInstance().GameStage = this.stage;
         GameLogic.getInstance().main = this;
+        console.log(new Date().toString());
+        console.log(new Date().toDateString());
+        console.log(new Date().getTime());
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
         });
@@ -109,11 +113,11 @@ var Main = (function (_super) {
                         return [4 /*yield*/, platform.login()];
                     case 2:
                         _b.sent();
-                        _a = GameLogic.getInstance();
+                        _a = WxApi.getInstance();
                         return [4 /*yield*/, platform.getUserInfo()];
                     case 3:
                         _a.userInfo = _b.sent();
-                        console.log("userinfo:", GameLogic.getInstance().userInfo);
+                        console.log("userinfo:", WxApi.getInstance().userInfo);
                         this.createGameScene();
                         return [2 /*return*/];
                 }

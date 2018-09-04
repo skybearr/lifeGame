@@ -64,8 +64,8 @@ class Main extends eui.UILayer {
     private async runGame() {
         await this.loadResource()
         await platform.login();
-        GameLogic.getInstance().userInfo = await platform.getUserInfo();
-        console.log("userinfo:",GameLogic.getInstance().userInfo);
+        WxApi.getInstance().userInfo = await platform.getUserInfo();
+        console.log("userinfo:",WxApi.getInstance().userInfo);
         this.createGameScene();
     }
 

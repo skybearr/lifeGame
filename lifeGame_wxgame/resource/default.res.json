@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "config_json,img_3_png,img_5_png,qua_0_png,qua_1_png,qua_4_png,qua_2_png,qua_3_png,img_1_png,img_2_png,goods_json,public_8_png,strings_json",
+			"keys": "config_json,goods_json,strings_json,game_json,bg_mp3",
 			"name": "preload"
 		}
 	],
@@ -12,64 +12,25 @@
 			"name": "config_json"
 		},
 		{
-			"url": "assets/img/img_3.png",
-			"type": "image",
-			"name": "img_3_png"
-		},
-		{
-			"url": "assets/img/img_5.png",
-			"type": "image",
-			"name": "img_5_png"
-		},
-		{
-			"url": "assets/img/qua_0.png",
-			"type": "image",
-			"name": "qua_0_png"
-		},
-		{
-			"url": "assets/img/qua_1.png",
-			"type": "image",
-			"name": "qua_1_png"
-		},
-		{
-			"url": "assets/img/qua_4.png",
-			"type": "image",
-			"name": "qua_4_png"
-		},
-		{
-			"url": "assets/img/qua_2.png",
-			"type": "image",
-			"name": "qua_2_png"
-		},
-		{
-			"url": "assets/img/qua_3.png",
-			"type": "image",
-			"name": "qua_3_png"
-		},
-		{
-			"url": "assets/img/img_1.png",
-			"type": "image",
-			"name": "img_1_png"
-		},
-		{
-			"url": "assets/img/img_2.png",
-			"type": "image",
-			"name": "img_2_png"
-		},
-		{
 			"url": "assets/data/goods.json",
 			"type": "json",
 			"name": "goods_json"
 		},
 		{
-			"url": "assets/img/public_8.png",
-			"type": "image",
-			"name": "public_8_png"
-		},
-		{
 			"url": "assets/data/strings.json",
 			"type": "json",
 			"name": "strings_json"
+		},
+		{
+			"url": "assets/img/game.json",
+			"type": "sheet",
+			"name": "game_json",
+			"subkeys": "arrowup,b_bg43,help0,help1,help2,help3,help4,help5,help6,help7,help8,n_sta_17,public_8,rank_back,rank_bg,soulhecheng_3,yong_1,yong_10,yong_11,yong_12,yong_13,yong_14,yong_15,yong_16,yong_2,yong_3,yong_4,yong_6,yong_7,yong_8,yong_9"
+		},
+		{
+			"url": "assets/img/bg.mp3",
+			"type": "sound",
+			"name": "bg_mp3"
 		}
 	]
 }

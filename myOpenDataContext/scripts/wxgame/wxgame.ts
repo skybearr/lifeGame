@@ -43,6 +43,8 @@ export class WxgamePlugin implements plugins.Command {
     }
     async onFinish(pluginContext: plugins.CommandContext) {
         //同步 index.html 配置到 index.js
+        
+        
         const gameJSPath = path.join(pluginContext.outputDir, "index.js");
         let gameJSContent = fs.readFileSync(gameJSPath, { encoding: "utf8" });
         const projectConfig = pluginContext.buildConfig.projectConfig;

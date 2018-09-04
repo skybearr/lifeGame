@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="RankSkin" width="750" height="1335" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
+	<e:Rect id="rect_bg" width="750" height="1334" x="0" y="0" locked="true"/>
+	<e:Image touchEnabled="false" anchorOffsetY="0" height="742" anchorOffsetX="0" width="640" horizontalCenter="0" scale9Grid="12,12,76,76" y="200" source="game_json.rank_bg"/>
+	<e:Label id="lbl_2" text="每周一凌晨刷新" x="67" size="24" fontFamily="SimHei" touchEnabled="false" textColor="0x727891" y="208" visible="false"/>
+	<e:Label id="lbl_title" text="好友排行榜" size="36" fontFamily="SimHei" touchEnabled="false" horizontalCenter="0" y="134" textColor="0xfffffe" bold="true"/>
+
+	<e:Image id="img_close" y="44" x="30" source="game_json.rank_back"/>
+	<e:Button id="btn_group" label="查看群排行" y="1100" skinName="MainBtn" height="140" horizontalCenter="0"/>
+	<e:Scroller id="scroller_world" width="640" height="700" anchorOffsetY="0" horizontalCenter="0" y="242">
+
+	</e:Scroller>
+
+
+
+
+</e:Skin>
