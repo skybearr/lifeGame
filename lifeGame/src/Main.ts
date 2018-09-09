@@ -63,20 +63,23 @@ class Main extends eui.UILayer {
 
     private async runGame() {
         await this.loadResource()
-        await platform.login();
-        WxApi.getInstance().userInfo = await platform.getUserInfo();
-        console.log("userinfo:",WxApi.getInstance().userInfo);
         this.createGameScene();
+        // await platform.login();
+        // WxApi.getInstance().userInfo = await platform.getUserInfo();
+        // console.log("userinfo:",WxApi.getInstance().userInfo);
     }
 
+    private loadingView: LoadingUI;
     private async loadResource() {
         try {
-            const loadingView = new LoadingUI();
-            this.stage.addChild(loadingView);
+            this.loadingView = new LoadingUI();
+            this.stage.addChild(this.loadingView);
             await RES.loadConfig("resource/default.res.json", "resource/");
             await this.loadTheme();
-            await RES.loadGroup("preload", 0, loadingView);
-            this.stage.removeChild(loadingView);
+            await RES.loadGroup("preload", 0, this.loadingView);
+            if (this.loadingView != null && this.loadingView.parent != null) {
+                this.loadingView.parent.removeChild(this.loadingView);
+            }
         }
         catch (e) {
             console.error(e);
@@ -100,6 +103,10 @@ class Main extends eui.UILayer {
      * Create scene interface
      */
     protected createGameScene(): void {
+        if (this.loadingView != null && this.loadingView.parent != null) {
+            this.loadingView.parent.removeChild(this.loadingView);
+        }
+        this.loadingView = null;
         GameLogic.getInstance().init();
     }
 }

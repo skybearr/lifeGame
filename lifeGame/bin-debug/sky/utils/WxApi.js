@@ -313,11 +313,12 @@ var WxApi = (function (_super) {
             return;
         }
         PlayerConst.highestScore = v;
+        this.setLocalDataByString(PlayerConst.hiscore, v + "");
         var KVDataList = [];
         wx.setUserCloudStorage({
             KVDataList: [
                 { key: "score", value: v + "" },
-                { key: "date", value: new Date().toDateString() }
+                { key: "date", value: new Date().getTime().toString() }
             ],
             success: function (res) {
                 console.log("setUserCloudStorage:res:", res);

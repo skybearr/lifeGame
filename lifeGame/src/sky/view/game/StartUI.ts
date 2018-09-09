@@ -7,6 +7,7 @@ class StartUI extends eui.Component {
 	private img_bg:eui.Image;
 	private lbl_content: eui.Label;
 	private lbl_log:eui.Label;
+	private lbl_prop:eui.Label;
 
 
 	protected childrenCreated() {
@@ -16,11 +17,12 @@ class StartUI extends eui.Component {
 		
 		let data = GameLogic.getInstance().data;
 		this.lbl_content.text = StringUtil.getSwfLangStr("s2");
+		this.updateProp();
 
 		for (let i: number = 1; i <= 3; i++) {
 			let o = data['config' + i];
 			let str = "开始游戏";
-			str = i == 1 ? str : "看视频" + str;
+			str = i == 1 ? str : "使用券" + str;
 
 			str += "\n" + o['pow'] + "体力 " + o['debt'] + "欠债 " + o['money'] + "启动资金\n";
 			if (i == 2) {
@@ -33,10 +35,15 @@ class StartUI extends eui.Component {
 		}
 
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
+		GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE,this.updateProp,this);
 	}
 
 	private checkFit(){
 		this.img_bg.height = GameLogic.getInstance().GameStage.stageHeight;
+	}
+	
+	private updateProp(){
+		this.lbl_prop.text = "分享可获得炒房券（炒房券 X" + PlayerConst.prop_num + "）";
 	}
 
 	private clickBtn(e: egret.TouchEvent) {
@@ -45,6 +52,10 @@ class StartUI extends eui.Component {
 			return;
 		}
 		let i = parseInt(e.currentTarget.name);
+		if(i == 2 && PlayerConst.prop_num <= 0){
+			WxApi.getInstance().showToast("邀请好友进入游戏可获得炒房券");
+			return;
+		}
 		GameCommand.getInstance().selectPackage(i);
 		GameLogic.getInstance().startGame();
 	}
@@ -54,5 +65,6 @@ class StartUI extends eui.Component {
 			this['btn_' + i].removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
 		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
+		GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE,this.updateProp,this);
 	}
 }

@@ -5,35 +5,48 @@ class Main extends egret.DisplayObjectContainer {
     private stageW: number = 750;
     private stageH: number = 1334;
 
-    private listY:number = 242;
-    private listWidth:number = 640;
-    private listHeight:number;
-    private itemWidth:number;
-    private itemHeight:number = 100;
-    private itemDis:number = 0;
-    private itemNumPerPage:number = 7;
-    private myItemY:number;
-    private myItemDisList:number = 20;
+    private listY: number = 242;
+    private listWidth: number = 640;
+    private listHeight: number;
+    private itemWidth: number;
+    private itemHeight: number = 100;
+    private itemDis: number = 0;
+    private itemNumPerPage: number = 7;
+    private myItemY: number;
+    private myItemDisList: number = 20;
 
     constructor() {
         super();
-        
+
         wx.onMessage(data => {
             console.log("openData:onMessage:data:", data);
             let command = data['command'];
-            this.userinfo = data['userinfo'];
             this.stageW = data['stageW'];
             this.stageH = data['stageH'];
             this.shareTicket = data['shareTicket'];
 
             this.initBg();
 
-            if (command == "open") {
-                this.shareTicket ? this.openGroupCloud() : this.openFriendCloud();
-            }
-            else {
-                this.closeCloud();
-            }
+            wx.getUserInfo({
+                openIdList: ["selfOpenId"],
+                lang: "zh_CN",
+                success: res => {
+                    console.log("getUserInfo!!!:", res.data);
+                    this.userinfo = res.data[0];
+                    if (command == "open") {
+                        this.shareTicket ? this.openGroupCloud() : this.openFriendCloud();
+                    }
+                    else {
+                        this.closeCloud();
+                    }
+                },
+                fail: err => {
+                    console.log("getFriendCloudStorage:error:", err);
+                },
+                complete: () => {
+                    console.log("getFriendCloudStorage:complete:");
+                }
+            });
         });
     }
 
@@ -99,7 +112,7 @@ class Main extends egret.DisplayObjectContainer {
 
     private readonly scrollView = new egret.ScrollView();
     private initItems(datarray, friend) {
-        console.log("initItems:",datarray);
+        console.log("initItems:", datarray);
 
         const listContainer = new egret.DisplayObjectContainer();
         this.scrollView.setContent(listContainer);
@@ -152,7 +165,7 @@ class Main extends egret.DisplayObjectContainer {
         else {
             return 1;
         }
-    }   
+    }
 
     private initMyItem(i, datarray) {
         if (datarray == null || this.userinfo == null || this.userinfo.avatarUrl == null) {
@@ -169,33 +182,33 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(item);
     }
 
-    private item_bg_color1:number = 0x1f1e23;
-    private item_bg_color2:number = 0x2b2a30;
-    
-    private item_rankx:number = 40;
-    private item_rankwidth:number = 50;
-    private item_rankheight:number = 36;
-    private item_ranksize:number = 36;
-    private item_rankcolor:number = 0xffffff;
-    private item_rankfont:string = "SimHei";
+    private item_bg_color1: number = 0x1f1e23;
+    private item_bg_color2: number = 0x2b2a30;
 
-    private item_headx:number = 98;
-    private item_headwidth:number = 48;
-    private item_headheight:number = 48;
+    private item_rankx: number = 40;
+    private item_rankwidth: number = 50;
+    private item_rankheight: number = 36;
+    private item_ranksize: number = 36;
+    private item_rankcolor: number = 0xffffff;
+    private item_rankfont: string = "SimHei";
 
-    private item_namex:number = 170;
-    private item_namewidth:number = 264;
-    private item_nameheight:number = 36;
-    private item_namesize:number = 30;
-    private item_namecolor:number = 0xffffff;
-    private item_namefont:string = "SimHei";
-    
-    private item_scorex:number = 470;
-    private item_scorewidth:number = 118;
-    private item_scoreheight:number = 36;
-    private item_scoresize:number = 36;
-    private item_scorecolor:number = 0xffffff;
-    private item_scorefont:string = "SimHei";
+    private item_headx: number = 98;
+    private item_headwidth: number = 48;
+    private item_headheight: number = 48;
+
+    private item_namex: number = 170;
+    private item_namewidth: number = 264;
+    private item_nameheight: number = 36;
+    private item_namesize: number = 30;
+    private item_namecolor: number = 0xffffff;
+    private item_namefont: string = "SimHei";
+
+    private item_scorex: number = 470;
+    private item_scorewidth: number = 118;
+    private item_scoreheight: number = 36;
+    private item_scoresize: number = 36;
+    private item_scorecolor: number = 0xffffff;
+    private item_scorefont: string = "SimHei";
 
     private addItem(i: number, data: any): egret.DisplayObjectContainer {
         let kvs = data.KVDataList;
@@ -235,7 +248,7 @@ class Main extends egret.DisplayObjectContainer {
         else if (i == 2) {
             color = 0xffe117;
         }
-        let tf_rank = this.createTextField(this.item_rankx,item.height,this.item_rankwidth,this.item_rankheight,color,this.item_rankfont,this.item_ranksize);
+        let tf_rank = this.createTextField(this.item_rankx, item.height, this.item_rankwidth, this.item_rankheight, color, this.item_rankfont, this.item_ranksize);
         tf_rank.text = i == -1 ? "" : (i + 1) + "";
         item.addChild(tf_rank);
 
@@ -245,25 +258,25 @@ class Main extends egret.DisplayObjectContainer {
             let imageLoader = <egret.ImageLoader>event.currentTarget;
             let tr = new egret.Texture();
             tr._setBitmapData(imageLoader.data);
-            let bmp_head = this.createBitmap(tr,this.item_headx,item.height,this.item_headwidth,this.item_headheight);
+            let bmp_head = this.createBitmap(tr, this.item_headx, item.height, this.item_headwidth, this.item_headheight);
             item.addChild(bmp_head);
         }, this);
         imageLoader.load(data.avatarUrl);
 
         //昵称
-        let tf_name = this.createTextField(this.item_namex,item.height,this.item_namewidth,this.item_nameheight,this.item_namecolor,this.item_namefont,this.item_namesize,"left");
+        let tf_name = this.createTextField(this.item_namex, item.height, this.item_namewidth, this.item_nameheight, this.item_namecolor, this.item_namefont, this.item_namesize, "left");
         tf_name.text = this.checkSpeName(data.nickname);
         item.addChild(tf_name);
 
         //分数
-        let tf_score = this.createTextField(this.item_scorex,item.height,this.item_scorewidth,this.item_scoreheight,this.item_scorecolor,this.item_scorefont,this.item_scoresize,"left");
+        let tf_score = this.createTextField(this.item_scorex, item.height, this.item_scorewidth, this.item_scoreheight, this.item_scorecolor, this.item_scorefont, this.item_scoresize, "left");
         tf_score.text = kvo['score'];
         item.addChild(tf_score);
 
         return item;
     }
 
-    private createTextField(x,y,w,h,color,font,size,textalign="center",veralign="middle"):egret.TextField{
+    private createTextField(x, y, w, h, color, font, size, textalign = "center", veralign = "middle"): egret.TextField {
         let tf = new egret.TextField();
         tf.touchEnabled = false;
         tf.x = x;
@@ -278,7 +291,7 @@ class Main extends egret.DisplayObjectContainer {
         return tf;
     }
 
-    private createBitmap(tr,x,y,w,h):egret.Bitmap{
+    private createBitmap(tr, x, y, w, h): egret.Bitmap {
         let bmp = new egret.Bitmap(tr);
         bmp.touchEnabled = false;
         bmp.x = x;

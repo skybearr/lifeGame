@@ -26,21 +26,13 @@ class GameLogic extends egret.EventDispatcher {
 		SoundManager.getInstance().playBgSound(true);
 
 		this.initData();
-
-		this.showShareMenu();
-
-		this.openStart();
-
-		this.checkShareInfo();
-
 		this.getHiscore();
+		this.openStart();//要放在initShareInfo之前，share可能有群排行点进来的
+		WxApi.getInstance().initShareInfo();
 	}
 
 	public openStart() {
-		
-
 		this.main.removeChildren();
-
 		this.main.addChild(new StartUI());
 	}
 
@@ -165,39 +157,6 @@ class GameLogic extends egret.EventDispatcher {
 				console.log("updateShareMenu:complete:");
 			}
 		})
-	}
-
-	/**点击别人转发进来的 ，获取shareTicket*/
-	private checkShareInfo() {
-		console.log("checkShareInfo");
-
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-		let info = wx.getLaunchOptionsSync();
-		console.log("info:", info);
-
-		//如果是从群里点开的
-		if (info != null && info.shareTicket != null && info.shareTicket != "") {
-			//查看群排行
-			if (info.query != null && info.query.grouprank == "1") {
-				wx.getShareInfo({
-					shareTicket: info.shareTicket,
-					success: res => {
-						console.log("getShareInfo:success:", res);
-						this.openRank(info.shareTicket);
-					},
-					fail: res => {
-						console.log("getShareInfo:fail:", res);
-					},
-					complete: () => {
-						console.log("getShareInfo:complete:");
-					}
-				})
-			}
-		}
-
 	}
 
 	public openRank(shareticket:string = null){

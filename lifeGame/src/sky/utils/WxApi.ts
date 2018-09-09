@@ -47,6 +47,166 @@ class WxApi extends egret.EventDispatcher {
 		return false;
 	}
 
+	/**系统提示 */
+	public showToast(str:string){
+		if (!this.checkWx()) {
+			return;
+		}
+		wx.showToast({
+			title:str
+		});
+	}
+
+	/** ------------------------------- 分享 -------------------------------------------------------  */
+
+	/**主动转发 
+	 * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
+	*/
+	public share(query: string = null) {
+		if (!this.checkWx()) {
+			return;
+		}
+		this.updateShareMenu(true);
+		let querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
+		wx.shareAppMessage({
+			title: WxApi.getInstance().shareInfo.share_game_title,
+			imageUrl: WxApi.getInstance().shareInfo.share_game_img,
+			query: querystr
+		})
+	}
+
+	public shareInfo: any;
+	/**右上角转发 */
+	public initShareInfo(info: any = null) {
+		if (info == null) {
+			info = { share_game_title: "我来苏州40天就买了3套房，来苏州玩玩？", share_game_img: "resource/assets/img/share.jpg", query: "" };
+		}
+		this.shareInfo = info;
+		if (!this.checkWx()) {
+			return;
+		}
+		console.log("initShareInfo:",info);
+		
+		wx.showShareMenu();
+		this.onShare();
+		// this.initRewardVideoAd();
+		this.checkShareInfo();
+	}
+
+	/**点击别人转发进来的 ，获取shareTicket*/
+	private checkShareInfo() {
+		console.log("checkShareInfo");
+
+		if (!this.checkWx()) {
+			return;
+		}
+		let info = wx.getLaunchOptionsSync();
+		console.log("info:", info);
+
+		//如果是从群里点开的
+		if (info != null && info.shareTicket != null && info.shareTicket != "") {
+			//查看群排行
+			if (info.query != null && info.query.grouprank == "1") {
+				wx.getShareInfo({
+					shareTicket: info.shareTicket,
+					success: res => {
+						console.log("getShareInfo:success:", res);
+						GameLogic.getInstance().openRank(info.shareTicket);
+					},
+					fail: res => {
+						console.log("getShareInfo:fail:", res);
+					},
+					complete: () => {
+						console.log("getShareInfo:complete:");
+					}
+				})
+			}
+		}
+
+	}
+
+    /**监听用户点击右上角菜单的“转发”按钮时触发的事件
+	 * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
+	 */
+	private onShare(query: string = "rightup=1") {
+		if (!this.checkWx()) {
+			return;
+		}
+		this.updateShareMenu(true);
+		let querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
+		console.log("onShareAppMessage:", this.shareInfo);
+		wx.onShareAppMessage(function () {
+			return {
+				title: WxApi.getInstance().shareInfo.share_game_title,
+				imageUrl: WxApi.getInstance().shareInfo.share_game_img,
+				query: querystr
+			}
+		})
+	}
+
+	/** 更新转发参数 */
+	public updateShareMenu(withShareTicket: boolean) {
+		if (!this.checkWx()) {
+			return;
+		}
+		console.log("updateShareMenu:withShareTicket:", withShareTicket);
+
+		wx.updateShareMenu({
+			withShareTicket: withShareTicket,
+			success: res => {
+				console.log("updateShareMenu:success:", res);
+
+			},
+			fail: res => {
+				console.log("updateShareMenu:fail:", res);
+			},
+			complete: () => {
+				console.log("updateShareMenu:complete:");
+			}
+		})
+	}
+
+	/** -------------------------------------- 一些本地数据 --------------------------------------------------- */
+
+	 /** 对用户托管数据进行写数据操作，允许同时写多组 KV 数据
+	 * @param	KVDataList	要修改的 KV 数据列表	
+	*/
+	public setHigherScore(v: number) {
+		//0不计入
+		if (v <= 0) {
+			return;
+		}
+		if(!this.checkWx()){
+			return;
+		}
+
+		let n = PlayerConst.highestScore;
+		if (v <= n) {
+			return;
+		}
+		PlayerConst.highestScore = v;
+		this.setLocalDataByString(PlayerConst.hiscore,v + "");
+		let KVDataList = [];
+
+		wx.setUserCloudStorage({
+			KVDataList: [
+				{ key: "score", value: v + "" },
+				{ key: "date", value: new Date().getTime().toString() }
+			],
+			success: res => {
+				console.log("setUserCloudStorage:res:", res);
+			},
+			fail: err => {
+				console.log("setUserCloudStorage:error:", err);
+			},
+			complete: () => {
+				console.log("setUserCloudStorage:complete:");
+			}
+		});
+
+
+	}
+
 
 	/**------------------------------------------ 读写删 本地数据 -----------------------------------------*/
 
@@ -57,7 +217,7 @@ class WxApi extends egret.EventDispatcher {
 	}
 	/**存取本地数据 */
 	public setLocalDataByString(key: string, value: string) {
-		if (this.checkWx()) {
+		if (!this.checkWx()) {
 			return null;
 		}
 		try {
@@ -69,7 +229,7 @@ class WxApi extends egret.EventDispatcher {
 	}
 	/**读取本地数据 */
 	public getLocalData(key: string) {
-		if (this.checkWx()) {
+		if (!this.checkWx()) {
 			return null;
 		}
 		try {
@@ -81,7 +241,7 @@ class WxApi extends egret.EventDispatcher {
 	}
 	/**删除缓存 */
 	public clearLocalData(key: string) {
-		if (this.checkWx()) {
+		if (!this.checkWx()) {
 			return null;
 		}
 		try {
@@ -93,28 +253,7 @@ class WxApi extends egret.EventDispatcher {
 	}
 
 
-	/**-------------------------------------------- 好友排行榜 开放域数据  ----------------------------------------------- */
-
-	private rankbmp: egret.Bitmap;
-	/**打开好友排行榜
-	 * @param data 需要传递的数据  如果是群排行，传入shareticket
-	 */
-	public openRank(data: Object) {
-		let platform: any = window.platform;
-		if (platform == null || platform.openDataContext == null) {
-			console.log("platform或platform.openDataContext未初始化");
-			return;
-		}
-		this.rankbmp = platform.openDataContext.createDisplayObject(null, this.GameStage.stageWidth, this.GameStage.stageHeight);
-		this.GameStage.addChild(this.rankbmp);
-
-		//主域向子域发送自定义消息
-		platform.openDataContext.postMessage(data);
-	}
-
-
-
-
+	/** ------------------------------------- 待完善 ------------------------------ */
 
 
 
@@ -144,21 +283,7 @@ class WxApi extends egret.EventDispatcher {
 
 
 
-    /**主动转发 
-	 * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
-	*/
-	public share(query: string = null) {
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-		this.updateShareMenu(true);
-		wx.shareAppMessage({
-			title: WxApi.getInstance().shareInfo.share_game_title,
-			imageUrl: WxApi.getInstance().shareInfo.share_game_img,
-			query: WxApi.getInstance().shareInfo.query
-		})
-	}
+    
 	/**炫耀 */
 	public showoff() {
 		let wx = window["wx"];
@@ -198,7 +323,7 @@ class WxApi extends egret.EventDispatcher {
 		// img_head.mask = circle;
 
 		let lbl_name = new egret.TextField();
-		lbl_name.text = WxApi.getInstance().userInfo.nickName;
+		// lbl_name.text = WxApi.getInstance().userInfo.nickName;
 		lbl_name.width = 200;
 		lbl_name.height = 24;
 		lbl_name.size = 24;
@@ -225,38 +350,7 @@ class WxApi extends egret.EventDispatcher {
 		return new egret.Bitmap(trrrr);
 	}
 
-	/**点击别人转发进来的 ，获取shareTicket*/
-	private checkShareInfo() {
-		console.log("checkShareInfo");
-
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-		let info = wx.getLaunchOptionsSync();
-		console.log("info:", info);
-
-		//如果是从群里点开的
-		if (info != null && info.shareTicket != null && info.shareTicket != "") {
-			//查看群排行
-			if (info.query != null && info.query.grouprank == "1") {
-				wx.getShareInfo({
-					shareTicket: info.shareTicket,
-					success: res => {
-						console.log("getShareInfo:success:", res);
-						// GameLogic.getInstance().openGroupdRank(info.shareTicket);
-					},
-					fail: res => {
-						console.log("getShareInfo:fail:", res);
-					},
-					complete: () => {
-						console.log("getShareInfo:complete:");
-					}
-				})
-			}
-		}
-
-	}
+	
 
 	// 	let shareinfo = {
 	// 	share_game_img: setting.share_game_img,
@@ -267,70 +361,7 @@ class WxApi extends egret.EventDispatcher {
 	// 	share_show_title: setting.share_show_title,
 	// 	query: "",
 	// };
-	public shareInfo: any;
-	/**右上角转发 */
-	public showShareMenu(info: any = null) {
-		console.log("showShareMenu:", info);
-
-		if (info == null) {
-			info = { title: "让你抓耳挠腮，虐你不留情面，来挑战啊", imageUrl: "resource/assets/share.png", query: "" };
-		}
-		else {
-			this.shareInfo = info;
-		}
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-
-		wx.showShareMenu();
-		this.onShare();
-		this.initRewardVideoAd();
-		this.checkShareInfo();
-	}
-
-    /**监听用户点击右上角菜单的“转发”按钮时触发的事件
-	 * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
-	 */
-	private onShare(query: string = "rightup=1") {
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-		this.updateShareMenu(true);
-
-		console.log("onShareAppMessage:", this.shareInfo);
-		wx.onShareAppMessage(function () {
-			return {
-				title: WxApi.getInstance().shareInfo.share_game_title,
-				imageUrl: WxApi.getInstance().shareInfo.share_game_img,
-				query: WxApi.getInstance().shareInfo.query
-			}
-		})
-	}
-
-	/**转发参数 */
-	public updateShareMenu(withShareTicket: boolean) {
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-		console.log("updateShareMenu:withShareTicket:", withShareTicket);
-
-		wx.updateShareMenu({
-			withShareTicket: withShareTicket,
-			success: res => {
-				console.log("updateShareMenu:success:", res);
-
-			},
-			fail: res => {
-				console.log("updateShareMenu:fail:", res);
-			},
-			complete: () => {
-				console.log("updateShareMenu:complete:");
-			}
-		})
-	}
+	
 
 	/**联系客服 */
 	public feedBack() {
@@ -352,46 +383,6 @@ class WxApi extends egret.EventDispatcher {
 
 			}
 		});
-	}
-
-    /** 对用户托管数据进行写数据操作，允许同时写多组 KV 数据
-	 * @param	KVDataList	要修改的 KV 数据列表	
-	*/
-	public setHigherScore(v: number) {
-		//0不计入
-		if (v <= 0) {
-			return;
-		}
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-
-		let n = PlayerConst.highestScore;
-		if (v <= n) {
-			return;
-		}
-		PlayerConst.highestScore = v;
-		this.setLocalDataByString(PlayerConst.hiscore,v + "");
-		let KVDataList = [];
-
-		wx.setUserCloudStorage({
-			KVDataList: [
-				{ key: "score", value: v + "" },
-				{ key: "date", value: new Date().getTime().toString() }
-			],
-			success: res => {
-				console.log("setUserCloudStorage:res:", res);
-			},
-			fail: err => {
-				console.log("setUserCloudStorage:error:", err);
-			},
-			complete: () => {
-				console.log("setUserCloudStorage:complete:");
-			}
-		});
-
-
 	}
 
 	private bannerAd: any;

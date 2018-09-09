@@ -1,1 +1,1 @@
-{"version":3,"file":"PlayerConst.js","sourceRoot":"","sources":["../../../src/sky/model/PlayerConst.ts"],"names":[],"mappings":";;;AAAA;IACC;IACA,CAAC;IAGF,kBAAC;AAAD,CAAC,AALD,IAKC;AALK,UAAA,WAAW,0BAKhB,CAAA"}
+{"version":3,"file":"PlayerConst.js","sourceRoot":"","sources":["../../../src/sky/model/PlayerConst.ts"],"names":[],"mappings":";;;AAAA;IACC;IACA,CAAC;IAQa,mBAAO,GAAU,SAAS,CAAC;IAC1C,kBAAC;CAAA,AAXD,IAWC;AAXK,UAAA,WAAW,0BAWhB,CAAA"}

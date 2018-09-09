@@ -81,9 +81,6 @@ var Main = (function (_super) {
         GameLogic.getInstance().GameStage = this.stage;
         WxApi.getInstance().GameStage = this.stage;
         GameLogic.getInstance().main = this;
-        console.log(new Date().toString());
-        console.log(new Date().toDateString());
-        console.log(new Date().getTime());
         egret.lifecycle.addLifecycleListener(function (context) {
             // custom lifecycle plugin
         });

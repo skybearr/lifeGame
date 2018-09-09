@@ -8,7 +8,8 @@
 	<e:Label id="lbl_log" text="" y="873" verticalAlign="middle" textAlign="center" size="40" horizontalCenter="0" textColor="0x8ef202"/>
 	<e:Label id="lbl_content" text="222222" anchorOffsetY="0" height="550" anchorOffsetX="0" width="514" horizontalCenter="0" fontFamily="Microsoft JhengHei" verticalAlign="justify" lineSpacing="20" wordWrap="false" size="26" textColor="0x000000" bold="true" top="277"/>
 	<e:Button id="btn_1" label="开始游戏" width="578" height="160" horizontalCenter="0" y="880" skinName="MainBtn"/>
-	<e:Button id="btn_2" label="看视频开始" width="578" height="160" y="1070" skinName="MainBtn" horizontalCenter="0"/>
+	<e:Button id="btn_2" label="开始游戏" width="578" height="160" y="1070" skinName="MainBtn" horizontalCenter="0" visible="false"/>
 	<e:Button id="btn_3" label="Button" skinName="BaseButtonSkin" horizontalCenter="0" width="300" height="80" y="1100" visible="false"/>
 	<e:Image width="438" height="50" source="game_json.yong_10" horizontalCenter="15" top="100"/>
+	<e:Label id="lbl_prop" text="分享可获得炒房券（炒房券X0）" y="1219" size="24" textColor="0x888888" fontFamily="SimHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" visible="false"/>
 </e:Skin>

@@ -44,7 +44,7 @@ class RankUI extends eui.Component {
 
 		WxApi.getInstance().postToDataContext({
 			shareTicket: this.shareticket,
-			userinfo:WxApi.getInstance().userInfo,
+			// userinfo:WxApi.getInstance().userInfo,
 			stageW: GameLogic.getInstance().GameStage.stageWidth,
 			stageH: GameLogic.getInstance().GameStage.stageHeight,
 			command: "open"

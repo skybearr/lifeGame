@@ -2280,10 +2280,10 @@ var egret = window.egret;
 	__extends(StartSkin, _super);
 	function StartSkin() {
 		_super.call(this);
-		this.skinParts = ["img_bg","lbl_name","lbl_log","lbl_content","btn_1","btn_2","btn_3"];
+		this.skinParts = ["img_bg","lbl_name","lbl_log","lbl_content","btn_1","btn_2","btn_3","lbl_prop"];
 		
 		this.width = 750;
-		this.elementsContent = [this.img_bg_i(),this._Image1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i()];
+		this.elementsContent = [this.img_bg_i(),this._Image1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i()];
 	}
 	var _proto = StartSkin.prototype;
 
@@ -2385,8 +2385,9 @@ var egret = window.egret;
 		this.btn_2 = t;
 		t.height = 160;
 		t.horizontalCenter = 0;
-		t.label = "看视频开始";
+		t.label = "开始游戏";
 		t.skinName = "MainBtn";
+		t.visible = false;
 		t.width = 578;
 		t.y = 1070;
 		return t;
@@ -2410,6 +2411,20 @@ var egret = window.egret;
 		t.source = "game_json.yong_10";
 		t.top = 100;
 		t.width = 438;
+		return t;
+	};
+	_proto.lbl_prop_i = function () {
+		var t = new eui.Label();
+		this.lbl_prop = t;
+		t.fontFamily = "SimHei";
+		t.horizontalCenter = 0;
+		t.size = 24;
+		t.text = "分享可获得炒房券（炒房券X0）";
+		t.textAlign = "center";
+		t.textColor = 0x888888;
+		t.verticalAlign = "middle";
+		t.visible = false;
+		t.y = 1219;
 		return t;
 	};
 	return StartSkin;

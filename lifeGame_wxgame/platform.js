@@ -16,23 +16,95 @@ class WxgamePlatform {
         })
     }
 
-    getUserInfo() {
-        return new Promise((resolve, reject) => {
-            wx.getUserInfo({
+  getUserInfo() {
+    return new Promise((resolve, reject) => {
+      let sysInfo = wx.getSystemInfoSync();
+      let sdkVersion = sysInfo.SDKVersion;
+      sdkVersion = sdkVersion.replace(/\./g, "");
+      sdkVersion = sdkVersion.substr(0, 3);
+      let sdkVersionNum = parseInt(sdkVersion);
+      console.log("当前基础调试库版本:", sdkVersionNum);
+      if (sdkVersionNum >= 206) { //基础调试库在2.0.6版本以上
+        wx.getSetting({
+          success: function (res) {
+            var authSetting = res.authSetting
+            if (authSetting['scope.userInfo'] === true) {
+              // 用户已授权，可以直接调用相关 API
+              console.log('用户已同意授权信息');
+              wx.getUserInfo({ //自动开启弹窗获取授权
                 withCredentials: true,
-                success: function (res) {
-                    var userInfo = res.userInfo
-                    var nickName = userInfo.nickName
-                    var avatarUrl = userInfo.avatarUrl
-                    var gender = userInfo.gender //性别 0：未知、1：男、2：女
-                    var province = userInfo.province
-                    var city = userInfo.city
-                    var country = userInfo.country
-                    resolve(userInfo);
+                success: res => {
+                  var userInfo = res.userInfo;
+                  var nickName = userInfo.nickName;
+                  var avatarUrl = userInfo.avatarUrl;
+                  var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+                  var province = userInfo.province;
+                  var city = userInfo.city;
+                  var country = userInfo.country;
+                  resolve(userInfo);
                 }
-            })
+              });
+            } else {
+              // 未询问过用户授权或者用户已拒绝授权时，弹窗询问用户是否授权
+              console.log('未获取到用户授权信息');
+              var button = wx.createUserInfoButton({ //使用点击按钮弹窗
+                type: 'text',
+                text: '获取授权',
+                style: {
+                  top: 80,
+                  width: 180,
+                  height: 40,
+                  lineHeight: 40,
+                  backgroundColor: '#C6E2FF',
+                  color: '#ff00ff',
+                  textAlign: 'center',
+                  fontSize: 16,
+                  borderRadius: 6
+                }
+              });
+              button.onTap((res) => {
+                console.log("用户授权:", res);
+                var userInfo = res.userInfo;
+                var nickName = userInfo.nickName;
+                var avatarUrl = userInfo.avatarUrl;
+                var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+                var province = userInfo.province;
+                var city = userInfo.city;
+                var country = userInfo.country;
+                button.destroy();
+                resolve(userInfo);
+              });
+            }
+          }
         })
-    }
+      } else { //基础调试库在2.0.6版本以下
+        wx.getUserInfo({ //自动开启弹窗获取授权
+          withCredentials: true,
+          success: res => {
+            var userInfo = res.userInfo;
+            var nickName = userInfo.nickName;
+            var avatarUrl = userInfo.avatarUrl;
+            var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+            var province = userInfo.province;
+            var city = userInfo.city;
+            var country = userInfo.country;
+            resolve(userInfo);
+          },
+          fail: res => {
+            wx.showModal({
+              title: '友情提醒',
+              content: '请您在右上角菜单->关于（小程序名字）->右上角菜单->设置中手动开启授权开关，以获取您的公开信息用于游戏排行榜',
+              confirmText: "确定",
+              showCancel: false,
+              success: res => {
+                resolve(null);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
 
     openDataContext = new WxgameOpenDataContext();
 }

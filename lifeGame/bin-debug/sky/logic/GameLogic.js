@@ -25,10 +25,15 @@ var GameLogic = (function (_super) {
         this.showShareMenu();
         this.openStart();
         this.checkShareInfo();
+        this.getHiscore();
     };
     GameLogic.prototype.openStart = function () {
         this.main.removeChildren();
         this.main.addChild(new StartUI());
+    };
+    GameLogic.prototype.getHiscore = function () {
+        var s = WxApi.getInstance().getLocalData(PlayerConst.hiscore);
+        PlayerConst.highestScore = s == null ? 0 : s;
     };
     GameLogic.prototype.initData = function () {
         if (this.data == null) {
