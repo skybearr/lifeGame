@@ -42,6 +42,149 @@ var WxApi = (function (_super) {
         }
         return false;
     };
+    /**系统提示 */
+    WxApi.prototype.showToast = function (str) {
+        if (!this.checkWx()) {
+            return;
+        }
+        wx.showToast({
+            title: str
+        });
+    };
+    /** ------------------------------- 分享 -------------------------------------------------------  */
+    /**主动转发
+     * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
+    */
+    WxApi.prototype.share = function (query) {
+        if (query === void 0) { query = null; }
+        if (!this.checkWx()) {
+            return;
+        }
+        this.updateShareMenu(true);
+        var querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
+        wx.shareAppMessage({
+            title: WxApi.getInstance().shareInfo.share_game_title,
+            imageUrl: WxApi.getInstance().shareInfo.share_game_img,
+            query: querystr
+        });
+    };
+    /**右上角转发 */
+    WxApi.prototype.initShareInfo = function (info) {
+        if (info === void 0) { info = null; }
+        if (info == null) {
+            info = { share_game_title: "我来苏州40天就买了3套房，来苏州玩玩？", share_game_img: "resource/assets/img/share.jpg", query: "" };
+        }
+        this.shareInfo = info;
+        if (!this.checkWx()) {
+            return;
+        }
+        console.log("initShareInfo:", info);
+        wx.showShareMenu();
+        this.onShare();
+        // this.initRewardVideoAd();
+        this.checkShareInfo();
+    };
+    /**点击别人转发进来的 ，获取shareTicket*/
+    WxApi.prototype.checkShareInfo = function () {
+        console.log("checkShareInfo");
+        if (!this.checkWx()) {
+            return;
+        }
+        var info = wx.getLaunchOptionsSync();
+        console.log("info:", info);
+        //如果是从群里点开的
+        if (info != null && info.shareTicket != null && info.shareTicket != "") {
+            //查看群排行
+            if (info.query != null && info.query.grouprank == "1") {
+                wx.getShareInfo({
+                    shareTicket: info.shareTicket,
+                    success: function (res) {
+                        console.log("getShareInfo:success:", res);
+                        GameLogic.getInstance().openRank(info.shareTicket);
+                    },
+                    fail: function (res) {
+                        console.log("getShareInfo:fail:", res);
+                    },
+                    complete: function () {
+                        console.log("getShareInfo:complete:");
+                    }
+                });
+            }
+        }
+    };
+    /**监听用户点击右上角菜单的“转发”按钮时触发的事件
+     * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
+     */
+    WxApi.prototype.onShare = function (query) {
+        if (query === void 0) { query = "rightup=1"; }
+        if (!this.checkWx()) {
+            return;
+        }
+        this.updateShareMenu(true);
+        var querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
+        console.log("onShareAppMessage:", this.shareInfo);
+        wx.onShareAppMessage(function () {
+            return {
+                title: WxApi.getInstance().shareInfo.share_game_title,
+                imageUrl: WxApi.getInstance().shareInfo.share_game_img,
+                query: querystr
+            };
+        });
+    };
+    /** 更新转发参数 */
+    WxApi.prototype.updateShareMenu = function (withShareTicket) {
+        if (!this.checkWx()) {
+            return;
+        }
+        console.log("updateShareMenu:withShareTicket:", withShareTicket);
+        wx.updateShareMenu({
+            withShareTicket: withShareTicket,
+            success: function (res) {
+                console.log("updateShareMenu:success:", res);
+            },
+            fail: function (res) {
+                console.log("updateShareMenu:fail:", res);
+            },
+            complete: function () {
+                console.log("updateShareMenu:complete:");
+            }
+        });
+    };
+    /** -------------------------------------- 一些本地数据 --------------------------------------------------- */
+    /** 对用户托管数据进行写数据操作，允许同时写多组 KV 数据
+    * @param	KVDataList	要修改的 KV 数据列表
+   */
+    WxApi.prototype.setHigherScore = function (v) {
+        //0不计入
+        if (v <= 0) {
+            return;
+        }
+        if (!this.checkWx()) {
+            return;
+        }
+        var n = PlayerConst.highestScore;
+        if (v <= n) {
+            return;
+        }
+        PlayerConst.highestScore = v;
+        this.setLocalDataByString(PlayerConst.hiscore, v + "");
+        var KVDataList = [];
+        wx.setUserCloudStorage({
+            KVDataList: [
+                { key: "score", value: v + "" },
+                { key: "date", value: new Date().getTime().toString() }
+            ],
+            success: function (res) {
+                console.log("setUserCloudStorage:res:", res);
+            },
+            fail: function (err) {
+                console.log("setUserCloudStorage:error:", err);
+            },
+            complete: function () {
+                console.log("setUserCloudStorage:complete:");
+            }
+        });
+    };
     /**------------------------------------------ 读写删 本地数据 -----------------------------------------*/
     /**存取本地数据 */
     WxApi.prototype.setLocalDataByObject = function (key, obj) {
@@ -50,7 +193,7 @@ var WxApi = (function (_super) {
     };
     /**存取本地数据 */
     WxApi.prototype.setLocalDataByString = function (key, value) {
-        if (this.checkWx()) {
+        if (!this.checkWx()) {
             return null;
         }
         try {
@@ -62,7 +205,7 @@ var WxApi = (function (_super) {
     };
     /**读取本地数据 */
     WxApi.prototype.getLocalData = function (key) {
-        if (this.checkWx()) {
+        if (!this.checkWx()) {
             return null;
         }
         try {
@@ -74,7 +217,7 @@ var WxApi = (function (_super) {
     };
     /**删除缓存 */
     WxApi.prototype.clearLocalData = function (key) {
-        if (this.checkWx()) {
+        if (!this.checkWx()) {
             return null;
         }
         try {
@@ -84,20 +227,7 @@ var WxApi = (function (_super) {
             return null;
         }
     };
-    /**打开好友排行榜
-     * @param data 需要传递的数据  如果是群排行，传入shareticket
-     */
-    WxApi.prototype.openRank = function (data) {
-        var platform = window.platform;
-        if (platform == null || platform.openDataContext == null) {
-            console.log("platform或platform.openDataContext未初始化");
-            return;
-        }
-        this.rankbmp = platform.openDataContext.createDisplayObject(null, this.GameStage.stageWidth, this.GameStage.stageHeight);
-        this.GameStage.addChild(this.rankbmp);
-        //主域向子域发送自定义消息
-        platform.openDataContext.postMessage(data);
-    };
+    /** ------------------------------------- 待完善 ------------------------------ */
     /**登录 */
     WxApi.prototype.login = function () {
         var _this = this;
@@ -115,22 +245,6 @@ var WxApi = (function (_super) {
             },
             complete: function () {
             },
-        });
-    };
-    /**主动转发
-     * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
-    */
-    WxApi.prototype.share = function (query) {
-        if (query === void 0) { query = null; }
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        this.updateShareMenu(true);
-        wx.shareAppMessage({
-            title: WxApi.getInstance().shareInfo.share_game_title,
-            imageUrl: WxApi.getInstance().shareInfo.share_game_img,
-            query: WxApi.getInstance().shareInfo.query
         });
     };
     /**炫耀 */
@@ -168,7 +282,7 @@ var WxApi = (function (_super) {
         // con.addChild(circle);
         // img_head.mask = circle;
         var lbl_name = new egret.TextField();
-        lbl_name.text = WxApi.getInstance().userInfo.nickName;
+        // lbl_name.text = WxApi.getInstance().userInfo.nickName;
         lbl_name.width = 200;
         lbl_name.height = 24;
         lbl_name.size = 24;
@@ -191,93 +305,15 @@ var WxApi = (function (_super) {
         trrrr.drawToTexture(con);
         return new egret.Bitmap(trrrr);
     };
-    /**点击别人转发进来的 ，获取shareTicket*/
-    WxApi.prototype.checkShareInfo = function () {
-        console.log("checkShareInfo");
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        var info = wx.getLaunchOptionsSync();
-        console.log("info:", info);
-        //如果是从群里点开的
-        if (info != null && info.shareTicket != null && info.shareTicket != "") {
-            //查看群排行
-            if (info.query != null && info.query.grouprank == "1") {
-                wx.getShareInfo({
-                    shareTicket: info.shareTicket,
-                    success: function (res) {
-                        console.log("getShareInfo:success:", res);
-                        // GameLogic.getInstance().openGroupdRank(info.shareTicket);
-                    },
-                    fail: function (res) {
-                        console.log("getShareInfo:fail:", res);
-                    },
-                    complete: function () {
-                        console.log("getShareInfo:complete:");
-                    }
-                });
-            }
-        }
-    };
-    /**右上角转发 */
-    WxApi.prototype.showShareMenu = function (info) {
-        if (info === void 0) { info = null; }
-        console.log("showShareMenu:", info);
-        if (info == null) {
-            info = { title: "让你抓耳挠腮，虐你不留情面，来挑战啊", imageUrl: "resource/assets/share.png", query: "" };
-        }
-        else {
-            this.shareInfo = info;
-        }
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        wx.showShareMenu();
-        this.onShare();
-        this.initRewardVideoAd();
-        this.checkShareInfo();
-    };
-    /**监听用户点击右上角菜单的“转发”按钮时触发的事件
-     * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
-     */
-    WxApi.prototype.onShare = function (query) {
-        if (query === void 0) { query = "rightup=1"; }
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        this.updateShareMenu(true);
-        console.log("onShareAppMessage:", this.shareInfo);
-        wx.onShareAppMessage(function () {
-            return {
-                title: WxApi.getInstance().shareInfo.share_game_title,
-                imageUrl: WxApi.getInstance().shareInfo.share_game_img,
-                query: WxApi.getInstance().shareInfo.query
-            };
-        });
-    };
-    /**转发参数 */
-    WxApi.prototype.updateShareMenu = function (withShareTicket) {
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        console.log("updateShareMenu:withShareTicket:", withShareTicket);
-        wx.updateShareMenu({
-            withShareTicket: withShareTicket,
-            success: function (res) {
-                console.log("updateShareMenu:success:", res);
-            },
-            fail: function (res) {
-                console.log("updateShareMenu:fail:", res);
-            },
-            complete: function () {
-                console.log("updateShareMenu:complete:");
-            }
-        });
-    };
+    // 	let shareinfo = {
+    // 	share_game_img: setting.share_game_img,
+    // 	share_game_title: setting.share_game_title,
+    // 	share_group_img: setting.share_group_img,
+    // 	share_group_title: setting.share_group_title,
+    // 	share_show_img: setting.share_show_img,
+    // 	share_show_title: setting.share_show_title,
+    // 	query: "",
+    // };
     /**联系客服 */
     WxApi.prototype.feedBack = function () {
         var wx = window["wx"];
@@ -293,41 +329,6 @@ var WxApi = (function (_super) {
             },
             complete: function (res) {
                 console.log("complete:", res);
-            }
-        });
-    };
-    /** 对用户托管数据进行写数据操作，允许同时写多组 KV 数据
-     * @param	KVDataList	要修改的 KV 数据列表
-    */
-    WxApi.prototype.setHigherScore = function (v) {
-        //0不计入
-        if (v <= 0) {
-            return;
-        }
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        var n = PlayerConst.highestScore;
-        if (v <= n) {
-            return;
-        }
-        PlayerConst.highestScore = v;
-        this.setLocalDataByString(PlayerConst.hiscore, v + "");
-        var KVDataList = [];
-        wx.setUserCloudStorage({
-            KVDataList: [
-                { key: "score", value: v + "" },
-                { key: "date", value: new Date().getTime().toString() }
-            ],
-            success: function (res) {
-                console.log("setUserCloudStorage:res:", res);
-            },
-            fail: function (err) {
-                console.log("setUserCloudStorage:error:", err);
-            },
-            complete: function () {
-                console.log("setUserCloudStorage:complete:");
             }
         });
     };

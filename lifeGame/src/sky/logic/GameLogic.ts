@@ -51,6 +51,17 @@ class GameLogic extends egret.EventDispatcher {
 		}
 		if (this.goods == null) {
 			this.goods = RES.getRes("goods_json");
+			
+			let n = 1;
+			while(true){
+				if(this.goods[n] == null){
+					break;
+				}
+				else{
+					GameCommand.getInstance().bases.push(n);
+				}
+				n++;
+			}
 		}
 	}
 

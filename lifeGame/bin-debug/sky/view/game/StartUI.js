@@ -20,10 +20,11 @@ var StartUI = (function (_super) {
         this.checkFit();
         var data = GameLogic.getInstance().data;
         this.lbl_content.text = StringUtil.getSwfLangStr("s2");
+        this.updateProp();
         for (var i = 1; i <= 3; i++) {
             var o = data['config' + i];
             var str = "开始游戏";
-            str = i == 1 ? str : "看视频" + str;
+            str = i == 1 ? str : "使用券" + str;
             str += "\n" + o['pow'] + "体力 " + o['debt'] + "欠债 " + o['money'] + "启动资金\n";
             if (i == 2) {
                 str += "(可获炒房证)";
@@ -34,9 +35,13 @@ var StartUI = (function (_super) {
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
+        GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
     };
     StartUI.prototype.checkFit = function () {
         this.img_bg.height = GameLogic.getInstance().GameStage.stageHeight;
+    };
+    StartUI.prototype.updateProp = function () {
+        this.lbl_prop.text = "分享可获得炒房券（炒房券 X" + PlayerConst.prop_num + "）";
     };
     StartUI.prototype.clickBtn = function (e) {
         if (GameLogic.getInstance().strings == null) {
@@ -44,6 +49,10 @@ var StartUI = (function (_super) {
             return;
         }
         var i = parseInt(e.currentTarget.name);
+        if (i == 2 && PlayerConst.prop_num <= 0) {
+            WxApi.getInstance().showToast("邀请好友进入游戏可获得炒房券");
+            return;
+        }
         GameCommand.getInstance().selectPackage(i);
         GameLogic.getInstance().startGame();
     };
@@ -52,6 +61,7 @@ var StartUI = (function (_super) {
             this['btn_' + i].removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
+        GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
     };
     return StartUI;
 }(eui.Component));

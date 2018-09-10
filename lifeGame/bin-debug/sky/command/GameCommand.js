@@ -12,7 +12,7 @@ var GameCommand = (function (_super) {
     __extends(GameCommand, _super);
     function GameCommand() {
         var _this = _super.call(this) || this;
-        _this.bases = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        _this.bases = [];
         return _this;
     }
     GameCommand.getInstance = function () {
@@ -99,14 +99,14 @@ var GameCommand = (function (_super) {
     GameCommand.prototype.getMarket = function (evt) {
         var msg = new msgGoodsBuyRsp();
         msg.goods = [];
-        var len = 4 + Math.floor(Math.random() * 6);
+        var googlen = this.bases.length;
+        var len = 4 + Math.floor(Math.random() * (googlen - 3));
         var arr = this.bases.slice();
-        var lll = DataBase.gamePackage == 1 ? arr.length : arr.length - 1;
+        var lll = DataBase.gamePackage == 1 ? arr.length - 1 : arr.length;
+        arr = StringUtil.shuffle(arr);
         var goodIds = [];
         for (var i = 0; i < len; i++) {
-            var i_1 = Math.floor(Math.random() * lll);
-            goodIds.push(arr[i_1]);
-            arr.splice(i_1, 1);
+            goodIds.push(arr[i]);
         }
         goodIds.sort(this.sortfun);
         // console.log("开始随机价格");
@@ -212,6 +212,9 @@ var GameCommand = (function (_super) {
                 var evt_1 = 'evt' + (r3 < 1 ? 0 : 1) + r4;
                 DataBase.events.push(o[evt_1]);
             }
+        }
+        if (v <= 0) {
+            v = 1;
         }
         return v;
     };

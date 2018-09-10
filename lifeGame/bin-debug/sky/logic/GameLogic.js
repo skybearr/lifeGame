@@ -22,10 +22,9 @@ var GameLogic = (function (_super) {
     GameLogic.prototype.init = function () {
         SoundManager.getInstance().playBgSound(true);
         this.initData();
-        this.showShareMenu();
-        this.openStart();
-        this.checkShareInfo();
         this.getHiscore();
+        this.openStart(); //要放在initShareInfo之前，share可能有群排行点进来的
+        WxApi.getInstance().initShareInfo();
     };
     GameLogic.prototype.openStart = function () {
         this.main.removeChildren();
@@ -44,6 +43,16 @@ var GameLogic = (function (_super) {
         }
         if (this.goods == null) {
             this.goods = RES.getRes("goods_json");
+            var n = 1;
+            while (true) {
+                if (this.goods[n] == null) {
+                    break;
+                }
+                else {
+                    GameCommand.getInstance().bases.push(n);
+                }
+                n++;
+            }
         }
     };
     GameLogic.prototype.startGame = function () {
@@ -132,36 +141,6 @@ var GameLogic = (function (_super) {
                 console.log("updateShareMenu:complete:");
             }
         });
-    };
-    /**点击别人转发进来的 ，获取shareTicket*/
-    GameLogic.prototype.checkShareInfo = function () {
-        var _this = this;
-        console.log("checkShareInfo");
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        var info = wx.getLaunchOptionsSync();
-        console.log("info:", info);
-        //如果是从群里点开的
-        if (info != null && info.shareTicket != null && info.shareTicket != "") {
-            //查看群排行
-            if (info.query != null && info.query.grouprank == "1") {
-                wx.getShareInfo({
-                    shareTicket: info.shareTicket,
-                    success: function (res) {
-                        console.log("getShareInfo:success:", res);
-                        _this.openRank(info.shareTicket);
-                    },
-                    fail: function (res) {
-                        console.log("getShareInfo:fail:", res);
-                    },
-                    complete: function () {
-                        console.log("getShareInfo:complete:");
-                    }
-                });
-            }
-        }
     };
     GameLogic.prototype.openRank = function (shareticket) {
         if (shareticket === void 0) { shareticket = null; }

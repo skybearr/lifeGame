@@ -104,18 +104,18 @@ class GameCommand extends egret.EventDispatcher {
 		return msg;
 	}
 
-	private bases: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	public bases: number[] = [];
 	public getMarket(evt: boolean): msgGoodsBuyRsp {
 		let msg = new msgGoodsBuyRsp();
 		msg.goods = [];
-		let len = 4 + Math.floor(Math.random() * 6);
+		let googlen = this.bases.length;
+		let len = 4 + Math.floor(Math.random() * (googlen - 3));
 		let arr = this.bases.slice();
-		let lll = DataBase.gamePackage == 1 ? arr.length : arr.length - 1;
+		let lll = DataBase.gamePackage == 1 ? arr.length - 1 : arr.length;
+		arr = StringUtil.shuffle(arr);
 		let goodIds = [];
 		for (let i: number = 0; i < len; i++) {
-			let i = Math.floor(Math.random() * lll);
 			goodIds.push(arr[i]);
-			arr.splice(i, 1);
 		}
 		goodIds.sort(this.sortfun);
 		// console.log("开始随机价格");
@@ -231,7 +231,9 @@ class GameCommand extends egret.EventDispatcher {
 				DataBase.events.push(o[evt]);
 			}
 		}
-
+		if(v <= 0){
+			v = 1;
+		}
 		return v;
 	}
 	private sortfun(a: number, b: number): number {

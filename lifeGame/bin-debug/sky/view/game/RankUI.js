@@ -41,7 +41,7 @@ var RankUI = (function (_super) {
         this.addChildAt(this.bmp_context, 4); //盖在底图上面，各种按钮下面
         WxApi.getInstance().postToDataContext({
             shareTicket: this.shareticket,
-            userinfo: WxApi.getInstance().userInfo,
+            // userinfo:WxApi.getInstance().userInfo,
             stageW: GameLogic.getInstance().GameStage.stageWidth,
             stageH: GameLogic.getInstance().GameStage.stageHeight,
             command: "open"

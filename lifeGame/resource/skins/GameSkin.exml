@@ -2,8 +2,8 @@
 <e:Skin class="GameSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" height="1334">
 	<w:Config id="165470d63c3" />
 	<e:Rect id="rect_bg" touchChildren="false" touchEnabled="false" width="750" x="0" height="1334"
-	        fillColor="0x162b5b"  top="0"/>
-	<e:Group id="gp_bg" width="750" x="0" touchEnabled="true" touchChildren="true" top="87">
+	        fillColor="0x162b5b"  top="0" locked="true"/>
+	<e:Group id="gp_bg" width="750" x="0" touchEnabled="true" touchChildren="true" top="87" locked="true">
 		<e:Image width="455" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" scaleX="1" scaleY="1" left="0"
 		         height="420" y="-43" scale9Grid="197,31,277,52" touchEnabled="false" />
 		<e:Image height="420" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" y="-43" scaleX="-1" right="0"

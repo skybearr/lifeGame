@@ -101,20 +101,11 @@ var Main = (function (_super) {
     };
     Main.prototype.runGame = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.loadResource()];
                     case 1:
-                        _b.sent();
-                        return [4 /*yield*/, platform.login()];
-                    case 2:
-                        _b.sent();
-                        _a = WxApi.getInstance();
-                        return [4 /*yield*/, platform.getUserInfo()];
-                    case 3:
-                        _a.userInfo = _b.sent();
-                        console.log("userinfo:", WxApi.getInstance().userInfo);
+                        _a.sent();
                         this.createGameScene();
                         return [2 /*return*/];
                 }
@@ -123,23 +114,25 @@ var Main = (function (_super) {
     };
     Main.prototype.loadResource = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var loadingView, e_1;
+            var e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 4, , 5]);
-                        loadingView = new LoadingUI();
-                        this.stage.addChild(loadingView);
+                        this.loadingView = new LoadingUI();
+                        this.stage.addChild(this.loadingView);
                         return [4 /*yield*/, RES.loadConfig("resource/default.res.json", "resource/")];
                     case 1:
                         _a.sent();
                         return [4 /*yield*/, this.loadTheme()];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, RES.loadGroup("preload", 0, loadingView)];
+                        return [4 /*yield*/, RES.loadGroup("preload", 0, this.loadingView)];
                     case 3:
                         _a.sent();
-                        this.stage.removeChild(loadingView);
+                        if (this.loadingView != null && this.loadingView.parent != null) {
+                            this.loadingView.parent.removeChild(this.loadingView);
+                        }
                         return [3 /*break*/, 5];
                     case 4:
                         e_1 = _a.sent();
@@ -166,6 +159,10 @@ var Main = (function (_super) {
      * Create scene interface
      */
     Main.prototype.createGameScene = function () {
+        if (this.loadingView != null && this.loadingView.parent != null) {
+            this.loadingView.parent.removeChild(this.loadingView);
+        }
+        this.loadingView = null;
         GameLogic.getInstance().init();
     };
     return Main;

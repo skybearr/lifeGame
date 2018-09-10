@@ -99,4 +99,19 @@ class StringUtil {
 		}
 		return data.toString();
 	}
+
+	/**对数组乱序 */
+	public static shuffle(a: number[]): number[] {
+		let b = a.slice();
+		let c = [];
+		while (true) {
+			let i = Math.floor(Math.random() * b.length);
+			c.push(b[i]);
+			b.splice(i, 1);
+			if (b.length == 0) {
+				break;
+			}
+		}
+		return c;
+	}
 }

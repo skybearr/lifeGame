@@ -81,6 +81,20 @@ var StringUtil = (function () {
         }
         return data.toString();
     };
+    /**对数组乱序 */
+    StringUtil.shuffle = function (a) {
+        var b = a.slice();
+        var c = [];
+        while (true) {
+            var i = Math.floor(Math.random() * b.length);
+            c.push(b[i]);
+            b.splice(i, 1);
+            if (b.length == 0) {
+                break;
+            }
+        }
+        return c;
+    };
     return StringUtil;
 }());
 __reflect(StringUtil.prototype, "StringUtil");

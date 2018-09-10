@@ -4,6 +4,7 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 var PlayerConst = (function () {
     function PlayerConst() {
     }
+    PlayerConst.prop_num = 0;
     PlayerConst.hiscore = "hiscore";
     return PlayerConst;
 }());

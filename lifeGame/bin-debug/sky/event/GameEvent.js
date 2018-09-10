@@ -18,6 +18,7 @@ var GameEvent = (function (_super) {
         return _this;
     }
     GameEvent.REWARDAD_CLOSE_EVENT = "REWARDAD_CLOSE_EVENT";
+    GameEvent.PROP_NUM_CHANGE = "PROP_NUM_CHANGE";
     return GameEvent;
 }(egret.Event));
 __reflect(GameEvent.prototype, "GameEvent");
