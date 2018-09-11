@@ -205,15 +205,15 @@
 		</e:Group>
 	</e:Group>
 	<e:Group id="gp_11" width="100%" height="100%" horizontalCenter="0"
-	         top="0" visible="false">
+	         top="0">
 		<e:Rect id="rect_evt" width="750" strokeAlpha="1" fillAlpha="1"  alpha="0.7" height="1334" verticalCenter="0"/>
 		<e:Image width="1435.16" height="324.12" source="game_json.yong_3" anchorOffsetX="0" anchorOffsetY="0"
 		         scale9Grid="53,48,41,33" scaleX="0.5" scaleY="0.5"  horizontalCenter="0" verticalCenter="178"/>
 		<e:Label id="lbl_event_1"
-		         text="会因为压力太大影响身体健康"
-		         anchorOffsetX="0" width="630" anchorOffsetY="72.44" touchEnabled="false"
-		         height="72.44" background="false" backgroundColor="0xc1aaaa" stroke="1" strokeColor="0xffffff" size="24"
-		         lineSpacing="10"  horizontalCenter="0" verticalCenter="150" textColor="0x000000" bold="true"/>
+		         text="卤汁豆腐干含有丰富的蛋白质、维生素、钙、铁、镁、锌等营养元素，可防止血管硬化，预防心血管疾病，补充钙质，防止因缺钙引起的骨质疏松，今年过节不收礼，收礼只收津津牌卤汁豆腐干"
+		         anchorOffsetX="0" width="672.42" anchorOffsetY="92.14" touchEnabled="false"
+		         height="92.14" background="false" backgroundColor="0xc1aaaa" stroke="1" strokeColor="0xffffff" size="22"
+		         lineSpacing="10"  horizontalCenter="-3" verticalCenter="152" textColor="0x000000" bold="true" fontFamily="SimHei"/>
 		<e:Button id="btn_25" label="知道了" skinName="BaseButtonSkin" anchorOffsetX="0" anchorOffsetY="0"
 		          height="48"  verticalCenter="219" horizontalCenter="121"/>
 		<e:CheckBox id="cb_0" label="" y="870.2" scaleX="0.6" scaleY="0.6" x="315" touchChildren="true" touchEnabled="true" height="48">
