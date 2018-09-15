@@ -16,6 +16,9 @@ class DataBase {
 	public static maxStoreNum:number;
 	/**声望 */
 	public static fame:number;
+	public static saveFame(fame:number){
+		DataBase.fame = fame;
+	}
 
 	public static marketGoods:varGoods[];
 	public static storeGoods:varGoods[];

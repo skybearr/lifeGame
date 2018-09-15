@@ -2,10 +2,10 @@
     "name": "lifeGame",
     "content": "this is a story",
     "config1": {
-        "money": 5000,
-        "debt": 20000,
+        "money": 200,
+        "debt": 5000,
         "pow": 70,
-        "fame": 30,
+        "fame": 0,
         "rmb": 0
     },
     "config2": {

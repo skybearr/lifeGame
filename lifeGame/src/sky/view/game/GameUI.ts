@@ -29,6 +29,8 @@ class GameUI extends eui.Component {
 
 	private crtPop: number;
 
+	private img_sound:eui.Image;
+
 	private market_arr: MarketItem[];
 	private store_arr: StoreItem[];
 
@@ -249,7 +251,8 @@ class GameUI extends eui.Component {
 	}
 
 	private initView() {
-
+		let b = SoundManager.getInstance().sound_switch;
+		this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb")
 	}
 
 	private initEvent() {
@@ -267,6 +270,13 @@ class GameUI extends eui.Component {
 			lbl.addEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
 		this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
+		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickSound,this);
+	}
+
+	private clickSound(){
+		let b = !SoundManager.getInstance().sound_switch;
+		SoundManager.getInstance().playBgSound(b);
+		this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb")
 	}
 
 	private cbChange() {
@@ -367,7 +377,7 @@ class GameUI extends eui.Component {
 				this['lbl_num5'].text = this.max_num + "";
 				break;
 			case 9://转发
-				GameLogic.getInstance().share();
+				WxApi.getInstance().share();
 				break;
 			case 10://玩法说明
 				this.addChild(new NewGuild());
@@ -433,7 +443,8 @@ class GameUI extends eui.Component {
 				WxApi.getInstance().share();
 				break;
 			case 28://成就
-				this.addChild(new AchieveUI());
+				WxApi.getInstance().toast("暂未开放，尽请期待")
+				// this.addChild(new AchieveUI());
 			break;
 		}
 	}
@@ -503,5 +514,6 @@ class GameUI extends eui.Component {
 			lbl.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
 		this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
+		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickSound,this);
 	}
 }

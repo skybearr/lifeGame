@@ -4,6 +4,9 @@ var __reflect = (this && this.__reflect) || function (p, c, t) {
 var DataBase = (function () {
     function DataBase() {
     }
+    DataBase.saveFame = function (fame) {
+        DataBase.fame = fame;
+    };
     return DataBase;
 }());
 __reflect(DataBase.prototype, "DataBase");

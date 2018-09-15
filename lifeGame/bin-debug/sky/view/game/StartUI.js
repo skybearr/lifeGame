@@ -36,6 +36,18 @@ var StartUI = (function (_super) {
         }
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
         GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+        if (WxApi.getInstance().checkWx()) {
+            this.button = wx.createGameClubButton({
+                icon: 'white',
+                style: {
+                    left: 10,
+                    top: 40,
+                    width: 32,
+                    height: 32,
+                    text: "游戏圈"
+                }
+            });
+        }
     };
     StartUI.prototype.checkFit = function () {
         this.img_bg.height = GameLogic.getInstance().GameStage.stageHeight;
@@ -62,6 +74,9 @@ var StartUI = (function (_super) {
         }
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
         GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+        if (this.button != null) {
+            this.button.destroy();
+        }
     };
     return StartUI;
 }(eui.Component));

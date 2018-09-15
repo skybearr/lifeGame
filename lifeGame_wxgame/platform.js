@@ -16,7 +16,7 @@ class WxgamePlatform {
         })
     }
 
-  getUserInfo() {
+  getUserInfo(w, h) {
     return new Promise((resolve, reject) => {
       let sysInfo = wx.getSystemInfoSync();
       let sdkVersion = sysInfo.SDKVersion;
@@ -30,7 +30,7 @@ class WxgamePlatform {
             var authSetting = res.authSetting
             if (authSetting['scope.userInfo'] === true) {
               // 用户已授权，可以直接调用相关 API
-              console.log('用户已同意授权信息');
+              console.log('用户已同意授权信息', res);
               wx.getUserInfo({ //自动开启弹窗获取授权
                 withCredentials: true,
                 success: res => {
@@ -47,33 +47,38 @@ class WxgamePlatform {
             } else {
               // 未询问过用户授权或者用户已拒绝授权时，弹窗询问用户是否授权
               console.log('未获取到用户授权信息');
-              var button = wx.createUserInfoButton({ //使用点击按钮弹窗
-                type: 'text',
-                text: '获取授权',
-                style: {
-                  top: 80,
-                  width: 180,
-                  height: 40,
-                  lineHeight: 40,
-                  backgroundColor: '#C6E2FF',
-                  color: '#ff00ff',
-                  textAlign: 'center',
-                  fontSize: 16,
-                  borderRadius: 6
+              wx.getSystemInfo({
+                success: function (res) {
+                  console.log("getsysytem", res)
+                  let rw = res.screenWidth / w;
+                  let rh = res.screenHeight / h;
+                  var button = wx.createUserInfoButton({ //使用点击按钮弹窗
+                    type: 'image',
+                    image: 'resource/assets/start_button.png',
+                    style: {
+                      left: 0,
+                      top: 0,
+                      width: res.screenWidth,
+                      height: res.screenHeight
+                    },
+                    withCredentials: true
+                  });
+                  button.onTap((res) => {
+                    console.log("用户授权:", res);
+                    var userInfo = res.userInfo;
+                    var nickName = userInfo.nickName;
+                    var avatarUrl = userInfo.avatarUrl;
+                    var gender = userInfo.gender; //性别 0：未知、1：男、2：女
+                    var province = userInfo.province;
+                    var city = userInfo.city;
+                    var country = userInfo.country;
+                    userInfo.first = true;
+                    button.destroy();
+                    resolve(userInfo);
+                  });
                 }
-              });
-              button.onTap((res) => {
-                console.log("用户授权:", res);
-                var userInfo = res.userInfo;
-                var nickName = userInfo.nickName;
-                var avatarUrl = userInfo.avatarUrl;
-                var gender = userInfo.gender; //性别 0：未知、1：男、2：女
-                var province = userInfo.province;
-                var city = userInfo.city;
-                var country = userInfo.country;
-                button.destroy();
-                resolve(userInfo);
-              });
+              })
+
             }
           }
         })

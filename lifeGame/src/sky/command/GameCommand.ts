@@ -186,15 +186,15 @@ class GameCommand extends egret.EventDispatcher {
 					DataBase.pow = DataBase.pow <= 0 ? 0 : DataBase.pow;
 					break;
 				case 4://fame
-					DataBase.fame = DataBase.fame + (isadd ? value : -value);
-					DataBase.fame = DataBase.fame <= 0 ? 0 : DataBase.fame;
+					DataBase.saveFame(DataBase.fame + (isadd ? value : -value));
+					DataBase.saveFame(DataBase.fame <= 0 ? 0 : DataBase.fame);
 					break;
 			}
 		}
-		if(typeof(o) == "string"){//其他事件
+		if(typeof(o) == "string"){//商品事件
 			DataBase.events.push(StringUtil.getSwfLangStr(o));
 		}
-		else{//商品事件
+		else{//其他事件
 			DataBase.events.push(StringUtil.getSwfLangStrVar(o['str'], [value]));
 		}
 	}
@@ -287,7 +287,8 @@ class GameCommand extends egret.EventDispatcher {
 		DataBase.deposit = 0;//new Int64(0, 0);
 		DataBase.pow = o['pow'];
 		DataBase.maxStoreNum = 100;
-		DataBase.fame = o['fame'];
+		let n = WxApi.getInstance().getLocalData("fame");
+		DataBase.fame = n == null ? o['fame'] : parseInt(n);
 		
 		DataBase.marketGoods = [];
 		DataBase.storeGoods = [];
@@ -460,7 +461,7 @@ class GameCommand extends egret.EventDispatcher {
 			
 			let r = Math.random() * 100;
 			if(r < 2){
-				DataBase.fame += 3;
+				DataBase.saveFame(DataBase.fame + 3);
 				c = 0;
 			}
 			else{
@@ -469,7 +470,7 @@ class GameCommand extends egret.EventDispatcher {
 		}
 		else{
 			let i = Math.floor(n / charity);
-			DataBase.fame += i;
+			DataBase.saveFame(DataBase.fame + i);
 			c = i < 10 ? 2 : (i < 100 ? 3 : 4);
 		}
 		this.addEvent(5,1,c);
