@@ -72,6 +72,7 @@ class GameCommand extends egret.EventDispatcher {
 		}
 		this.sendData();
 		GameLogic.getInstance().gameui.over();
+		WxApi.getInstance().setLocalDataByString("fame",DataBase.fame + "");
 
 		if(t == 0){
 			WxApi.getInstance().setHigherScore(DataBase.money);
@@ -288,7 +289,10 @@ class GameCommand extends egret.EventDispatcher {
 		DataBase.pow = o['pow'];
 		DataBase.maxStoreNum = 100;
 		let n = WxApi.getInstance().getLocalData("fame");
-		DataBase.fame = n == null ? o['fame'] : parseInt(n);
+		DataBase.fame = (n == null || n == undefined || n == NaN) ? o['fame'] : parseInt(n);
+		if(DataBase.fame == null || DataBase.fame == undefined || DataBase.fame == NaN){
+			DataBase.fame = 0;
+		}
 		
 		DataBase.marketGoods = [];
 		DataBase.storeGoods = [];
@@ -326,10 +330,10 @@ class GameCommand extends egret.EventDispatcher {
 			this.sendError(ERROR.BUY_ZERO);
 			return;
 		}
-		if(id == this.bases[this.bases.length-1] && DataBase.gamePackage == 1){
-			this.sendError(ERROR.NEED_LICIENCE);
-			return;
-		}
+		// if(id == this.bases[this.bases.length-1] && DataBase.gamePackage == 1){
+		// 	this.sendError(ERROR.NEED_LICIENCE);
+		// 	return;
+		// }
 		let arr = DataBase.marketGoods;
 		for (let i: number = 0; i < arr.length; i++) {
 			let good = arr[i];
