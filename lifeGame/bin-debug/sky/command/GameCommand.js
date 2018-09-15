@@ -298,10 +298,10 @@ var GameCommand = (function (_super) {
             this.sendError(ERROR.BUY_ZERO);
             return;
         }
-        if (id == this.bases[this.bases.length - 1] && DataBase.gamePackage == 1) {
-            this.sendError(ERROR.NEED_LICIENCE);
-            return;
-        }
+        // if(id == this.bases[this.bases.length-1] && DataBase.gamePackage == 1){
+        // 	this.sendError(ERROR.NEED_LICIENCE);
+        // 	return;
+        // }
         var arr = DataBase.marketGoods;
         for (var i = 0; i < arr.length; i++) {
             var good = arr[i];
