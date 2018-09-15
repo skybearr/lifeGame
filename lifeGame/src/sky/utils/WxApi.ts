@@ -241,12 +241,12 @@ class WxApi extends egret.EventDispatcher {
 		}
 	}
 	/**读取本地数据 */
-	public getLocalData(key: string) {
+	public getLocalData(key: string):any {
 		if (!this.checkWx()) {
 			return null;
 		}
 		try {
-			return wx.getStorageSync(key);
+			return wx.getStorageSync(key);;
 		}
 		catch (e) {
 			return null;

@@ -289,7 +289,8 @@ class GameCommand extends egret.EventDispatcher {
 		DataBase.pow = o['pow'];
 		DataBase.maxStoreNum = 100;
 		let n = WxApi.getInstance().getLocalData("fame");
-		DataBase.fame = (n == null || n == undefined || n == NaN) ? o['fame'] : parseInt(n);
+		DataBase.fame = (n == null || n == "") ? o['fame'] : parseInt(n);
+		
 		if(DataBase.fame == null || DataBase.fame == undefined || DataBase.fame == NaN){
 			DataBase.fame = 0;
 		}
