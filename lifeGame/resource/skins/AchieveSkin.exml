@@ -6,5 +6,7 @@
 		<e:Image anchorOffsetX="0" width="578" height="160" source="game_json.yong_9" scale9Grid="68,0,17,160" x="0" y="0"/>
 		<e:Label text="梦  想" y="45" textColor="0xf700a4" anchorOffsetX="0" width="334" anchorOffsetY="0" height="66" fontFamily="SimHei" size="60" verticalAlign="middle" textAlign="center" bold="true" stroke="2" x="122"/>
 	</e:Group>
-	<e:List width="468" height="814.88" anchorOffsetX="0" anchorOffsetY="0" verticalCenter="78.5" horizontalCenter="0"/>
+	<e:Scroller id="scroller" width="640" height="820" horizontalCenter="0" verticalCenter="60" throwSpeed="0" bounces="false">
+		<e:List id="list"/>
+	</e:Scroller>
 </e:Skin>

@@ -11,7 +11,10 @@ r.prototype = e.prototype, t.prototype = new r();
 var GameLogic = (function (_super) {
     __extends(GameLogic, _super);
     function GameLogic() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        /**成就数据 1:[10,20,30]	2:[{10:1},{20:3}] */
+        _this.arrives = {};
+        return _this;
     }
     GameLogic.getInstance = function () {
         if (this._instance == null) {
@@ -43,6 +46,7 @@ var GameLogic = (function (_super) {
         }
         if (this.goods == null) {
             this.goods = RES.getRes("goods_json");
+            //初始化商品
             var n = 1;
             while (true) {
                 if (this.goods[n] == null) {
@@ -53,7 +57,87 @@ var GameLogic = (function (_super) {
                 }
                 n++;
             }
+            //初始化称号
+            this.titles = {};
+            this.titles = this.goods['titles'];
+            //初始化成就
+            this.achieves = {};
+            this.achieves = this.goods['dreams'];
+            //初始化已达成成就
+            this.arrives = WxApi.getInstance().getLocalData("achieve");
+            if (this.arrives == null || this.arrives == "") {
+                this.arrives = {};
+            }
         }
+    };
+    /**获取称号 */
+    GameLogic.prototype.getTitle = function () {
+        var data = GameLogic.getInstance().titles;
+        var titleId = "10";
+        var titleobj;
+        for (var id in data) {
+            var o = data[id];
+            var needs = o.need.split(":");
+            var arivenum = 0;
+            for (var i = 0; i < needs.length; i++) {
+                var a = needs[i].split("_"); //0type 1value
+                var type = parseInt(a[0]);
+                var value = parseInt(a[1]);
+                switch (type) {
+                    case COINTYPE.MONEY:
+                        if (DataBase.money >= value) {
+                            arivenum++;
+                        }
+                        break;
+                    case COINTYPE.FAME:
+                        if (DataBase.fame >= value) {
+                            arivenum++;
+                        }
+                        break;
+                }
+            }
+            //全部达成
+            if (arivenum == needs.length) {
+                titleId = id;
+            }
+        }
+        titleobj = data[titleId];
+        //加入成就
+        this.saveAchieve(ACHIVE.TITLE, titleId);
+        return titleobj.name;
+    };
+    /**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]*/
+    GameLogic.prototype.saveAchieve = function (type, id, num) {
+        if (num === void 0) { num = 0; }
+        var arr = this.arrives[type];
+        if (arr == null) {
+            arr = [];
+        }
+        if (type == ACHIVE.ARIVED || type == ACHIVE.TITLE) {
+            if (arr.indexOf(id) == null) {
+                arr.push(id);
+            }
+            else {
+                return;
+            }
+        }
+        else if (type == ACHIVE.BUY) {
+            var has = false;
+            for (var key in arr) {
+                if (id == key) {
+                    has = true;
+                    arr[key].num += num;
+                }
+            }
+            if (!has) {
+                arr.push({ id: id, num: num });
+            }
+        }
+        this.arrives[type] = arr;
+        WxApi.getInstance().setLocalDataByObject("achieve", this.arrives);
+    };
+    GameLogic.prototype.getArrives = function () {
+        return this.arrives;
     };
     GameLogic.prototype.startGame = function () {
         this.main.removeChildren();

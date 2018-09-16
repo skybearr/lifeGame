@@ -7,6 +7,7 @@ var GameConst = (function () {
     /**web测试 0微信  1web本地 */
     GameConst.web = 1;
     GameConst.version = "201808181130";
+    GameConst.coinstr = ["", "现金", "存款", "债务", "体力", "声望"];
     return GameConst;
 }());
 __reflect(GameConst.prototype, "GameConst");
@@ -22,6 +23,16 @@ var ERROR;
 })(ERROR || (ERROR = {}));
 var ACHIVE;
 (function (ACHIVE) {
-    ACHIVE[ACHIVE["RELIVE"] = 1] = "RELIVE";
+    ACHIVE[ACHIVE["ARIVED"] = 1] = "ARIVED";
+    ACHIVE[ACHIVE["BUY"] = 2] = "BUY";
+    ACHIVE[ACHIVE["TITLE"] = 3] = "TITLE";
 })(ACHIVE || (ACHIVE = {}));
+var COINTYPE;
+(function (COINTYPE) {
+    COINTYPE[COINTYPE["MONEY"] = 1] = "MONEY";
+    COINTYPE[COINTYPE["DEPOSIT"] = 2] = "DEPOSIT";
+    COINTYPE[COINTYPE["DEPT"] = 3] = "DEPT";
+    COINTYPE[COINTYPE["POW"] = 4] = "POW";
+    COINTYPE[COINTYPE["FAME"] = 5] = "FAME";
+})(COINTYPE || (COINTYPE = {}));
 //# sourceMappingURL=GameConst.js.map

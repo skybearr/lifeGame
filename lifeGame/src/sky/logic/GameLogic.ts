@@ -36,12 +36,12 @@ class GameLogic extends egret.EventDispatcher {
 		this.main.addChild(new StartUI());
 	}
 
-	private getHiscore(){
+	private getHiscore() {
 		let s = WxApi.getInstance().getLocalData(PlayerConst.hiscore);
 		PlayerConst.highestScore = s == null ? 0 : s;
 	}
 
-	private loadingGoods:boolean;
+	private loadingGoods: boolean;
 	private initData() {
 		if (this.data == null) {
 			this.data = RES.getRes("config_json");
@@ -51,18 +51,110 @@ class GameLogic extends egret.EventDispatcher {
 		}
 		if (this.goods == null) {
 			this.goods = RES.getRes("goods_json");
-			
+
+			//初始化商品
 			let n = 1;
-			while(true){
-				if(this.goods[n] == null){
+			while (true) {
+				if (this.goods[n] == null) {
 					break;
 				}
-				else{
+				else {
 					GameCommand.getInstance().bases.push(n);
 				}
 				n++;
 			}
+
+			//初始化称号
+			this.titles = {};
+			this.titles = this.goods['titles'];
+
+			//初始化成就
+			this.achieves = {};
+			this.achieves = this.goods['dreams'];
+
+			//初始化已达成成就
+			this.arrives = WxApi.getInstance().getLocalData("achieve");
+			if(this.arrives == null || this.arrives == ""){
+				this.arrives = {};
+			}
 		}
+	}
+
+	public titles: Object;
+	public achieves: Object;
+	/**成就数据 1:[10,20,30]	2:[{10:1},{20:3}] */
+	public arrives:Object = {};
+
+	/**获取称号 */
+	public getTitle(): string {
+		let data = GameLogic.getInstance().titles;
+		let titleId:string = "10";
+		let titleobj;
+		for (let id in data) {
+			let o = data[id];
+			let needs = o.need.split(":");
+			let arivenum: number = 0;
+			for (let i = 0; i < needs.length; i++) {
+				let a = needs[i].split("_");//0type 1value
+				let type = parseInt(a[0]);
+				let value = parseInt(a[1]);
+				switch (type) {
+					case COINTYPE.MONEY:
+						if (DataBase.money >= value) {
+							arivenum++;
+						}
+						break;
+					case COINTYPE.FAME:
+						if (DataBase.fame >= value) {
+							arivenum++;
+						}
+						break;
+				}
+			}
+			//全部达成
+			if (arivenum == needs.length) {
+				titleId = id;
+			}
+		}
+		titleobj = data[titleId];
+		//加入成就
+		this.saveAchieve(ACHIVE.TITLE,titleId);
+		return titleobj.name;
+	}
+
+	/**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]*/
+	public saveAchieve(type:number,id:string,num:number=0){
+		let arr = this.arrives[type];
+		if(arr == null){
+			arr = [];
+		}
+		if(type == ACHIVE.ARIVED || type == ACHIVE.TITLE){
+			if(arr.indexOf(id) == null){
+				arr.push(id);
+			}
+			else{
+				return;
+			}
+		}
+		else if(type == ACHIVE.BUY){
+			let has:boolean = false;
+			for(let key in arr){
+				if(id == key){//已经有了，更新数量
+					has = true;
+					arr[key].num += num;
+				}
+			}
+			if(!has){//没有的，加入
+				arr.push({id:id,num:num});
+			}
+		}
+		this.arrives[type] = arr;
+
+		WxApi.getInstance().setLocalDataByObject("achieve",this.arrives);
+	}
+
+	public getArrives():Object{
+		return this.arrives;
 	}
 
 	public gameui: GameUI;
@@ -136,8 +228,8 @@ class GameLogic extends egret.EventDispatcher {
 			return;
 		}
 		this.updateShareMenu(true);
-		console.log("onShare:query:",query);
-		
+		console.log("onShare:query:", query);
+
 		wx.onShareAppMessage(function () {
 			return {
 				title: '右上角转发一起来苏州浮生吧',
@@ -170,7 +262,7 @@ class GameLogic extends egret.EventDispatcher {
 		})
 	}
 
-	public openRank(shareticket:string = null){
+	public openRank(shareticket: string = null) {
 		this.main.addChild(new RankUI(shareticket));
 	}
 
@@ -186,7 +278,7 @@ class GameLogic extends egret.EventDispatcher {
 	private isFriend: boolean;
 
 	/**获取好友排行榜数据 */
-	public openFriendRank(friend: boolean,shareTicket:string="") {
+	public openFriendRank(friend: boolean, shareTicket: string = "") {
 		this.isFriend = friend;
 		//处理遮罩，避免开放数据域事件影响主域。
 		if (this.rankingListMask == null) {
@@ -237,13 +329,13 @@ class GameLogic extends egret.EventDispatcher {
 			return false;
 		}, this);
 
-		console.log("postMessage:",this.userInfo);
-		
+		console.log("postMessage:", this.userInfo);
+
 		// //发送消息
 		wx.getOpenDataContext().postMessage({
 			head: friend ? "friend" : "group",
 			userinfo: this.userInfo,
-			shareTicket:shareTicket,
+			shareTicket: shareTicket,
 			open: true
 		});
 	}
@@ -261,13 +353,13 @@ class GameLogic extends egret.EventDispatcher {
 
 	/**获取群内数据,实际上只是一个转发 */
 	public openGroupRank() {
-		if(this.isFriend){
+		if (this.isFriend) {
 			this.share("grouprank=1");
 		}
-		else{
+		else {
 			this.closeGroupRank();
 		}
-		
+
 	}
 	private closeGroupRank() {
 		this.closeFriendRank();
@@ -281,7 +373,7 @@ class GameLogic extends egret.EventDispatcher {
 	*/
 	public setUserCloudStorage() {
 		let wx = window['wx'];
-		if(wx == null){
+		if (wx == null) {
 			return;
 		}
 		let KVDataList = [];

@@ -72,6 +72,7 @@ var GameCommand = (function (_super) {
         }
         this.sendData();
         GameLogic.getInstance().gameui.over();
+        WxApi.getInstance().setLocalDataByString("fame", DataBase.fame + "");
         if (t == 0) {
             WxApi.getInstance().setHigherScore(DataBase.money);
         }
@@ -265,7 +266,10 @@ var GameCommand = (function (_super) {
         DataBase.pow = o['pow'];
         DataBase.maxStoreNum = 100;
         var n = WxApi.getInstance().getLocalData("fame");
-        DataBase.fame = n == null ? o['fame'] : parseInt(n);
+        DataBase.fame = (n == null || n == "") ? o['fame'] : parseInt(n);
+        if (DataBase.fame == null || DataBase.fame == undefined || DataBase.fame == NaN) {
+            DataBase.fame = 0;
+        }
         DataBase.marketGoods = [];
         DataBase.storeGoods = [];
         DataBase.events = [];

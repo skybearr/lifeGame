@@ -239,7 +239,7 @@ class GameUI extends eui.Component {
 				str += StringUtil.getSwfLangStrVarByID("s1" + (3 + i), [DataBase.achives[i] + ""]) + "\n";
 			}
 			str += StringUtil.getSwfLangStr("s19") + "\n";
-			str += StringUtil.getSwfLangStr("s50") + "\n";
+			str += GameLogic.getInstance().getTitle();
 			this['btn_27'].visible = true;
 		}
 
@@ -443,8 +443,8 @@ class GameUI extends eui.Component {
 				WxApi.getInstance().share();
 				break;
 			case 28://成就
-				WxApi.getInstance().toast("暂未开放，尽请期待")
-				// this.addChild(new AchieveUI());
+				// WxApi.getInstance().toast("暂未开放，尽请期待")
+				this.addChild(new AchieveUI());
 			break;
 		}
 	}
