@@ -271,6 +271,7 @@ class GameUI extends eui.Component {
 		}
 		this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
 		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickSound,this);
+		WxApi.getInstance().addEventListener(GameEvent.ADDMONEY,this.addMoney,this);
 	}
 
 	private clickSound(){
@@ -377,6 +378,12 @@ class GameUI extends eui.Component {
 				this['lbl_num5'].text = this.max_num + "";
 				break;
 			case 9://转发
+				console.log("shared",WxApi.getInstance().shared);
+			
+				if(WxApi.getInstance().shared == true){
+					this.popEvent("单局游戏只能获取一次");
+					return;
+				}
 				WxApi.getInstance().share();
 				break;
 			case 10://玩法说明
@@ -440,11 +447,18 @@ class GameUI extends eui.Component {
 				this.eventNext();
 				break;
 			case 27://炫耀
+				console.log("shared",WxApi.getInstance().shared);
+			
+				if(WxApi.getInstance().shared == true){
+					this.popEvent("单局游戏只能获取一次");
+					return;
+				}
 				WxApi.getInstance().share();
+				
 				break;
 			case 28://成就
-				// WxApi.getInstance().toast("暂未开放，尽请期待")
-				this.addChild(new AchieveUI());
+				WxApi.getInstance().toast("尽请期待")
+				// this.addChild(new AchieveUI());
 			break;
 		}
 	}
@@ -515,5 +529,10 @@ class GameUI extends eui.Component {
 		}
 		this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
 		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickSound,this);
+		WxApi.getInstance().removeEventListener(GameEvent.ADDMONEY,this.addMoney,this);
+	}
+
+	private addMoney(){
+		this.lbl_1.text = DataBase.money.toString();
 	}
 }

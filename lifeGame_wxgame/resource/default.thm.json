@@ -4,6 +4,7 @@
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
+		"resource/skins/AchieveItemSkin.exml",
 		"resource/skins/AchieveSkin.exml",
 		"resource/skins/BaseButtonSkin.exml",
 		"resource/skins/GameSkin.exml",

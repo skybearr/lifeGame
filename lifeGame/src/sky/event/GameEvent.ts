@@ -8,4 +8,6 @@ class GameEvent extends egret.Event{
 	public static REWARDAD_CLOSE_EVENT:string = "REWARDAD_CLOSE_EVENT";
 
     public static PROP_NUM_CHANGE:string = "PROP_NUM_CHANGE";
+
+    public static ADDMONEY:string = "ADDMONEY";
 }

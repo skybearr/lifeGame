@@ -2,6 +2,8 @@ class DataBase {
 	public constructor() {
 	}
 
+
+	
 	/**0未开始 1开始 */
 	public static gameState:number;
 	public static gamePackage:number;

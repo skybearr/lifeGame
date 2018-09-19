@@ -72,6 +72,12 @@ class WxApi extends egret.EventDispatcher {
 		if (!this.checkWx()) {
 			return;
 		}
+		console.log("shared:",WxApi.getInstance().shared);
+		
+		if(WxApi.getInstance().shared == true){
+			return;
+		}
+		WxApi.getInstance().shared = true;
 		this.updateShareMenu(true);
 		let querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
 
@@ -84,9 +90,11 @@ class WxApi extends egret.EventDispatcher {
 			query: querystr,
 			success: res => {
 				DataBase.money += 5000;	
+				WxApi.getInstance().dispatchEvent(new GameEvent(GameEvent.ADDMONEY));
 			}
 		})
 	}
+	public shared:boolean = false;
 
 	public shareInfo: any;
 	/**右上角转发 */

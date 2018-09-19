@@ -35,29 +35,123 @@ var egret = window.egret;
 	_proto.labelDisplay_i = function () {
 		var t = new eui.Label();
 		this.labelDisplay = t;
+		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
 		t.bold = true;
-		t.bottom = 5;
 		t.fontFamily = "SimHei";
-		t.left = 30;
-		t.right = 30;
+		t.height = 34;
+		t.horizontalCenter = 0;
 		t.size = 23;
 		t.text = "150体力 ";
 		t.textAlign = "center";
 		t.textColor = 0x161616;
-		t.top = 5;
 		t.verticalAlign = "middle";
+		t.verticalCenter = 0;
+		t.width = 160;
 		return t;
 	};
 	return BaseButtonSkin;
+})(eui.Skin);generateEUI.paths['resource/skins/AchieveItemSkin.exml'] = window.AchieveItemSkin = (function (_super) {
+	__extends(AchieveItemSkin, _super);
+	function AchieveItemSkin() {
+		_super.call(this);
+		this.skinParts = ["rect_bg","lbl_name","lbl_have","lbl_need","btn_buy"];
+		
+		this.height = 80;
+		this.width = 640;
+		this.elementsContent = [this._Rect1_i(),this.rect_bg_i(),this.lbl_name_i(),this.lbl_have_i(),this.lbl_need_i(),this.btn_buy_i()];
+	}
+	var _proto = AchieveItemSkin.prototype;
+
+	_proto._Rect1_i = function () {
+		var t = new eui.Rect();
+		t.alpha = 0;
+		t.fillColor = 0x0373A3;
+		t.percentHeight = 100;
+		t.touchEnabled = false;
+		t.percentWidth = 100;
+		return t;
+	};
+	_proto.rect_bg_i = function () {
+		var t = new eui.Rect();
+		this.rect_bg = t;
+		t.fillColor = 0x0373a3;
+		t.percentHeight = 100;
+		t.touchEnabled = false;
+		t.percentWidth = 100;
+		return t;
+	};
+	_proto.lbl_name_i = function () {
+		var t = new eui.Label();
+		this.lbl_name = t;
+		t.anchorOffsetX = 0;
+		t.bold = true;
+		t.fontFamily = "SimHei";
+		t.left = 18;
+		t.size = 26;
+		t.stroke = 1;
+		t.strokeColor = 0xffffff;
+		t.text = "兰博基尼幻影流光定制版";
+		t.textAlign = "left";
+		t.textColor = 0x000000;
+		t.top = 10;
+		t.touchEnabled = false;
+		return t;
+	};
+	_proto.lbl_have_i = function () {
+		var t = new eui.Label();
+		this.lbl_have = t;
+		t.anchorOffsetX = 0;
+		t.bold = true;
+		t.fontFamily = "SimHei";
+		t.left = 405;
+		t.size = 24;
+		t.stroke = 1;
+		t.strokeColor = 0x888888;
+		t.text = "已拥有：10000";
+		t.textAlign = "center";
+		t.textColor = 0x1cef28;
+		t.touchEnabled = false;
+		t.verticalCenter = 21;
+		t.width = 219;
+		return t;
+	};
+	_proto.lbl_need_i = function () {
+		var t = new eui.Label();
+		this.lbl_need = t;
+		t.bold = true;
+		t.fontFamily = "SimHei";
+		t.left = 18;
+		t.size = 20;
+		t.stroke = 1;
+		t.strokeColor = 0x888888;
+		t.text = "需要：现金100000000 声望1000";
+		t.textAlign = "left";
+		t.textColor = 0xf2ee0c;
+		t.touchEnabled = false;
+		t.y = 47;
+		return t;
+	};
+	_proto.btn_buy_i = function () {
+		var t = new eui.Button();
+		this.btn_buy = t;
+		t.height = 36;
+		t.label = "已达成";
+		t.right = 49;
+		t.skinName = "BaseButtonSkin";
+		t.top = 6;
+		t.width = 120;
+		return t;
+	};
+	return AchieveItemSkin;
 })(eui.Skin);generateEUI.paths['resource/skins/AchieveSkin.exml'] = window.AchieveSkin = (function (_super) {
 	__extends(AchieveSkin, _super);
 	function AchieveSkin() {
 		_super.call(this);
-		this.skinParts = ["rect_bg","btn_back"];
+		this.skinParts = ["rect_bg","btn_back","list","scroller"];
 		
 		this.width = 750;
-		this.elementsContent = [this.rect_bg_i(),this.btn_back_i(),this._Group1_i(),this._List1_i()];
+		this.elementsContent = [this.rect_bg_i(),this.btn_back_i(),this._Group1_i(),this.scroller_i()];
 	}
 	var _proto = AchieveSkin.prototype;
 
@@ -116,14 +210,21 @@ var egret = window.egret;
 		t.y = 45;
 		return t;
 	};
-	_proto._List1_i = function () {
-		var t = new eui.List();
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 814.88;
+	_proto.scroller_i = function () {
+		var t = new eui.Scroller();
+		this.scroller = t;
+		t.bounces = false;
+		t.height = 820;
 		t.horizontalCenter = 0;
-		t.verticalCenter = 78.5;
-		t.width = 468;
+		t.throwSpeed = 0;
+		t.verticalCenter = 60;
+		t.width = 640;
+		t.viewport = this.list_i();
+		return t;
+	};
+	_proto.list_i = function () {
+		var t = new eui.List();
+		this.list = t;
 		return t;
 	};
 	return AchieveSkin;
