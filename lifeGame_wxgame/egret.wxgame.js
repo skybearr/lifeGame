@@ -43,114 +43,31 @@ r.prototype = e.prototype, t.prototype = new r();
         /**
          * @private
          */
+        var fpsText = new egret.TextField();
+        /**
+         * @private
+         */
         var WebFps = (function (_super) {
             __extends(WebFps, _super);
             function WebFps(stage, showFPS, showLog, logFilter, styles) {
                 var _this = _super.call(this) || this;
-                _this.showPanle = true;
-                _this.fpsHeight = 0;
-                _this.WIDTH = 101;
-                _this.HEIGHT = 20;
-                _this.bgCanvasColor = "#18304b";
-                _this.fpsFrontColor = "#18fefe";
-                _this.WIDTH_COST = 50;
-                _this.cost1Color = "#18fefe";
-                // private cost2Color = "#ffff00";
-                _this.cost3Color = "#ff0000";
                 _this.arrFps = [];
                 _this.arrCost = [];
-                _this.arrLog = [];
-                if (showFPS || showLog) {
-                    if (egret.Capabilities.renderMode == 'canvas') {
-                        _this.renderMode = "Canvas";
-                    }
-                    else {
-                        _this.renderMode = "WebGL";
-                    }
-                    _this.panelX = styles["x"] === undefined ? 0 : parseInt(styles['x']);
-                    _this.panelY = styles["y"] === undefined ? 0 : parseInt(styles['y']);
-                    _this.fontColor = styles["textColor"] === undefined ? '#ffffff' : styles['textColor'].replace("0x", "#");
-                    _this.fontSize = styles["size"] === undefined ? 12 : parseInt(styles['size']);
-                    if (egret.Capabilities.isMobile) {
-                        _this.fontSize -= 2;
-                    }
-                    var all = document.createElement('div');
-                    all.style.position = 'absolute';
-                    all.style.background = "rgba(0,0,0," + styles['bgAlpha'] + ")";
-                    all.style.left = _this.panelX + 'px';
-                    all.style.top = _this.panelY + 'px';
-                    all.style.pointerEvents = 'none';
-                    document.body.appendChild(all);
-                    var container = document.createElement('div');
-                    container.style.color = _this.fontColor;
-                    container.style.fontSize = _this.fontSize + 'px';
-                    container.style.lineHeight = _this.fontSize + 'px';
-                    container.style.margin = '4px 4px 4px 4px';
-                    _this.container = container;
-                    all.appendChild(container);
-                    if (showFPS)
-                        _this.addFps();
-                    if (showLog)
-                        _this.addLog();
+                if (!showFPS && !showLog) {
+                    return _this;
                 }
+                _this.arrFps = [];
+                _this.arrCost = [];
+                fpsText.x = styles["x"] == undefined ? 0 : parseInt(styles["x"]);
+                fpsText.y = styles["y"] == undefined ? 0 : parseInt(styles["y"]);
+                fpsText.textColor = styles["textColor"] == undefined ? '#ffffff' : styles['textColor'].replace("0x", "#");
+                var fontSize = styles["size"] == undefined ? 12 : parseInt(styles['size']);
+                fpsText.size = fontSize;
                 return _this;
             }
             WebFps.prototype.addFps = function () {
-                var div = document.createElement('div');
-                div.style.display = 'inline-block';
-                this.containerFps = div;
-                this.container.appendChild(div);
-                var fps = document.createElement('div');
-                fps.style.paddingBottom = '2px';
-                this.fps = fps;
-                this.containerFps.appendChild(fps);
-                fps.innerHTML = "0 FPS " + this.renderMode + "<br/>min0 max0 avg0";
-                var canvas = document.createElement('canvas');
-                this.containerFps.appendChild(canvas);
-                canvas.width = this.WIDTH;
-                canvas.height = this.HEIGHT;
-                this.canvasFps = canvas;
-                var context = canvas.getContext('2d');
-                this.contextFps = context;
-                context.fillStyle = this.bgCanvasColor;
-                context.fillRect(0, 0, this.WIDTH, this.HEIGHT);
-                var divDatas = document.createElement('div');
-                this.divDatas = divDatas;
-                this.containerFps.appendChild(divDatas);
-                var left = document.createElement('div');
-                left.style['float'] = 'left';
-                left.innerHTML = "Draw<br/>Cost";
-                divDatas.appendChild(left);
-                var right = document.createElement('div');
-                right.style.paddingLeft = left.offsetWidth + 20 + "px";
-                divDatas.appendChild(right);
-                var draw = document.createElement('div');
-                this.divDraw = draw;
-                draw.innerHTML = "0<br/>";
-                right.appendChild(draw);
-                var cost = document.createElement('div');
-                this.divCost = cost;
-                cost.innerHTML = "<font  style=\"color:" + this.cost1Color + "\">0<font/> <font  style=\"color:" + this.cost3Color + "\">0<font/>";
-                right.appendChild(cost);
-                canvas = document.createElement('canvas');
-                this.canvasCost = canvas;
-                this.containerFps.appendChild(canvas);
-                canvas.width = this.WIDTH;
-                canvas.height = this.HEIGHT;
-                context = canvas.getContext('2d');
-                this.contextCost = context;
-                context.fillStyle = this.bgCanvasColor;
-                context.fillRect(0, 0, this.WIDTH, this.HEIGHT);
-                context.fillStyle = "#000000";
-                context.fillRect(this.WIDTH_COST, 0, 1, this.HEIGHT);
-                this.fpsHeight = this.container.offsetHeight;
             };
             WebFps.prototype.addLog = function () {
-                var log = document.createElement('div');
-                log.style.maxWidth = document.body.clientWidth - 8 - this.panelX + 'px';
-                log.style.wordWrap = "break-word";
-                this.log = log;
-                this.container.appendChild(log);
             };
             WebFps.prototype.update = function (datas, showLastData) {
                 if (showLastData === void 0) { showLastData = false; }
@@ -187,57 +104,15 @@ r.prototype = e.prototype, t.prototype = new r();
                     else if (num > fpsMax)
                         fpsMax = num;
                 }
-                var WIDTH = this.WIDTH;
-                var HEIGHT = this.HEIGHT;
-                var context = this.contextFps;
-                context.drawImage(this.canvasFps, 1, 0, WIDTH - 1, HEIGHT, 0, 0, WIDTH - 1, HEIGHT);
-                context.fillStyle = this.bgCanvasColor;
-                context.fillRect(WIDTH - 1, 0, 1, HEIGHT);
-                var lastHeight = Math.floor(numFps / 60 * 20);
-                if (lastHeight < 1)
-                    lastHeight = 1;
-                context.fillStyle = this.fpsFrontColor;
-                context.fillRect(WIDTH - 1, 20 - lastHeight, 1, lastHeight);
-                var WIDTH_COST = this.WIDTH_COST;
-                context = this.contextCost;
-                context.drawImage(this.canvasCost, 1, 0, WIDTH_COST - 1, HEIGHT, 0, 0, WIDTH_COST - 1, HEIGHT);
-                context.drawImage(this.canvasCost, WIDTH_COST + 2, 0, WIDTH_COST - 1, HEIGHT, WIDTH_COST + 1, 0, WIDTH_COST - 1, HEIGHT);
-                var c1Height = Math.floor(numCostTicker / 2);
-                if (c1Height < 1)
-                    c1Height = 1;
-                else if (c1Height > 20)
-                    c1Height = 20;
-                //todo lcj
-                var c2Height = Math.floor(numCostRender / 2);
-                if (c2Height < 1)
-                    c2Height = 1;
-                else if (c2Height > 20)
-                    c2Height = 20;
-                context.fillStyle = this.bgCanvasColor;
-                context.fillRect(WIDTH_COST - 1, 0, 1, HEIGHT);
-                context.fillRect(WIDTH_COST * 2, 0, 1, HEIGHT);
-                context.fillRect(WIDTH_COST * 3 + 1, 0, 1, HEIGHT);
-                context.fillStyle = this.cost1Color;
-                context.fillRect(WIDTH_COST - 1, 20 - c1Height, 1, c1Height);
-                context.fillStyle = this.cost3Color;
-                context.fillRect(WIDTH_COST * 2, 20 - c2Height, 1, c2Height);
                 var fpsAvg = Math.floor(fpsTotal / lenFps);
-                var fpsOutput = numFps + " FPS " + this.renderMode;
-                if (this.showPanle) {
-                    fpsOutput += "<br/>min" + fpsMin + " max" + fpsMax + " avg" + fpsAvg;
-                    this.divDraw.innerHTML = this.lastNumDraw + "<br/>";
-                    this.divCost.innerHTML = "<font  style=\"color:#18fefe\">" + numCostTicker + "<font/> <font  style=\"color:#ff0000\">" + numCostRender + "<font/>";
-                }
-                this.fps.innerHTML = fpsOutput;
+                fpsText.text = numFps + " FPS \n"
+                    + ("min:" + fpsMin + " max:" + fpsMax + " avg:" + fpsAvg + "\n")
+                    + ("Draw " + this.lastNumDraw + "\n")
+                    + ("Cost " + numCostTicker + " " + numCostRender);
+                egret.sys.$TempStage.addChild(fpsText);
             };
             ;
             WebFps.prototype.updateInfo = function (info) {
-                this.arrLog.push(info);
-                this.log.innerHTML = this.arrLog.join('<br/>');
-                while (document.body.clientHeight < (this.log.offsetHeight + this.fpsHeight + this.panelY + this.fontSize * 2)) {
-                    this.arrLog.shift();
-                    this.log.innerHTML = this.arrLog.join('<br/>');
-                }
             };
             WebFps.prototype.updateWarn = function (info) {
             };
@@ -246,7 +121,7 @@ r.prototype = e.prototype, t.prototype = new r();
             return WebFps;
         }(egret.DisplayObject));
         wxgame.WebFps = WebFps;
-        __reflect(WebFps.prototype, "egret.wxgame.WebFps", ["egret.FPSDisplay", "egret.DisplayObject"]);
+        __reflect(WebFps.prototype, "egret.wxgame.WebFps", ["egret.FPSDisplay"]);
         egret.FPSDisplay = WebFps;
     })(wxgame = egret.wxgame || (egret.wxgame = {}));
 })(egret || (egret = {}));
@@ -2745,18 +2620,22 @@ if (window['HTMLVideoElement'] == undefined) {
          * @private
          */
         wxgame.WebLifeCycleHandler = function (context) {
-            wx.onShow(function () {
-                if (!isShow) {
-                    context.resume();
-                    isShow = true;
-                }
-            });
-            wx.onHide(function () {
-                if (isShow) {
-                    context.pause();
-                    isShow = false;
-                }
-            });
+            if (wx.onShow) {
+                wx.onShow(function () {
+                    if (!isShow) {
+                        context.resume();
+                        isShow = true;
+                    }
+                });
+            }
+            if (wx.onHide) {
+                wx.onHide(function () {
+                    if (isShow) {
+                        context.pause();
+                        isShow = false;
+                    }
+                });
+            }
         };
     })(wxgame = egret.wxgame || (egret.wxgame = {}));
 })(egret || (egret = {}));
@@ -2985,7 +2864,7 @@ if (window['HTMLVideoElement'] == undefined) {
         /**
          * 微信小游戏支持库版本号
          */
-        wxgame.version = "1.1.3";
+        wxgame.version = "1.1.8";
         /**
          * 运行环境是否为子域
          */
@@ -3502,10 +3381,10 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.WXGAME;
                 option.contentWidth = options.contentWidth || 640;
                 option.contentHeight = options.contentHeight || 1136;
                 option.orientation = options.orientation || egret.OrientationMode.AUTO;
-                option.maxTouches = 2;
+                option.maxTouches = options.maxTouches;
                 option.textureScaleFactor = 1;
-                option.showFPS = false;
-                var styleStr = "x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9";
+                option.showFPS = options.showFPS;
+                var styleStr = options.fpsStyles || "x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9";
                 var stylesArr = styleStr.split(",");
                 var styles = {};
                 for (var i = 0; i < stylesArr.length; i++) {
@@ -3777,6 +3656,21 @@ egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.WXGAME;
         function getPixels(x, y, width, height) {
             if (width === void 0) { width = 1; }
             if (height === void 0) { height = 1; }
+            //webgl环境下不需要转换成canvas获取像素信息
+            if (egret.Capabilities.renderMode == "webgl") {
+                var renderTexture = void 0;
+                //webgl下非RenderTexture纹理先画到RenderTexture
+                if (!this.$renderBuffer) {
+                    renderTexture = new egret.RenderTexture();
+                    renderTexture.drawToTexture(new egret.Bitmap(this));
+                }
+                else {
+                    renderTexture = this;
+                }
+                //从RenderTexture中读取像素数据
+                var pixels = renderTexture.$renderBuffer.getPixels(x, y, width, height);
+                return pixels;
+            }
             try {
                 var surface = convertImageToCanvas(this);
                 var result = sharedContext.getImageData(x, y, width, height).data;
@@ -6395,7 +6289,7 @@ window["sharedCanvas"].isCanvas = true;
             WebGLRenderer.prototype.drawWithFilter = function (displayObject, buffer, offsetX, offsetY) {
                 var drawCalls = 0;
                 if (displayObject.$children && displayObject.$children.length == 0 && (!displayObject.$renderNode || displayObject.$renderNode.$getRenderCount() == 0)) {
-                    return;
+                    return drawCalls;
                 }
                 var filters = displayObject.$filters;
                 var hasBlendMode = (displayObject.$blendMode !== 0);
@@ -6407,7 +6301,11 @@ window["sharedCanvas"].isCanvas = true;
                     }
                 }
                 var displayBounds = displayObject.$getOriginalBounds();
-                if (displayBounds.width <= 0 || displayBounds.height <= 0) {
+                var displayBoundsX = displayBounds.x;
+                var displayBoundsY = displayBounds.y;
+                var displayBoundsWidth = displayBounds.width;
+                var displayBoundsHeight = displayBounds.height;
+                if (displayBoundsWidth <= 0 || displayBoundsHeight <= 0) {
                     return drawCalls;
                 }
                 if (!displayObject.mask && filters.length == 1 && (filters[0].type == "colorTransform" || (filters[0].type === "custom" && filters[0].padding === 0))) {
@@ -6434,17 +6332,17 @@ window["sharedCanvas"].isCanvas = true;
                     }
                 }
                 // 为显示对象创建一个新的buffer
-                var displayBuffer = this.createRenderBuffer(displayBounds.width, displayBounds.height);
+                var displayBuffer = this.createRenderBuffer(displayBoundsWidth, displayBoundsHeight);
                 displayBuffer.context.pushBuffer(displayBuffer);
                 //todo 可以优化减少draw次数
                 if (displayObject.$mask) {
-                    drawCalls += this.drawWithClip(displayObject, displayBuffer, -displayBounds.x, -displayBounds.y);
+                    drawCalls += this.drawWithClip(displayObject, displayBuffer, -displayBoundsX, -displayBoundsY);
                 }
                 else if (displayObject.$scrollRect || displayObject.$maskRect) {
-                    drawCalls += this.drawWithScrollRect(displayObject, displayBuffer, -displayBounds.x, -displayBounds.y);
+                    drawCalls += this.drawWithScrollRect(displayObject, displayBuffer, -displayBoundsX, -displayBoundsY);
                 }
                 else {
-                    drawCalls += this.drawDisplayObject(displayObject, displayBuffer, -displayBounds.x, -displayBounds.y);
+                    drawCalls += this.drawDisplayObject(displayObject, displayBuffer, -displayBoundsX, -displayBoundsY);
                 }
                 displayBuffer.context.popBuffer();
                 //绘制结果到屏幕
@@ -6454,8 +6352,8 @@ window["sharedCanvas"].isCanvas = true;
                     }
                     drawCalls++;
                     // 绘制结果的时候，应用滤镜
-                    buffer.$offsetX = offsetX + displayBounds.x;
-                    buffer.$offsetY = offsetY + displayBounds.y;
+                    buffer.$offsetX = offsetX + displayBoundsX;
+                    buffer.$offsetY = offsetY + displayBoundsY;
                     var savedMatrix = egret.Matrix.create();
                     var curMatrix = buffer.globalMatrix;
                     savedMatrix.a = curMatrix.a;
@@ -6481,20 +6379,31 @@ window["sharedCanvas"].isCanvas = true;
                 return drawCalls;
             };
             WebGLRenderer.prototype.getRenderCount = function (displayObject) {
-                var childrenDrawCount = 0;
+                var drawCount = 0;
+                var node = displayObject.$getRenderNode();
+                if (node) {
+                    drawCount += node.$getRenderCount();
+                }
                 if (displayObject.$children) {
                     for (var _i = 0, _a = displayObject.$children; _i < _a.length; _i++) {
                         var child = _a[_i];
-                        var node = child.$getRenderNode();
-                        if (node) {
-                            childrenDrawCount += node.$getRenderCount();
+                        var filters = child.$filters;
+                        // 特殊处理有滤镜的对象
+                        if (filters && filters.length > 0) {
+                            return 2;
                         }
-                        if (child.$children) {
-                            childrenDrawCount += this.getRenderCount(child);
+                        else if (child.$children) {
+                            drawCount += this.getRenderCount(child);
+                        }
+                        else {
+                            var node_1 = child.$getRenderNode();
+                            if (node_1) {
+                                drawCount += node_1.$getRenderCount();
+                            }
                         }
                     }
                 }
-                return childrenDrawCount;
+                return drawCount;
             };
             /**
              * @private
@@ -6538,30 +6447,34 @@ window["sharedCanvas"].isCanvas = true;
                 }
                 else {
                     var displayBounds = displayObject.$getOriginalBounds();
+                    var displayBoundsX = displayBounds.x;
+                    var displayBoundsY = displayBounds.y;
+                    var displayBoundsWidth = displayBounds.width;
+                    var displayBoundsHeight = displayBounds.height;
                     //绘制显示对象自身，若有scrollRect，应用clip
-                    var displayBuffer = this.createRenderBuffer(displayBounds.width, displayBounds.height);
+                    var displayBuffer = this.createRenderBuffer(displayBoundsWidth, displayBoundsHeight);
                     displayBuffer.context.pushBuffer(displayBuffer);
-                    drawCalls += this.drawDisplayObject(displayObject, displayBuffer, -displayBounds.x, -displayBounds.y);
+                    drawCalls += this.drawDisplayObject(displayObject, displayBuffer, -displayBoundsX, -displayBoundsY);
                     //绘制遮罩
                     if (mask) {
-                        var maskBuffer = this.createRenderBuffer(displayBounds.width, displayBounds.height);
+                        var maskBuffer = this.createRenderBuffer(displayBoundsWidth, displayBoundsHeight);
                         maskBuffer.context.pushBuffer(maskBuffer);
                         var maskMatrix = egret.Matrix.create();
                         maskMatrix.copyFrom(mask.$getConcatenatedMatrix());
                         mask.$getConcatenatedMatrixAt(displayObject, maskMatrix);
-                        maskMatrix.translate(-displayBounds.x, -displayBounds.y);
+                        maskMatrix.translate(-displayBoundsX, -displayBoundsY);
                         maskBuffer.setTransform(maskMatrix.a, maskMatrix.b, maskMatrix.c, maskMatrix.d, maskMatrix.tx, maskMatrix.ty);
                         egret.Matrix.release(maskMatrix);
                         drawCalls += this.drawDisplayObject(mask, maskBuffer, 0, 0);
                         maskBuffer.context.popBuffer();
                         displayBuffer.context.setGlobalCompositeOperation("destination-in");
                         displayBuffer.setTransform(1, 0, 0, -1, 0, maskBuffer.height);
-                        displayBuffer.globalAlpha = 1;
                         var maskBufferWidth = maskBuffer.rootRenderTarget.width;
                         var maskBufferHeight = maskBuffer.rootRenderTarget.height;
                         displayBuffer.context.drawTexture(maskBuffer.rootRenderTarget.texture, 0, 0, maskBufferWidth, maskBufferHeight, 0, 0, maskBufferWidth, maskBufferHeight, maskBufferWidth, maskBufferHeight);
                         displayBuffer.setTransform(1, 0, 0, 1, 0, 0);
                         displayBuffer.context.setGlobalCompositeOperation("source-over");
+                        maskBuffer.setTransform(1, 0, 0, 1, 0, 0);
                         renderBufferPool.push(maskBuffer);
                     }
                     displayBuffer.context.setGlobalCompositeOperation(defaultCompositeOp);
@@ -6575,7 +6488,6 @@ window["sharedCanvas"].isCanvas = true;
                         if (scrollRect) {
                             buffer.context.pushMask(scrollRect.x + offsetX, scrollRect.y + offsetY, scrollRect.width, scrollRect.height);
                         }
-                        buffer.globalAlpha = 1;
                         var savedMatrix = egret.Matrix.create();
                         var curMatrix = buffer.globalMatrix;
                         savedMatrix.a = curMatrix.a;
@@ -6584,7 +6496,7 @@ window["sharedCanvas"].isCanvas = true;
                         savedMatrix.d = curMatrix.d;
                         savedMatrix.tx = curMatrix.tx;
                         savedMatrix.ty = curMatrix.ty;
-                        curMatrix.append(1, 0, 0, -1, offsetX + displayBounds.x, offsetY + displayBounds.y + displayBuffer.height);
+                        curMatrix.append(1, 0, 0, -1, offsetX + displayBoundsX, offsetY + displayBoundsY + displayBuffer.height);
                         var displayBufferWidth = displayBuffer.rootRenderTarget.width;
                         var displayBufferHeight = displayBuffer.rootRenderTarget.height;
                         buffer.context.drawTexture(displayBuffer.rootRenderTarget.texture, 0, 0, displayBufferWidth, displayBufferHeight, 0, 0, displayBufferWidth, displayBufferHeight, displayBufferWidth, displayBufferHeight);
