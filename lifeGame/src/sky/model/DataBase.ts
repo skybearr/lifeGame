@@ -2,6 +2,8 @@ class DataBase {
 	public constructor() {
 	}
 
+
+	
 	/**0未开始 1开始 */
 	public static gameState:number;
 	public static gamePackage:number;
@@ -16,6 +18,9 @@ class DataBase {
 	public static maxStoreNum:number;
 	/**声望 */
 	public static fame:number;
+	public static saveFame(fame:number){
+		DataBase.fame = fame;
+	}
 
 	public static marketGoods:varGoods[];
 	public static storeGoods:varGoods[];

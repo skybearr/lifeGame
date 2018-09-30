@@ -72,6 +72,7 @@ var GameCommand = (function (_super) {
         }
         this.sendData();
         GameLogic.getInstance().gameui.over();
+        WxApi.getInstance().setLocalDataByString("fame", DataBase.fame + "");
         if (t == 0) {
             WxApi.getInstance().setHigherScore(DataBase.money);
         }
@@ -172,8 +173,8 @@ var GameCommand = (function (_super) {
                     DataBase.pow = DataBase.pow <= 0 ? 0 : DataBase.pow;
                     break;
                 case 4://fame
-                    DataBase.fame = DataBase.fame + (isadd ? value : -value);
-                    DataBase.fame = DataBase.fame <= 0 ? 0 : DataBase.fame;
+                    DataBase.saveFame(DataBase.fame + (isadd ? value : -value));
+                    DataBase.saveFame(DataBase.fame <= 0 ? 0 : DataBase.fame);
                     break;
             }
         }
@@ -264,7 +265,11 @@ var GameCommand = (function (_super) {
         DataBase.deposit = 0; //new Int64(0, 0);
         DataBase.pow = o['pow'];
         DataBase.maxStoreNum = 100;
-        DataBase.fame = o['fame'];
+        var n = WxApi.getInstance().getLocalData("fame");
+        DataBase.fame = (n == null || n == "") ? o['fame'] : parseInt(n);
+        if (DataBase.fame == null || DataBase.fame == undefined || DataBase.fame == NaN) {
+            DataBase.fame = 0;
+        }
         DataBase.marketGoods = [];
         DataBase.storeGoods = [];
         DataBase.events = [];
@@ -297,10 +302,10 @@ var GameCommand = (function (_super) {
             this.sendError(ERROR.BUY_ZERO);
             return;
         }
-        if (id == this.bases[this.bases.length - 1] && DataBase.gamePackage == 1) {
-            this.sendError(ERROR.NEED_LICIENCE);
-            return;
-        }
+        // if(id == this.bases[this.bases.length-1] && DataBase.gamePackage == 1){
+        // 	this.sendError(ERROR.NEED_LICIENCE);
+        // 	return;
+        // }
         var arr = DataBase.marketGoods;
         for (var i = 0; i < arr.length; i++) {
             var good = arr[i];
@@ -423,7 +428,7 @@ var GameCommand = (function (_super) {
         if (n < charity) {
             var r = Math.random() * 100;
             if (r < 2) {
-                DataBase.fame += 3;
+                DataBase.saveFame(DataBase.fame + 3);
                 c = 0;
             }
             else {
@@ -432,7 +437,7 @@ var GameCommand = (function (_super) {
         }
         else {
             var i = Math.floor(n / charity);
-            DataBase.fame += i;
+            DataBase.saveFame(DataBase.fame + i);
             c = i < 10 ? 2 : (i < 100 ? 3 : 4);
         }
         this.addEvent(5, 1, c);

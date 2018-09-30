@@ -25,7 +25,7 @@
 			"url": "assets/img/game.json",
 			"type": "sheet",
 			"name": "game_json",
-			"subkeys": "arrowup,b_bg43,help0,help1,help2,help3,help4,help5,help6,help7,help8,n_sta_17,public_8,rank_back,rank_bg,soulhecheng_3,yong_1,yong_10,yong_11,yong_12,yong_13,yong_14,yong_15,yong_16,yong_2,yong_3,yong_4,yong_6,yong_7,yong_8,yong_9"
+			"subkeys": "arrowup,b_bg43,help0,help1,help2,help3,help4,help5,help6,help7,help8,n_sta_17,noice1_zb,noice2_zb,public_8,rank_back,rank_bg,soulhecheng_3,yong_1,yong_10,yong_11,yong_12,yong_13,yong_14,yong_15,yong_16,yong_2,yong_3,yong_4,yong_6,yong_7,yong_8,yong_9"
 		},
 		{
 			"url": "assets/img/bg.mp3",

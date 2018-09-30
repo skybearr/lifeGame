@@ -7,6 +7,8 @@ class GameConst {
 
 	public static version:string = "201808181130";
 
+	public static coinstr:string[] = ["","现金","存款","债务","体力","声望"];
+
 }
 enum ERROR {
 	MONEY_NOT_ENOUGH = 1,
@@ -19,6 +21,16 @@ enum ERROR {
 }
 
 enum ACHIVE{
-	RELIVE = 1,
+	 ARIVED = 1,//达成类
+	 BUY = 2,//购买类，用钱购买
+	 TITLE = 3,//称号
+}
+
+enum COINTYPE{
+	 MONEY = 1,//现金
+	 DEPOSIT = 2,//存款
+	 DEPT = 3,//债务
+	 POW = 4,//体力
+	 FAME = 5,//声望
 
 }

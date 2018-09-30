@@ -32,7 +32,7 @@ class WxApi extends egret.EventDispatcher {
 	}
 
 	/**检测wx是否启用 */
-	private checkWx(): boolean {
+	public checkWx(): boolean {
 		let wx = window['wx'];
 		return wx != null;
 	}
@@ -59,6 +59,12 @@ class WxApi extends egret.EventDispatcher {
 
 	/** ------------------------------- 分享 -------------------------------------------------------  */
 
+	private titlestr:string[] = ["我来苏州40天就买了3套房，你也试试？",
+								"阳澄湖大闸蟹上市了，不想尝尝吗",
+								"苏州园林甲江南 江南园林甲天下，苏州欢迎您",
+								"迪士尼太远，来苏州乐园，苏州欢迎您",
+								"是松鼠桂鱼还是松鼠鳜鱼，点击试吃"];
+
 	/**主动转发 
 	 * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
 	*/
@@ -66,14 +72,29 @@ class WxApi extends egret.EventDispatcher {
 		if (!this.checkWx()) {
 			return;
 		}
+		console.log("shared:",WxApi.getInstance().shared);
+		
+		if(WxApi.getInstance().shared == true){
+			return;
+		}
+		WxApi.getInstance().shared = true;
 		this.updateShareMenu(true);
 		let querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
+
+		let i = Math.floor(Math.random() * this.titlestr.length);
+		WxApi.getInstance().shareInfo.share_game_title = this.titlestr[i];
+		WxApi.getInstance().shareInfo.share_game_img = "resource/assets/img/share" + i + ".jpg";
 		wx.shareAppMessage({
 			title: WxApi.getInstance().shareInfo.share_game_title,
 			imageUrl: WxApi.getInstance().shareInfo.share_game_img,
-			query: querystr
+			query: querystr,
+			success: res => {
+				DataBase.money += 5000;	
+				WxApi.getInstance().dispatchEvent(new GameEvent(GameEvent.ADDMONEY));
+			}
 		})
 	}
+	public shared:boolean = false;
 
 	public shareInfo: any;
 	/**右上角转发 */
@@ -228,12 +249,12 @@ class WxApi extends egret.EventDispatcher {
 		}
 	}
 	/**读取本地数据 */
-	public getLocalData(key: string) {
+	public getLocalData(key: string):any {
 		if (!this.checkWx()) {
 			return null;
 		}
 		try {
-			return wx.getStorageSync(key);
+			return wx.getStorageSync(key);;
 		}
 		catch (e) {
 			return null;
@@ -255,7 +276,14 @@ class WxApi extends egret.EventDispatcher {
 
 	/** ------------------------------------- 待完善 ------------------------------ */
 
-
+	public toast(str:string){
+		if (!this.checkWx()) {
+			return null;
+		}
+		wx.showToast({
+			title:str
+		});
+	}
 
 
 
@@ -279,23 +307,6 @@ class WxApi extends egret.EventDispatcher {
 
 			},
 		});
-	}
-
-
-
-    
-	/**炫耀 */
-	public showoff() {
-		let wx = window["wx"];
-		if (wx == null) {
-			return;
-		}
-		this.updateShareMenu(true);
-		wx.shareAppMessage({
-			title: PlayerConst.highestScore + "分，不服来战！", //WxApi.getInstance().shareInfo.title,
-			imageUrl: WxApi.getInstance().shareInfo.share_group_img,
-			query: WxApi.getInstance().shareInfo.query
-		})
 	}
 
 	public drawBMP(): egret.Bitmap {

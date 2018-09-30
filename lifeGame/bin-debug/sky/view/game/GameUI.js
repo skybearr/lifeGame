@@ -182,7 +182,7 @@ var GameUI = (function (_super) {
                 str += StringUtil.getSwfLangStrVarByID("s1" + (3 + i), [DataBase.achives[i] + ""]) + "\n";
             }
             str += StringUtil.getSwfLangStr("s19") + "\n";
-            str += StringUtil.getSwfLangStr("s50") + "\n";
+            str += GameLogic.getInstance().getTitle();
             this['btn_27'].visible = true;
         }
         this['lbl_over_1'].text = str;
@@ -191,6 +191,8 @@ var GameUI = (function (_super) {
         this.eventAppear(StringUtil.getSwfLangStr("e" + i));
     };
     GameUI.prototype.initView = function () {
+        var b = SoundManager.getInstance().sound_switch;
+        this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb");
     };
     GameUI.prototype.initEvent = function () {
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
@@ -206,6 +208,12 @@ var GameUI = (function (_super) {
             lbl.addEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
         }
         this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
+        this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
+    };
+    GameUI.prototype.clickSound = function () {
+        var b = !SoundManager.getInstance().sound_switch;
+        SoundManager.getInstance().playBgSound(b);
+        this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb");
     };
     GameUI.prototype.cbChange = function () {
     };
@@ -300,7 +308,7 @@ var GameUI = (function (_super) {
                 this['lbl_num5'].text = this.max_num + "";
                 break;
             case 9://转发
-                GameLogic.getInstance().share();
+                WxApi.getInstance().share();
                 break;
             case 10://玩法说明
                 this.addChild(new NewGuild());
@@ -366,6 +374,7 @@ var GameUI = (function (_super) {
                 WxApi.getInstance().share();
                 break;
             case 28://成就
+                // WxApi.getInstance().toast("暂未开放，尽请期待")
                 this.addChild(new AchieveUI());
                 break;
         }
@@ -427,6 +436,7 @@ var GameUI = (function (_super) {
             lbl.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
         }
         this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
+        this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
     };
     return GameUI;
 }(eui.Component));

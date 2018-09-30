@@ -11,7 +11,14 @@ r.prototype = e.prototype, t.prototype = new r();
 var WxApi = (function (_super) {
     __extends(WxApi, _super);
     function WxApi() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        /** ------------------------------- 分享 -------------------------------------------------------  */
+        _this.titlestr = ["我来苏州40天就买了3套房，你也试试？",
+            "阳澄湖大闸蟹上市了，不想尝尝吗",
+            "苏州园林甲江南 江南园林甲天下，苏州欢迎您",
+            "迪士尼太远，来苏州乐园，苏州欢迎您",
+            "是松鼠桂鱼还是松鼠鳜鱼，点击试吃"];
+        return _this;
     }
     WxApi.getInstance = function () {
         if (this._instance == null) {
@@ -51,7 +58,6 @@ var WxApi = (function (_super) {
             title: str
         });
     };
-    /** ------------------------------- 分享 -------------------------------------------------------  */
     /**主动转发
      * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
     */
@@ -62,10 +68,16 @@ var WxApi = (function (_super) {
         }
         this.updateShareMenu(true);
         var querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
+        var i = Math.floor(Math.random() * this.titlestr.length);
+        WxApi.getInstance().shareInfo.share_game_title = this.titlestr[i];
+        WxApi.getInstance().shareInfo.share_game_img = "resource/assets/img/share" + i + ".jpg";
         wx.shareAppMessage({
             title: WxApi.getInstance().shareInfo.share_game_title,
             imageUrl: WxApi.getInstance().shareInfo.share_game_img,
-            query: querystr
+            query: querystr,
+            success: function (res) {
+                DataBase.money += 5000;
+            }
         });
     };
     /**右上角转发 */
@@ -210,6 +222,7 @@ var WxApi = (function (_super) {
         }
         try {
             return wx.getStorageSync(key);
+            ;
         }
         catch (e) {
             return null;
@@ -228,6 +241,14 @@ var WxApi = (function (_super) {
         }
     };
     /** ------------------------------------- 待完善 ------------------------------ */
+    WxApi.prototype.toast = function (str) {
+        if (!this.checkWx()) {
+            return null;
+        }
+        wx.showToast({
+            title: str
+        });
+    };
     /**登录 */
     WxApi.prototype.login = function () {
         var _this = this;
@@ -245,19 +266,6 @@ var WxApi = (function (_super) {
             },
             complete: function () {
             },
-        });
-    };
-    /**炫耀 */
-    WxApi.prototype.showoff = function () {
-        var wx = window["wx"];
-        if (wx == null) {
-            return;
-        }
-        this.updateShareMenu(true);
-        wx.shareAppMessage({
-            title: PlayerConst.highestScore + "分，不服来战！",
-            imageUrl: WxApi.getInstance().shareInfo.share_group_img,
-            query: WxApi.getInstance().shareInfo.query
         });
     };
     WxApi.prototype.drawBMP = function () {
