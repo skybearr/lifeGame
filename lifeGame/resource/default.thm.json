@@ -1,19 +1,19 @@
 {
-	"skins": {
-		"StartSkin": "resource/skins/StartSkin.exml"
-	},
-	"autoGenerateExmlsList": true,
-	"exmls": [
-		"resource/skins/AchieveItemSkin.exml",
-		"resource/skins/AchieveSkin.exml",
-		"resource/skins/BaseButtonSkin.exml",
-		"resource/skins/GameSkin.exml",
-		"resource/skins/MainBtn.exml",
-		"resource/skins/MarketItemSkin.exml",
-		"resource/skins/NewGuildSkin.exml",
-		"resource/skins/RankSkin.exml",
-		"resource/skins/StartSkin.exml",
-		"resource/skins/StoreItemSkin.exml"
-	],
-	"path": "resource/default.thm.json"
+    "skins": {
+        "StartSkin": "resource/skins/StartSkin.exml"
+    },
+    "autoGenerateExmlsList": true,
+    "exmls": [
+        "resource/skins/AchieveItemSkin.exml",
+        "resource/skins/AchieveSkin.exml",
+        "resource/skins/BaseButtonSkin.exml",
+        "resource/skins/GameSkin.exml",
+        "resource/skins/MainBtn.exml",
+        "resource/skins/MarketItemSkin.exml",
+        "resource/skins/NewGuildSkin.exml",
+        "resource/skins/RankSkin.exml",
+        "resource/skins/StartSkin.exml",
+        "resource/skins/StoreItemSkin.exml"
+    ],
+    "path": "resource/default.thm.json"
 }
