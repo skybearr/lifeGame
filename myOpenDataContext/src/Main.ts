@@ -11,7 +11,7 @@ class Main extends egret.DisplayObjectContainer {
     private itemWidth: number;
     private itemHeight: number = 100;
     private itemDis: number = 0;
-    private itemNumPerPage: number = 7;
+    private itemNumPerPage: number = 8;
     private myItemY: number;
     private myItemDisList: number = 20;
 
@@ -73,6 +73,8 @@ class Main extends egret.DisplayObjectContainer {
             //keylist 需要获取排行榜中的数据的key
             keyList: ["score"],
             success: res => {
+                console.log("openFriendCloud:",res);
+                
                 this.initItems(res.data, true)
             },
             fail: err => {
@@ -139,6 +141,8 @@ class Main extends egret.DisplayObjectContainer {
         }
 
         arr = arr.sort(this.sortfun);
+        console.log("arr",arr);
+        
         for (let i: number = 0; i < arr.length; i++) {
             let data = arr[i];
 
@@ -149,7 +153,7 @@ class Main extends egret.DisplayObjectContainer {
 
         this.scrollView.y = this.listY;
 
-        this.initMyItem(myrank, mydata);
+        // this.initMyItem(myrank, mydata);
     }
 
     //分数按从高到低排序

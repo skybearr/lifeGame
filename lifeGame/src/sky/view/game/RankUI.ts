@@ -33,16 +33,25 @@ class RankUI extends eui.Component {
 	}
 
 	private bmp_context: egret.Bitmap;
+	private bitmapdata:egret.BitmapData;
 	private initDataContext() {
 		//开放域主体
-		let platform: any = window.platform;
-		if(platform.openDataContext == null){
-			return;
-		}
-		this.bmp_context = platform.openDataContext.createDisplayObject(null, this.stage.stageWidth, this.stage.stageHeight);
-        this.addChildAt(this.bmp_context,4);//盖在底图上面，各种按钮下面
 
-		WxApi.getInstance().postToDataContext({
+		this.bitmapdata = new egret.BitmapData(window["sharedCanvas"]);
+		this.bitmapdata.$deleteSource = false;
+		const texture = new egret.Texture();
+		texture._setBitmapData(this.bitmapdata);
+		this.bmp_context = new egret.Bitmap(texture);
+		this.bmp_context.width = GameLogic.getInstance().GameStage.stageWidth;
+		this.bmp_context.height = GameLogic.getInstance().GameStage.stageHeight;
+		this.bmp_context.x = this.bmp_context.y = 0;
+
+		this.addChildAt(this.bmp_context, 4);//盖在底图上面，各种按钮下面
+
+		egret.stopTick(this.tickerHandler, this);
+		egret.startTick(this.tickerHandler, this);
+
+		platform.postMessage({
 			shareTicket: this.shareticket,
 			// userinfo:WxApi.getInstance().userInfo,
 			stageW: GameLogic.getInstance().GameStage.stageWidth,
@@ -67,18 +76,28 @@ class RankUI extends eui.Component {
 		}
 	}
 
+	private tickerHandler(timeStarmp: number): boolean {
+		egret.WebGLUtils.deleteWebGLTexture(this.bitmapdata.webGLTexture);
+		this.bitmapdata.webGLTexture = null;
+		return false;
+	}
+
 	private clear() {
 		this.img_close.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickClose, this);
 		this.btn_group.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickGroupRank,this);
 		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
 
-		WxApi.getInstance().postToDataContext({
+		platform.postMessage({
 			command: "close"
 		});
 		if (this.bmp_context != null && this.bmp_context.parent != null) {
 			this.bmp_context.parent.removeChild(this.bmp_context);
 			this.bmp_context = null;
 		}
+
+		egret.stopTick(this.tickerHandler, this);
+		this.bmp_context = null;
+		this.bitmapdata = null;
 	}
 }
 window["RankUI"]=RankUI;

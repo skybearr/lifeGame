@@ -141,6 +141,7 @@ var GameLogic = (function (_super) {
     };
     GameLogic.prototype.startGame = function () {
         this.main.removeChildren();
+        WxApi.getInstance().watched = false;
         this.main.addChild(new GameUI());
     };
     /** 登录授权*/

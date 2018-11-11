@@ -9,7 +9,23 @@ class GameConst {
 
 	public static coinstr:string[] = ["","现金","存款","债务","体力","声望"];
 
+	public static rewardAdId:string = "";
+	public static bannerAdId:string = "";
+
 }
+
+/** 分享类型 */
+	enum SHARETYPE{
+		ACTIVE = 1,//主动分享
+		SHOWOFF = 2,//炫耀
+		CRTSCORE = 3,//当前分数
+		PASSIVE = 4,//被动分享
+		GROUPRANK = 5,//群排行
+		SCREENSHOT = 6,//当前页截图
+		INVITE = 7,//邀请好友，永久
+		INVITE_DAILY = 8,//每日邀请
+	}
+
 enum ERROR {
 	MONEY_NOT_ENOUGH = 1,
 	STORE_NOT_ENOUGH = 2,
@@ -33,4 +49,9 @@ enum COINTYPE{
 	 POW = 4,//体力
 	 FAME = 5,//声望
 
+}
+
+enum WATCHTYPE{
+	NONE = 0,
+	ADDMONEY = 1,//加钱
 }

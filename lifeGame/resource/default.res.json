@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "config_json,goods_json,strings_json,game_json,bg_mp3",
+			"keys": "config_json,goods_json,strings_json,game_json,bg_mp3,share5_jpg",
 			"name": "preload"
 		}
 	],
@@ -31,6 +31,11 @@
 			"url": "assets/img/bg.mp3",
 			"type": "sound",
 			"name": "bg_mp3"
+		},
+		{
+			"name": "share5_jpg",
+			"type": "image",
+			"url": "assets/img/share5.jpg"
 		}
 	]
 }

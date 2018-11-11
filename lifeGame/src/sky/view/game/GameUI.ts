@@ -29,7 +29,7 @@ class GameUI extends eui.Component {
 
 	private crtPop: number;
 
-	private img_sound:eui.Image;
+	private img_sound: eui.Image;
 
 	private market_arr: MarketItem[];
 	private store_arr: StoreItem[];
@@ -63,12 +63,12 @@ class GameUI extends eui.Component {
 			this.rect_evt.height = GameLogic.getInstance().GameStage.stageHeight;
 	}
 
-	private checkNewHand(){
-		if(WxApi.getInstance().isNew()){
+	private checkNewHand() {
+		if (WxApi.getInstance().isNew()) {
 			this.addChild(new NewGuild());
 		}
 	}
-	
+
 
 	private eventlist: string[];
 	private eventpoping: boolean;
@@ -270,11 +270,11 @@ class GameUI extends eui.Component {
 			lbl.addEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
 		this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
-		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickSound,this);
-		WxApi.getInstance().addEventListener(GameEvent.ADDMONEY,this.addMoney,this);
+		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
+		WxApi.getInstance().addEventListener(GameEvent.REWARDAD_CLOSE_EVENT, this.addMoney, this);
 	}
 
-	private clickSound(){
+	private clickSound() {
 		let b = !SoundManager.getInstance().sound_switch;
 		SoundManager.getInstance().playBgSound(b);
 		this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb")
@@ -378,13 +378,13 @@ class GameUI extends eui.Component {
 				this['lbl_num5'].text = this.max_num + "";
 				break;
 			case 9://转发
-				console.log("shared",WxApi.getInstance().shared);
-			
-				if(WxApi.getInstance().shared == true){
+				console.log("watched", WxApi.getInstance().watched);
+
+				if (WxApi.getInstance().watched == true) {
 					this.popEvent("单局游戏只能获取一次");
 					return;
 				}
-				WxApi.getInstance().share();
+				WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
 				break;
 			case 10://玩法说明
 				this.addChild(new NewGuild());
@@ -447,19 +447,14 @@ class GameUI extends eui.Component {
 				this.eventNext();
 				break;
 			case 27://炫耀
-				console.log("shared",WxApi.getInstance().shared);
-			
-				if(WxApi.getInstance().shared == true){
-					this.popEvent("单局游戏只能获取一次");
-					return;
-				}
-				WxApi.getInstance().share();
-				
+				let title:string = "球球来苏40天，一共赚了" + DataBase.money + "元，买了豪车买了房，只差一个靓媳妇！快来帮我介绍个";
+				let img:string = "resource/assets/img/share5.jpg";
+				WxApi.getInstance().sharenew(SHARETYPE.SHOWOFF,title,img);
 				break;
 			case 28://成就
-				WxApi.getInstance().toast("尽请期待")
+				platform.toast("尽请期待")
 				// this.addChild(new AchieveUI());
-			break;
+				break;
 		}
 	}
 
@@ -528,11 +523,15 @@ class GameUI extends eui.Component {
 			lbl.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.txtClick, this);
 		}
 		this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
-		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickSound,this);
-		WxApi.getInstance().removeEventListener(GameEvent.ADDMONEY,this.addMoney,this);
+		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
+		WxApi.getInstance().removeEventListener(GameEvent.REWARDAD_CLOSE_EVENT, this.addMoney, this);
 	}
 
-	private addMoney(){
-		this.lbl_1.text = DataBase.money.toString();
+	private addMoney(e: GameEvent) {
+		if (e.data.type == WATCHTYPE.ADDMONEY && e.data.data == 0) {
+			DataBase.money += 5000;
+			this.lbl_1.text = DataBase.money.toString();
+		}
+
 	}
 }

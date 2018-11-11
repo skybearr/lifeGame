@@ -8,13 +8,19 @@ class StartUI extends eui.Component {
 	private lbl_content: eui.Label;
 	private lbl_log:eui.Label;
 	private lbl_prop:eui.Label;
+	
+	private btn_10:eui.Button;
+	private btn_11:eui.Button;
+	private btn_12:eui.Button;
 
-
+	private img_sound:eui.Image;
 	protected childrenCreated() {
 		super.childrenCreated();
 
 		this.checkFit();
 		
+		platform.bannershow(GameConst.bannerAdId);
+
 		let data = GameLogic.getInstance().data;
 		this.lbl_content.text = StringUtil.getSwfLangStr("s2");
 		this.updateProp();
@@ -35,23 +41,33 @@ class StartUI extends eui.Component {
 		}
 
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
+		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
 		GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE,this.updateProp,this);
 
-		if(WxApi.getInstance().checkWx()){
-			this.button = wx.createGameClubButton({
-			icon: 'white',
-			style: {
-				left: 10,
-				top: 40,
-				width: 32,
-				height: 32,
-				text: "游戏圈"
-			}
-		})
-		}
+		this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+		this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+		this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+
+		// if(WxApi.getInstance().checkWx()){
+		// 	this.button = wx.createGameClubButton({
+		// 	icon: 'white',
+		// 	style: {
+		// 		left: 10,
+		// 		top: 40,
+		// 		width: 32,
+		// 		height: 32,
+		// 		text: "游戏圈"
+		// 	}
+		// })
+		// }
 		
 	}
 	private button: any;
+
+	private initSound(){
+		let b = SoundManager.getInstance().sound_switch;
+		this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb")
+	}
 
 	private checkFit(){
 		this.img_bg.height = GameLogic.getInstance().GameStage.stageHeight;
@@ -75,12 +91,38 @@ class StartUI extends eui.Component {
 		GameLogic.getInstance().startGame();
 	}
 
+	private clickbtn1(e:egret.TouchEvent){
+		switch(e.currentTarget){
+			case this.btn_10:
+			WxApi.getInstance().showRewardAd(WATCHTYPE.NONE);
+			break;
+			case this.btn_11:
+			this.addChild(new RankUI());
+			break;
+			case this.btn_12:
+			WxApi.getInstance().share();
+			break;
+
+		}
+	}
+	private clickSound() {
+		let b = !SoundManager.getInstance().sound_switch;
+		SoundManager.getInstance().playBgSound(b);
+		this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb")
+	}
+
 	private clear() {
 		for (let i: number = 1; i <= 3; i++) {
 			this['btn_' + i].removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
 		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
+		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
 		GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE,this.updateProp,this);
+		this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+		this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+		this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+
+		platform.bannerdestroy();
 
 		if(this.button != null){
 			this.button.destroy();

@@ -1598,6 +1598,7 @@ var egret = window.egret;
 		t.percentHeight = 100;
 		t.horizontalCenter = 0;
 		t.top = 0;
+		t.visible = false;
 		t.percentWidth = 100;
 		t.elementsContent = [this.rect_evt_i(),this._Image14_i(),this.lbl_event_1_i(),this.btn_25_i(),this.cb_0_i()];
 		return t;
@@ -2395,10 +2396,10 @@ var egret = window.egret;
 	__extends(StartSkin, _super);
 	function StartSkin() {
 		_super.call(this);
-		this.skinParts = ["img_bg","lbl_name","lbl_log","lbl_content","btn_1","btn_2","btn_3","lbl_prop"];
+		this.skinParts = ["img_bg","img_sound","lbl_name","lbl_log","lbl_content","btn_1","btn_10","btn_11","btn_12","btn_2","btn_3","lbl_prop"];
 		
 		this.width = 750;
-		this.elementsContent = [this.img_bg_i(),this._Image1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i()];
+		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i()];
 	}
 	var _proto = StartSkin.prototype;
 
@@ -2411,6 +2412,20 @@ var egret = window.egret;
 		t.verticalCenter = 0;
 		t.width = 750;
 		t.x = 0;
+		return t;
+	};
+	_proto.img_sound_i = function () {
+		var t = new eui.Image();
+		this.img_sound = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 69;
+		t.scaleX = 0.8;
+		t.scaleY = 0.8;
+		t.source = "game_json.noice1_zb";
+		t.width = 73;
+		t.x = 12.6;
+		t.y = 404.8;
 		return t;
 	};
 	_proto._Image1_i = function () {
@@ -2487,12 +2502,58 @@ var egret = window.egret;
 	_proto.btn_1_i = function () {
 		var t = new eui.Button();
 		this.btn_1 = t;
-		t.height = 160;
+		t.height = 60;
 		t.horizontalCenter = 0;
 		t.label = "开始游戏";
-		t.skinName = "MainBtn";
-		t.width = 578;
-		t.y = 880;
+		t.skinName = "BaseButtonSkin";
+		t.width = 200;
+		t.y = 871;
+		return t;
+	};
+	_proto._Group1_i = function () {
+		var t = new eui.Group();
+		t.horizontalCenter = 0;
+		t.y = 955;
+		t.layout = this._HorizontalLayout1_i();
+		t.elementsContent = [this.btn_10_i(),this.btn_11_i(),this.btn_12_i()];
+		return t;
+	};
+	_proto._HorizontalLayout1_i = function () {
+		var t = new eui.HorizontalLayout();
+		t.gap = 30;
+		return t;
+	};
+	_proto.btn_10_i = function () {
+		var t = new eui.Button();
+		this.btn_10 = t;
+		t.height = 50;
+		t.label = "鼓励作者";
+		t.skinName = "BaseButtonSkin";
+		t.width = 130;
+		t.x = 143;
+		t.y = 0;
+		return t;
+	};
+	_proto.btn_11_i = function () {
+		var t = new eui.Button();
+		this.btn_11 = t;
+		t.height = 50;
+		t.label = "排行榜";
+		t.skinName = "BaseButtonSkin";
+		t.width = 130;
+		t.x = 355;
+		t.y = 0;
+		return t;
+	};
+	_proto.btn_12_i = function () {
+		var t = new eui.Button();
+		this.btn_12 = t;
+		t.height = 50;
+		t.label = "分享";
+		t.skinName = "BaseButtonSkin";
+		t.width = 130;
+		t.x = 0;
+		t.y = 1;
 		return t;
 	};
 	_proto.btn_2_i = function () {

@@ -161,7 +161,7 @@ class GameLogic extends egret.EventDispatcher {
 
 	public startGame() {
 		this.main.removeChildren();
-		WxApi.getInstance().shared = false;
+		WxApi.getInstance().watched = false;
 		this.main.addChild(new GameUI());
 		
 	}

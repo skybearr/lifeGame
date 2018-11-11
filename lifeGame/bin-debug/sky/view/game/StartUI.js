@@ -36,6 +36,9 @@ var StartUI = (function (_super) {
         }
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
         GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+        this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         if (WxApi.getInstance().checkWx()) {
             this.button = wx.createGameClubButton({
                 icon: 'white',
@@ -68,12 +71,28 @@ var StartUI = (function (_super) {
         GameCommand.getInstance().selectPackage(i);
         GameLogic.getInstance().startGame();
     };
+    StartUI.prototype.clickbtn1 = function (e) {
+        switch (e.currentTarget) {
+            case this.btn_10:
+                WxApi.getInstance().showRewardAd(WATCHTYPE.NONE);
+                break;
+            case this.btn_11:
+                this.addChild(new RankUI());
+                break;
+            case this.btn_12:
+                WxApi.getInstance().share();
+                break;
+        }
+    };
     StartUI.prototype.clear = function () {
         for (var i = 1; i <= 3; i++) {
             this['btn_' + i].removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
         GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+        this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         if (this.button != null) {
             this.button.destroy();
         }

@@ -12,6 +12,7 @@ var WxApi = (function (_super) {
     __extends(WxApi, _super);
     function WxApi() {
         var _this = _super.call(this) || this;
+        _this.watched = false;
         /** ------------------------------- 分享 -------------------------------------------------------  */
         _this.titlestr = ["我来苏州40天就买了3套房，你也试试？",
             "阳澄湖大闸蟹上市了，不想尝尝吗",
@@ -76,9 +77,44 @@ var WxApi = (function (_super) {
             imageUrl: WxApi.getInstance().shareInfo.share_game_img,
             query: querystr,
             success: function (res) {
-                DataBase.money += 5000;
             }
         });
+    };
+    /**分享
+     * @param type fw.SHARETYPE.XXX分享类型 1主动分享  2炫耀  3当前分数 4被动分享 5群排行
+     */
+    WxApi.prototype.sharenew = function (type, title, img) {
+        if (type === void 0) { type = 1; }
+        if (title === void 0) { title = null; }
+        if (img === void 0) { img = null; }
+        var query = "";
+        switch (type) {
+            case SHARETYPE.ACTIVE:
+                this.share();
+                break;
+            case SHARETYPE.SHOWOFF:
+                var i = Math.floor(Math.random() * this.titlestr.length);
+                WxApi.getInstance().shareInfo.share_game_img = "resource/assets/img/share" + i + ".jpg";
+                platform.share(title, WxApi.getInstance().shareInfo.share_game_img, null);
+                break;
+            case SHARETYPE.CRTSCORE:
+                platform.share(title, "resource/assets/share.jpg", query);
+                break;
+            case SHARETYPE.PASSIVE:
+                platform.showShareMenu();
+                platform.updateShareMenu(true);
+                platform.onShareAppMessage("每天练习5分钟，提高孩子注意力", "resource/assets/share.jpg", query);
+                break;
+            case SHARETYPE.GROUPRANK:
+                query = "&grouprank=1";
+                platform.share("每天练习5分钟，提高孩子注意力", "resource/assets/share.jpg", query);
+                break;
+            case SHARETYPE.INVITE:
+                platform.share("玩了舒尔特方格，我上课注意力变的集中了，你也来试试吧", "resource/assets/share.jpg", query);
+                break;
+            case SHARETYPE.INVITE_DAILY:
+                break;
+        }
     };
     /**右上角转发 */
     WxApi.prototype.initShareInfo = function (info) {
@@ -374,12 +410,12 @@ var WxApi = (function (_super) {
         if (wx == null) {
             return;
         }
-        this.rewardAd = wx.createRewardedVideoAd({ adUnitId: "adunit-dbf18bd3a9ac0892" });
+        this.rewardAd = wx.createRewardedVideoAd({ adUnitId: GameConst.rewardAdId });
         this.rewardAd.onLoad(function () {
             console.log('激励视频 广告加载成功');
         });
         this.rewardAd.onError(function (err) {
-            console.log("rewardAderror:", err);
+            platform.toast("广告拉取失败，请稍后尝试");
         });
         this.rewardAd.onClose(function (res) {
             // 用户点击了【关闭广告】按钮
@@ -388,6 +424,7 @@ var WxApi = (function (_super) {
             if (res && res.isEnded || res === undefined) {
                 // 正常播放结束，可以下发游戏奖励
                 state = 0;
+                // this.rewardAdCDStart();
             }
             else {
                 // 播放中途退出，不下发游戏奖励
@@ -396,6 +433,9 @@ var WxApi = (function (_super) {
             _this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, state);
         });
     };
+    /** 观看视频 关闭视频监听GameEvent.REWARDAD_CLOSE_EVENT
+     * @param type 观看视频来源类型 WATCHTYPE.XXXX
+     */
     WxApi.prototype.showRewardAd = function (type) {
         var _this = this;
         this.adtype = type;
@@ -403,7 +443,7 @@ var WxApi = (function (_super) {
             try {
                 this.rewardAd.show()
                     .catch(function (err) {
-                    console.log("showRewardAd:", err);
+                    _this.toast("广告加载失败");
                     _this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, 2);
                 });
             }
@@ -417,6 +457,9 @@ var WxApi = (function (_super) {
     };
     WxApi.prototype.dispatchGameEvent = function (eventname, data) {
         console.log("dispatchGameEvent:", eventname, this.adtype, data);
+        if (eventname == GameEvent.REWARDAD_CLOSE_EVENT && data == 2) {
+            this.toast("暂无视频可观看，过会再来看看吧");
+        }
         var event = new GameEvent(eventname);
         event.data = { type: this.adtype, data: data };
         this.dispatchEvent(event);

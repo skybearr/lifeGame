@@ -209,6 +209,7 @@ var GameUI = (function (_super) {
         }
         this.rect_evt.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
         this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
+        WxApi.getInstance().addEventListener(GameEvent.REWARDAD_CLOSE_EVENT, this.addMoney, this);
     };
     GameUI.prototype.clickSound = function () {
         var b = !SoundManager.getInstance().sound_switch;
@@ -308,6 +309,11 @@ var GameUI = (function (_super) {
                 this['lbl_num5'].text = this.max_num + "";
                 break;
             case 9://转发
+                console.log("shared", WxApi.getInstance().shared);
+                if (WxApi.getInstance().shared == true) {
+                    this.popEvent("单局游戏只能获取一次");
+                    return;
+                }
                 WxApi.getInstance().share();
                 break;
             case 10://玩法说明
@@ -371,11 +377,16 @@ var GameUI = (function (_super) {
                 this.eventNext();
                 break;
             case 27://炫耀
-                WxApi.getInstance().share();
+                console.log("watched", WxApi.getInstance().watched);
+                if (WxApi.getInstance().watched == true) {
+                    this.popEvent("单局游戏只能获取一次");
+                    return;
+                }
+                WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
                 break;
             case 28://成就
-                // WxApi.getInstance().toast("暂未开放，尽请期待")
-                this.addChild(new AchieveUI());
+                platform.toast("尽请期待");
+                // this.addChild(new AchieveUI());
                 break;
         }
     };
@@ -437,6 +448,13 @@ var GameUI = (function (_super) {
         }
         this.rect_evt.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickRect, this);
         this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
+        WxApi.getInstance().removeEventListener(GameEvent.REWARDAD_CLOSE_EVENT, this.addMoney, this);
+    };
+    GameUI.prototype.addMoney = function (e) {
+        if (e.data.type == WATCHTYPE.ADDMONEY && e.data.data == 0) {
+            DataBase.money += 5000;
+            this.lbl_1.text = DataBase.money.toString();
+        }
     };
     return GameUI;
 }(eui.Component));

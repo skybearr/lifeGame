@@ -8,9 +8,23 @@ var GameConst = (function () {
     GameConst.web = 1;
     GameConst.version = "201808181130";
     GameConst.coinstr = ["", "现金", "存款", "债务", "体力", "声望"];
+    GameConst.rewardAdId = "";
+    GameConst.bannerAdId = "";
     return GameConst;
 }());
 __reflect(GameConst.prototype, "GameConst");
+/** 分享类型 */
+var SHARETYPE;
+(function (SHARETYPE) {
+    SHARETYPE[SHARETYPE["ACTIVE"] = 1] = "ACTIVE";
+    SHARETYPE[SHARETYPE["SHOWOFF"] = 2] = "SHOWOFF";
+    SHARETYPE[SHARETYPE["CRTSCORE"] = 3] = "CRTSCORE";
+    SHARETYPE[SHARETYPE["PASSIVE"] = 4] = "PASSIVE";
+    SHARETYPE[SHARETYPE["GROUPRANK"] = 5] = "GROUPRANK";
+    SHARETYPE[SHARETYPE["SCREENSHOT"] = 6] = "SCREENSHOT";
+    SHARETYPE[SHARETYPE["INVITE"] = 7] = "INVITE";
+    SHARETYPE[SHARETYPE["INVITE_DAILY"] = 8] = "INVITE_DAILY";
+})(SHARETYPE || (SHARETYPE = {}));
 var ERROR;
 (function (ERROR) {
     ERROR[ERROR["MONEY_NOT_ENOUGH"] = 1] = "MONEY_NOT_ENOUGH";
@@ -35,4 +49,9 @@ var COINTYPE;
     COINTYPE[COINTYPE["POW"] = 4] = "POW";
     COINTYPE[COINTYPE["FAME"] = 5] = "FAME";
 })(COINTYPE || (COINTYPE = {}));
+var WATCHTYPE;
+(function (WATCHTYPE) {
+    WATCHTYPE[WATCHTYPE["NONE"] = 0] = "NONE";
+    WATCHTYPE[WATCHTYPE["ADDMONEY"] = 1] = "ADDMONEY";
+})(WATCHTYPE || (WATCHTYPE = {}));
 //# sourceMappingURL=GameConst.js.map

@@ -12,7 +12,7 @@ class WxApi extends egret.EventDispatcher {
 		return this._instance;
 	}
 
-
+	public watched:boolean = false;
 	public GameStage: egret.Stage;
 
 	private rewardAd;
@@ -48,22 +48,22 @@ class WxApi extends egret.EventDispatcher {
 	}
 
 	/**系统提示 */
-	public showToast(str:string){
+	public showToast(str: string) {
 		if (!this.checkWx()) {
 			return;
 		}
 		wx.showToast({
-			title:str
+			title: str
 		});
 	}
 
 	/** ------------------------------- 分享 -------------------------------------------------------  */
 
-	private titlestr:string[] = ["我来苏州40天就买了3套房，你也试试？",
-								"阳澄湖大闸蟹上市了，不想尝尝吗",
-								"苏州园林甲江南 江南园林甲天下，苏州欢迎您",
-								"迪士尼太远，来苏州乐园，苏州欢迎您",
-								"是松鼠桂鱼还是松鼠鳜鱼，点击试吃"];
+	private titlestr: string[] = ["我来苏州40天就买了3套房，你也试试？",
+		"阳澄湖大闸蟹上市了，不想尝尝吗",
+		"苏州园林甲江南 江南园林甲天下，苏州欢迎您",
+		"迪士尼太远，来苏州乐园，苏州欢迎您",
+		"是松鼠桂鱼还是松鼠鳜鱼，点击试吃"];
 
 	/**主动转发 
 	 * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
@@ -72,12 +72,6 @@ class WxApi extends egret.EventDispatcher {
 		if (!this.checkWx()) {
 			return;
 		}
-		console.log("shared:",WxApi.getInstance().shared);
-		
-		if(WxApi.getInstance().shared == true){
-			return;
-		}
-		WxApi.getInstance().shared = true;
 		this.updateShareMenu(true);
 		let querystr = query == null ? WxApi.getInstance().shareInfo.query : query;
 
@@ -89,12 +83,44 @@ class WxApi extends egret.EventDispatcher {
 			imageUrl: WxApi.getInstance().shareInfo.share_game_img,
 			query: querystr,
 			success: res => {
-				DataBase.money += 5000;	
-				WxApi.getInstance().dispatchEvent(new GameEvent(GameEvent.ADDMONEY));
+				
 			}
 		})
 	}
-	public shared:boolean = false;
+
+
+	/**分享
+	 * @param type fw.SHARETYPE.XXX分享类型 1主动分享  2炫耀  3当前分数 4被动分享 5群排行
+	 */
+	public sharenew(type: number = 1, title: string = null, img: any = null) {
+		let query: string = "";
+		switch (type) {
+			case SHARETYPE.ACTIVE:
+				this.share();
+				break;
+			case SHARETYPE.SHOWOFF:
+				platform.share(title,img,null);
+				break;
+			case SHARETYPE.CRTSCORE:
+				platform.share(title, "resource/assets/share.jpg", query)
+				break;
+			case SHARETYPE.PASSIVE:
+				platform.showShareMenu();
+				platform.updateShareMenu(true);
+				platform.onShareAppMessage("每天练习5分钟，提高孩子注意力", "resource/assets/share.jpg", query)
+				break;
+			case SHARETYPE.GROUPRANK:
+				query = "&grouprank=1";
+				platform.share("每天练习5分钟，提高孩子注意力", "resource/assets/share.jpg", query)
+				break;
+			case SHARETYPE.INVITE:
+				platform.share("玩了舒尔特方格，我上课注意力变的集中了，你也来试试吧", "resource/assets/share.jpg", query);
+				break;
+			case SHARETYPE.INVITE_DAILY:
+
+				break;
+		}
+	}
 
 	public shareInfo: any;
 	/**右上角转发 */
@@ -106,8 +132,8 @@ class WxApi extends egret.EventDispatcher {
 		if (!this.checkWx()) {
 			return;
 		}
-		console.log("initShareInfo:",info);
-		
+		console.log("initShareInfo:", info);
+
 		wx.showShareMenu();
 		this.onShare();
 		// this.initRewardVideoAd();
@@ -189,15 +215,15 @@ class WxApi extends egret.EventDispatcher {
 
 	/** -------------------------------------- 一些本地数据 --------------------------------------------------- */
 
-	 /** 对用户托管数据进行写数据操作，允许同时写多组 KV 数据
-	 * @param	KVDataList	要修改的 KV 数据列表	
-	*/
+	/** 对用户托管数据进行写数据操作，允许同时写多组 KV 数据
+	* @param	KVDataList	要修改的 KV 数据列表	
+   */
 	public setHigherScore(v: number) {
 		//0不计入
 		if (v <= 0) {
 			return;
 		}
-		if(!this.checkWx()){
+		if (!this.checkWx()) {
 			return;
 		}
 
@@ -206,7 +232,7 @@ class WxApi extends egret.EventDispatcher {
 			return;
 		}
 		PlayerConst.highestScore = v;
-		this.setLocalDataByString(PlayerConst.hiscore,v + "");
+		this.setLocalDataByString(PlayerConst.hiscore, v + "");
 		let KVDataList = [];
 
 		wx.setUserCloudStorage({
@@ -249,7 +275,7 @@ class WxApi extends egret.EventDispatcher {
 		}
 	}
 	/**读取本地数据 */
-	public getLocalData(key: string):any {
+	public getLocalData(key: string): any {
 		if (!this.checkWx()) {
 			return null;
 		}
@@ -276,12 +302,12 @@ class WxApi extends egret.EventDispatcher {
 
 	/** ------------------------------------- 待完善 ------------------------------ */
 
-	public toast(str:string){
+	public toast(str: string) {
 		if (!this.checkWx()) {
 			return null;
 		}
 		wx.showToast({
-			title:str
+			title: str
 		});
 	}
 
@@ -361,7 +387,7 @@ class WxApi extends egret.EventDispatcher {
 		return new egret.Bitmap(trrrr);
 	}
 
-	
+
 
 	// 	let shareinfo = {
 	// 	share_game_img: setting.share_game_img,
@@ -372,7 +398,7 @@ class WxApi extends egret.EventDispatcher {
 	// 	share_show_title: setting.share_show_title,
 	// 	query: "",
 	// };
-	
+
 
 	/**联系客服 */
 	public feedBack() {
@@ -432,15 +458,14 @@ class WxApi extends egret.EventDispatcher {
 		if (wx == null) {
 			return;
 		}
-		this.rewardAd = wx.createRewardedVideoAd({ adUnitId: "adunit-dbf18bd3a9ac0892" })
-
+		this.rewardAd = wx.createRewardedVideoAd({ adUnitId: GameConst.rewardAdId });
 
 		this.rewardAd.onLoad(() => {
 			console.log('激励视频 广告加载成功')
 		})
 
 		this.rewardAd.onError(err => {
-			console.log("rewardAderror:", err)
+			platform.toast("广告拉取失败，请稍后尝试")
 		})
 
 		this.rewardAd.onClose(res => {
@@ -450,6 +475,7 @@ class WxApi extends egret.EventDispatcher {
 			if (res && res.isEnded || res === undefined) {
 				// 正常播放结束，可以下发游戏奖励
 				state = 0;
+				// this.rewardAdCDStart();
 			}
 			else {
 				// 播放中途退出，不下发游戏奖励
@@ -460,16 +486,17 @@ class WxApi extends egret.EventDispatcher {
 
 	}
 
-
 	private adtype: number;
+	/** 观看视频 关闭视频监听GameEvent.REWARDAD_CLOSE_EVENT
+	 * @param type 观看视频来源类型 WATCHTYPE.XXXX
+	 */
 	public showRewardAd(type: number) {
 		this.adtype = type;
-
 		if (this.rewardAd != null) {
 			try {
 				this.rewardAd.show()
 					.catch(err => {
-						console.log("showRewardAd:", err);
+						this.toast("广告加载失败")
 
 						this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, 2);
 					})
@@ -482,10 +509,11 @@ class WxApi extends egret.EventDispatcher {
 			this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, 2);
 		}
 	}
-
 	private dispatchGameEvent(eventname: string, data: any) {
 		console.log("dispatchGameEvent:", eventname, this.adtype, data);
-
+		if (eventname == GameEvent.REWARDAD_CLOSE_EVENT && data == 2) {
+			platform.toast("暂无视频可观看，过会再来看看吧");
+		}
 		let event = new GameEvent(eventname);
 		event.data = { type: this.adtype, data: data };
 		this.dispatchEvent(event);
@@ -526,6 +554,8 @@ class WxApi extends egret.EventDispatcher {
 		if (wx == null) {
 			return;
 		}
+		console.log("postToDataContext",data);
+		
 		wx.getOpenDataContext().postMessage(data);
 	}
 }
