@@ -9,8 +9,8 @@ class GameConst {
 
 	public static coinstr:string[] = ["","现金","存款","债务","体力","声望"];
 
-	public static rewardAdId:string = "";
-	public static bannerAdId:string = "";
+	public static rewardAdId:string = "adunit-24c9a10622c29f9e";
+	public static bannerAdId:string = "adunit-648e17f5764c7979";
 
 }
 

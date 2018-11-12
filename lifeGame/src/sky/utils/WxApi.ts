@@ -136,7 +136,7 @@ class WxApi extends egret.EventDispatcher {
 
 		wx.showShareMenu();
 		this.onShare();
-		// this.initRewardVideoAd();
+		this.initRewardVideoAd();
 		this.checkShareInfo();
 	}
 
