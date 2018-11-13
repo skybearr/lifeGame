@@ -82,6 +82,7 @@
 				              requestedRowCount="3" />
 			</e:layout>
 		</e:Group>
+		<e:Image source="1_png" x="224.02" y="160" width="20" height="20" touchEnabled="false"/>
 	</e:Group>
 	<e:Image id="img_sound" x="19.6" y="130.8" anchorOffsetX="0" width="73" anchorOffsetY="0" height="69" source="game_json.noice1_zb" scaleX="0.8" scaleY="0.8"/>
 	<e:Group id="gp_pop" height="180" anchorOffsetY="0" touchEnabled="false" width="750" top="758">
