@@ -4,16 +4,29 @@ require('./manifest.js');
 require('./egret.wxgame.js');
 
 // 启动微信小游戏本地缓存，如果开发者不需要此功能，只需注释即可
-require('./library/image.js');
-require('./library/text.js');
-require('./library/sound.js');
-require('./library/binary.js');
+// 只有使用 assetsmanager 的项目可以使用
+if(window.RES && RES.processor) {
+    require('./library/image.js');
+    require('./library/text.js');
+    require('./library/sound.js');
+    require('./library/binary.js');
+}
 
 egret.runEgret({
     //以下为自动修改，请勿修改
     //The following is automatically modified, please do not modify
     //----auto option start----
-    //----auto option end----
+		entryClassName: "Main",
+		orientation: "auto",
+		frameRate: 60,
+		scaleMode: "fixedWidth",
+		contentWidth: 750,
+		contentHeight: 1334,
+		showFPS: false,
+		fpsStyles: "x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9",
+		showLog: false,
+		maxTouches: 2,
+		//----auto option end----
     renderMode: 'webgl',
     audioType: 0,
     calculateCanvasScaleFactor: function (context) {

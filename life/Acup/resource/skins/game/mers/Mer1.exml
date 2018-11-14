@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="Mer1Skin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
+	<e:Image id="img_bg" source="jl1_png" scaleX="4" scaleY="4" x="0" y="0"/>
+	<ns1:BaseAcup id="a1" x="632.33" y="913.67" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a2" x="624.33" y="850.68" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a3" x="453.24" y="1226" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a4" x="439.51" y="1300" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a5" x="416.61" y="1488" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a6" x="357.68" y="1739.7" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a7" x="304.88" y="1997.37" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a8" x="309.61" y="2054.37" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a9" x="285.68" y="2104.37" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a10" x="234.68" y="2185.89" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+	<ns1:BaseAcup id="a11" x="174.68" y="2279.89" skinName="BaseAcupSkin" scaleX="1" scaleY="1" anchorOffsetX="30" anchorOffsetY="30"/>
+
+
+
+
+
+
+
+     
+
+</e:Skin>

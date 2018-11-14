@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="MeridianSkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
+	<e:Rect width="640" height="1136" x="0" y="0" fillColor="0x71a063"/>
+	<e:Label id="lbl_mer" text="Label" y="35" anchorOffsetX="0" width="196" horizontalCenter="0" textAlign="center"/>
+	<e:Group id="group" width="560" height="916" horizontalCenter="0" y="99" anchorOffsetY="0">
+		<e:Label id="lbl0" text="Label" y="0" anchorOffsetX="0" width="560" textAlign="left" x="0" scaleX="1" scaleY="1" textColor="0xe500f7"/>
+		<e:Label id="lbl1" text="Label" y="0" anchorOffsetX="0" width="560" textAlign="left" x="0" scaleX="1" scaleY="1" textColor="0x0100b7"/>
+		<e:Label id="lbl2" text="Label" y="10" anchorOffsetX="0" width="560" textAlign="left" x="10" scaleX="1" scaleY="1" textColor="0xe00ddc"/>
+		<e:Label id="lbl3" text="Label" y="20" anchorOffsetX="0" width="560" textAlign="left" x="20" scaleX="1" scaleY="1" textColor="0x1100f2"/>
+		<e:Label id="lbl4" text="Label" y="30" anchorOffsetX="0" width="560" textAlign="left" x="30" scaleX="1" scaleY="1" textColor="0xe0113b"/>
+		<e:layout>
+			<e:VerticalLayout gap="20" horizontalAlign="left"/>
+		</e:layout>
+	</e:Group>
+	<e:Button id="btn_start" label="开始" skinName="BaseButtonSkin" horizontalCenter="0" bottom="40"/>
+	<e:Button id="btn_back" label="返回" skinName="BaseButtonSkin" horizontalCenter="230" bottom="40"/>
+
+
+
+
+     
+</e:Skin>

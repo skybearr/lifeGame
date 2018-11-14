@@ -1,0 +1,27 @@
+{
+	"initial": [
+		"libs/modules/egret/egret.js",
+		"libs/modules/egret/egret.web.js",
+		"libs/modules/eui/eui.js",
+		"libs/modules/assetsmanager/assetsmanager.js",
+		"libs/modules/tween/tween.js",
+		"libs/modules/game/game.js",
+		"libs/modules/promise/promise.js"
+	],
+	"game": [
+		"bin-debug/Main.js",
+		"bin-debug/sky/utils/ViewUtil.js",
+		"bin-debug/Platform.js",
+		"bin-debug/ThemeAdapter.js",
+		"bin-debug/sky/compenent/BaseAcup.js",
+		"bin-debug/sky/data/GameCache.js",
+		"bin-debug/sky/logic/GameLogic.js",
+		"bin-debug/AssetAdapter.js",
+		"bin-debug/sky/view/Ball.js",
+		"bin-debug/sky/view/GameUI.js",
+		"bin-debug/sky/view/LoadingUI.js",
+		"bin-debug/sky/view/MeridianUI.js",
+		"bin-debug/sky/view/SearchUI.js",
+		"bin-debug/sky/view/StartUI.js"
+	]
+}

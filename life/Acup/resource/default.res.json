@@ -1,0 +1,105 @@
+{
+	"groups": [
+		{
+			"keys": "star_a_png",
+			"name": "preload"
+		},
+		{
+			"keys": "acup_data_json,data_json,jl1_png,jl10_png,jl11_png,jl12_png,jl2_png,jl3_png,jl4_png,jl5_png,jl6_png,jl7_png,jl8_png,jl9_png,main_json,1_fnt",
+			"name": "game"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/data/acup_data.json",
+			"type": "json",
+			"name": "acup_data_json"
+		},
+		{
+			"url": "assets/data/data.json",
+			"type": "json",
+			"name": "data_json"
+		},
+		{
+			"url": "assets/preload/star_a.png",
+			"type": "image",
+			"name": "star_a_png"
+		},
+		{
+			"url": "assets/game/jl1.png",
+			"type": "image",
+			"name": "jl1_png"
+		},
+		{
+			"url": "assets/game/jl10.png",
+			"type": "image",
+			"name": "jl10_png"
+		},
+		{
+			"url": "assets/game/jl11.png",
+			"type": "image",
+			"name": "jl11_png"
+		},
+		{
+			"url": "assets/game/jl12.png",
+			"type": "image",
+			"name": "jl12_png"
+		},
+		{
+			"url": "assets/game/jl2.png",
+			"type": "image",
+			"name": "jl2_png"
+		},
+		{
+			"url": "assets/game/jl3.png",
+			"type": "image",
+			"name": "jl3_png"
+		},
+		{
+			"url": "assets/game/jl4.png",
+			"type": "image",
+			"name": "jl4_png"
+		},
+		{
+			"url": "assets/game/jl5.png",
+			"type": "image",
+			"name": "jl5_png"
+		},
+		{
+			"url": "assets/game/jl6.png",
+			"type": "image",
+			"name": "jl6_png"
+		},
+		{
+			"url": "assets/game/jl7.png",
+			"type": "image",
+			"name": "jl7_png"
+		},
+		{
+			"url": "assets/game/jl8.png",
+			"type": "image",
+			"name": "jl8_png"
+		},
+		{
+			"url": "assets/game/jl9.png",
+			"type": "image",
+			"name": "jl9_png"
+		},
+		{
+			"url": "assets/start/main.json",
+			"type": "sheet",
+			"name": "main_json",
+			"subkeys": "ava,ava_b,ava_big1,ava_lookers,ava_rank,bag,bottom,btn,btn_bg_g,btn_bg_h,btnbg,clock,close,disk_dark,disk_light,gift,gold,golf_bottom,golf_top,gray,green,i,l_arr,loading_cover,loading_progress,loading_progressBg,loading_word,paper_top,play,r_arr,replay,stripe,top,white"
+		},
+		{
+			"url": "assets/font/1.fnt",
+			"type": "font",
+			"name": "1_fnt"
+		},
+		{
+			"url": "assets/font/1.png",
+			"type": "image",
+			"name": "1_png"
+		}
+	]
+}

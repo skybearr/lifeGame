@@ -207,10 +207,10 @@ class Main extends egret.DisplayObjectContainer {
     private item_namecolor: number = 0xffffff;
     private item_namefont: string = "SimHei";
 
-    private item_scorex: number = 470;
-    private item_scorewidth: number = 118;
-    private item_scoreheight: number = 36;
-    private item_scoresize: number = 36;
+    private item_scorex: number = 428;
+    private item_scorewidth: number = 160;
+    private item_scoreheight: number = 30;
+    private item_scoresize: number = 30;
     private item_scorecolor: number = 0xffffff;
     private item_scorefont: string = "SimHei";
 

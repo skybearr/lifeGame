@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="StartSkin" width="640" height="1136" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Rect id="rect" width="640" height="1136" x="0" y="0" fillColor="0x3e3f3d" locked="true"/>
+	<e:Label id="lbl" text="穴位小游戏" y="39" horizontalCenter="0" locked="true"/>
+	<e:Group id="group" width="600" height="600" horizontalCenter="0" verticalCenter="0">
+		<e:layout>
+			<e:TileLayout orientation="rows" horizontalAlign="center" verticalAlign="middle" requestedColumnCount="4" rowAlign="top" rowHeight="80" columnAlign="justifyUsingWidth"/>
+		</e:layout>
+	</e:Group>
+	<e:Button id="btn_1" label="根据病症查穴位" y="176" skinName="BaseButtonSkin" anchorOffsetX="0" width="181" x="20"/>
+
+
+
+
+
+
+
+
+
+
+
+     
+</e:Skin>

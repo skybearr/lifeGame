@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="GameSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*" width="640" height="1136">
+	<e:Rect width="640" height="1136" locked="true"/>
+	<e:Group id="gp_main" y="10" scaleX="0.33" scaleY="0.33" horizontalCenter="0">
+		<e:Component id="mer" scaleX="1" scaleY="1" skinName="Mer1Skin" left="0" top="0" locked="true"/>
+
+
+
+	</e:Group>
+
+
+
+
+
+     
+
+</e:Skin>

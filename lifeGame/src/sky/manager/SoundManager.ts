@@ -36,6 +36,7 @@ class SoundManager {
                 this.bgChannel = null;
             }
             this.bgChannel = this.bgSound.play(this.bg_position,0);
+            this.bgChannel.volume = 0.2;
         }
         else {
             if(this.bgChannel != null)

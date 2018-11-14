@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<e:Skin class="BaseAcupSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="60" height="60">
+	<e:Image id="img_bg" source="paper_top" horizontalCenter="0" verticalCenter="0" width="60" height="60" alpha="1" smoothing="true"/>
+	<e:Label id="lbl" text="" textColor="0x000000" size="30" textAlign="center" verticalAlign="bottom" anchorOffsetX="0" horizontalCenter="0" verticalCenter="0"/>
+</e:Skin>

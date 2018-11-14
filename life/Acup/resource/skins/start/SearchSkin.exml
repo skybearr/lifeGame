@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="SearchSkin" width="600" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:ns1="*">
+	<e:Rect width="640" height="1136" x="0" y="0" fillColor="0xaaa28c" locked="true"/>
+
+
+	<e:Button id="btn_start" label="开始查询" skinName="BaseButtonSkin" horizontalCenter="0" bottom="40"/>
+	<e:Button id="btn_back" label="返回" skinName="BaseButtonSkin" horizontalCenter="230" bottom="40"/>
+	<e:EditableText id="lbl" width="510" height="91" text="" y="115" anchorOffsetX="0" anchorOffsetY="0" prompt="输入症状，空格分割" size="30" horizontalCenter="0"/>
+
+
+
+
+     
+</e:Skin>

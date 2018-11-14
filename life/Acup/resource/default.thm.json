@@ -1,0 +1,17 @@
+{
+	"skins": {
+		"BaseButtonSkin": "resource/skins/compenent/BaseButton.exml"
+	},
+	"autoGenerateExmlsList": true,
+	"exmls": [
+		"resource/skins/LoadingSkin.exml",
+		"resource/skins/compenent/BaseAcup.exml",
+		"resource/skins/compenent/BaseButton.exml",
+		"resource/skins/game/mers/Mer1.exml",
+		"resource/skins/game/GameSkin.exml",
+		"resource/skins/start/MeridianSkin.exml",
+		"resource/skins/start/SearchSkin.exml",
+		"resource/skins/start/StartSkin.exml"
+	],
+	"path": "resource/default.thm.json"
+}
