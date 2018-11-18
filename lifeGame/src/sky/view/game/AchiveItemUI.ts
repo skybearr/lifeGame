@@ -21,11 +21,11 @@ class AchiveItemUI extends eui.ItemRenderer {
 
 	private initView() {
 		let vo = this.data as AchieveVO;
-		if(vo == null){
+		if (vo == null) {
 			return;
 		}
 		this.lbl_name.text = vo.content;
-		this.lbl_have.text = "已拥有：" + vo.have;
+		this.lbl_have.text = (vo.type == 1 || vo.type == 3 ? "已达成" : "已拥有：") + vo.have;
 		let needstr = "需要：";
 		for (let i = 0; i < vo.need.length; i++) {
 			let o: { id: number, value: number } = vo.need[i];
@@ -56,7 +56,7 @@ class AchiveItemUI extends eui.ItemRenderer {
 			GameLogic.getInstance().saveAchieve(type, vo.id, 1)
 			for (let i = 0; i < vo.need.length; i++) {
 				let o: { id: number, value: number } = vo.need[i];
-				if(o.id == COINTYPE.MONEY){
+				if (o.id == COINTYPE.MONEY) {
 					DataBase.money -= o.value;
 				}
 			}

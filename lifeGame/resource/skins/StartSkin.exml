@@ -22,4 +22,5 @@
 	<e:Image width="438" height="50" source="game_json.yong_10" horizontalCenter="15" top="100"/>
 	<e:Label id="lbl_prop" text="分享可获得炒房券（炒房券X0）" y="1219" size="24" textColor="0x888888" fontFamily="SimHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" visible="false"/>
 	<e:Image source="1_png" x="205" y="949.5" width="20" height="20" touchEnabled="false"/>
+	<e:Label id="lbl_cd" text="00:00:00" x="151.65" y="1004.66" anchorOffsetX="0" width="125.67" fontFamily="SimHei" size="22" verticalAlign="middle" textAlign="center"/>
 </e:Skin>

@@ -26,6 +26,9 @@ var GameLogic = (function (_super) {
         SoundManager.getInstance().playBgSound(true);
         this.initData();
         this.getHiscore();
+        //视频cd
+        var cd = WxApi.getInstance().getStorage(GameConst.localdata_key_reward_cd);
+        WxApi.getInstance().starttime = cd == null || cd == "" ? null : parseInt(cd);
         this.openStart(); //要放在initShareInfo之前，share可能有群排行点进来的
         WxApi.getInstance().initShareInfo();
     };
@@ -108,33 +111,85 @@ var GameLogic = (function (_super) {
     };
     /**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]*/
     GameLogic.prototype.saveAchieve = function (type, id, num) {
-        if (num === void 0) { num = 0; }
+        if (num === void 0) { num = 1; }
         var arr = this.arrives[type];
         if (arr == null) {
             arr = [];
         }
-        if (type == ACHIVE.ARIVED || type == ACHIVE.TITLE) {
-            if (arr.indexOf(id) == null) {
-                arr.push(id);
-            }
-            else {
-                return;
-            }
-        }
-        else if (type == ACHIVE.BUY) {
-            var has = false;
-            for (var key in arr) {
-                if (id == key) {
-                    has = true;
-                    arr[key].num += num;
-                }
-            }
-            if (!has) {
-                arr.push({ id: id, num: num });
+        // if (type == ACHIVE.ARIVED || type == ACHIVE.TITLE) {
+        // 	if (arr.indexOf(id) == null) {
+        // 		arr.push(id);
+        // 	}
+        // 	else {
+        // 		return;
+        // 	}
+        // }
+        // else if (type == ACHIVE.BUY) {
+        var has = false;
+        for (var key in arr) {
+            if (id == key) {
+                has = true;
+                arr[key].num += num;
             }
         }
+        if (!has) {
+            arr.push({ id: id, num: num });
+        }
+        // }
         this.arrives[type] = arr;
         WxApi.getInstance().setLocalDataByObject("achieve", this.arrives);
+    };
+    /** 游戏结束保存达成类成就 */
+    GameLogic.prototype.saveAchieveByGameOver = function () {
+        // for (let id in this.achieves) {
+        // 	let o = this.achieves[id];
+        // 	if (o.type == 1) {
+        // 		let n = 0;
+        // 		let arr = o.need.split(";");
+        // 		for (let i = 0; i < arr.length; i++) {
+        // 			let a = arr[i].split("_");
+        // 			let id = parseInt(a[0]);
+        // 			let value = parseInt(a[1]);
+        // 			let b = false;
+        // 			switch (id) {
+        // 				case COINTYPE.MONEY:
+        // 					if (value >= DataBase.money) {
+        // 						b = true;
+        // 					}
+        // 					break;
+        // 				case COINTYPE.DEPT:
+        // 					if (value == 0 && value == DataBase.debt) {
+        // 						b = true;
+        // 					}
+        // 					else if (value > 0 && value >= DataBase.debt) {
+        // 						b = true;
+        // 					}
+        // 					break;
+        // 				case COINTYPE.FAME:
+        // 					if (value >= DataBase.fame) {
+        // 						b = true;
+        // 					}
+        // 					break;
+        // 				case COINTYPE.DEPOSIT:
+        // 					if (value >= DataBase.deposit) {
+        // 						b = true;
+        // 					}
+        // 					break;
+        // 				case COINTYPE.POW:
+        // 					if (value >= DataBase.pow) {
+        // 						b = true;
+        // 					}
+        // 					break;
+        // 			}
+        // 			if (b) {
+        // 				n++;
+        // 			}
+        // 		}
+        // 		if (n == arr.length) {
+        // 			this.saveAchieve(ACHIVE.ARIVED, id);
+        // 		}
+        // 	}
+        // }
     };
     GameLogic.prototype.getArrives = function () {
         return this.arrives;
@@ -142,6 +197,7 @@ var GameLogic = (function (_super) {
     GameLogic.prototype.startGame = function () {
         this.main.removeChildren();
         WxApi.getInstance().watched = false;
+        WxApi.getInstance().sharenum = 0;
         this.main.addChild(new GameUI());
     };
     /** 登录授权*/

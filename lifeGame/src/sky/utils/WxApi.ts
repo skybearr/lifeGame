@@ -13,6 +13,7 @@ class WxApi extends egret.EventDispatcher {
 	}
 
 	public watched:boolean = false;
+	public sharenum:number = 0;
 	public GameStage: egret.Stage;
 
 	private rewardAd;
@@ -170,6 +171,15 @@ class WxApi extends egret.EventDispatcher {
 			}
 		}
 
+	}
+
+	/** true 不显示  false 显示 */
+	public checkVersion():boolean{
+		let time = new Date().getTime();
+		console.log(time);
+		time = 1542503026438;
+		let vtime = time + 1000 * 3600 * 2;
+		return time < vtime;
 	}
 
     /**监听用户点击右上角菜单的“转发”按钮时触发的事件
@@ -499,6 +509,7 @@ class WxApi extends egret.EventDispatcher {
 						this.toast("广告加载失败")
 
 						this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, 2);
+						this.rewardAdCDStart();
 					})
 			}
 			catch (e) {
@@ -519,8 +530,41 @@ class WxApi extends egret.EventDispatcher {
 		this.dispatchEvent(event);
 	}
 
+	/** 激励视频相关 */
+	public starttime: number;
+	private rewardAdCDStart() {
+		this.starttime = new Date().getTime();
 
+		this.setStorage(GameConst.localdata_key_reward_cd, this.starttime + "");
+	}
+	public getRewardCD(): number {
+		let nowtime = new Date().getTime();
 
+		if (this.starttime == null) {
+			return 0;
+		}
+		else {
+			return GameConst.rewardCD - Math.floor((nowtime - this.starttime) / 1000);
+		}
+	}
+
+	/** 存储本地数据
+	 * @param key 
+	 * @param value   string|obj
+	 * @param isobj 是否为obj，本地缓存数据时需要用，微信不需要
+	 */
+	public setStorage(key, value, isobj = false) {
+		platform.setStorageSync(key, value, isobj);
+	}
+
+	/** 获取本地缓存
+	 * @param key 
+	 * @param isobj 是否为obj，本地缓存数据时需要用，微信不需要
+	 * @return 如果没有 返回空字符串 ""
+	 */
+	public getStorage(key, isobj = false) {
+		return platform.getStorageSync(key, isobj);
+	}
 
 
 	/**跳转到其他小程序 */

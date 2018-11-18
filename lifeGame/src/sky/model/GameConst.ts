@@ -12,6 +12,10 @@ class GameConst {
 	public static rewardAdId:string = "adunit-24c9a10622c29f9e";
 	public static bannerAdId:string = "adunit-648e17f5764c7979";
 
+	/** 缓存在本地的key */
+	public static localdata_key_reward_cd: string = "rewardadcd";
+	public static rewardCD:number;
+
 }
 
 /** 分享类型 */
@@ -38,7 +42,7 @@ enum ERROR {
 
 enum ACHIVE{
 	 ARIVED = 1,//达成类
-	 BUY = 2,//购买类，用钱购买
+	 BUY = 2,//购买类，用钱和声望购买
 	 TITLE = 3,//称号
 }
 

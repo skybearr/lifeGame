@@ -8,8 +8,10 @@ var GameConst = (function () {
     GameConst.web = 1;
     GameConst.version = "201808181130";
     GameConst.coinstr = ["", "现金", "存款", "债务", "体力", "声望"];
-    GameConst.rewardAdId = "";
-    GameConst.bannerAdId = "";
+    GameConst.rewardAdId = "adunit-24c9a10622c29f9e";
+    GameConst.bannerAdId = "adunit-648e17f5764c7979";
+    /** 缓存在本地的key */
+    GameConst.localdata_key_reward_cd = "rewardadcd";
     return GameConst;
 }());
 __reflect(GameConst.prototype, "GameConst");

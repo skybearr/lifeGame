@@ -3,8 +3,8 @@
 	<e:Rect touchEnabled="false" width="100%" height="100%" fillColor="0x0373A3" alpha="0"/>
 	<e:Rect id="rect_bg" touchEnabled="false" width="100%" height="100%" fillColor="0x0373a3"/>
 
-	<e:Label id="lbl_name" text="兰博基尼幻影流光定制版" size="26" anchorOffsetX="0" touchEnabled="false" textAlign="left" stroke="1" strokeColor="0xffffff" textColor="0x000000" bold="true" fontFamily="SimHei"  left="18" top="10"/>
+	<e:Label id="lbl_name" text="兰博基尼幻影流光定制版" size="26" anchorOffsetX="0" touchEnabled="false" textAlign="left" stroke="1" strokeColor="0x05c421" textColor="0x000000" bold="true" fontFamily="SimHei"  left="18" top="10"/>
 	<e:Label id="lbl_have" text="已拥有：10000" size="24" anchorOffsetX="0" left="405" verticalCenter="21" touchEnabled="false" textAlign="center" stroke="1" strokeColor="0x888888" bold="true" fontFamily="SimHei" width="219" textColor="0x1cef28"/>
-	<e:Label id="lbl_need" text="需要：现金100000000 声望1000" size="20" textAlign="left" touchEnabled="false" fontFamily="SimHei" stroke="1" strokeColor="0x888888" bold="true" y="47" left="18" textColor="0xf2ee0c"/>
+	<e:Label id="lbl_need" text="需要：现金100000000 声望1000" size="20" textAlign="left" touchEnabled="false" fontFamily="SimHei" strokeColor="0x888888" bold="true" y="47" left="18" textColor="0xffffff"/>
 	<e:Button id="btn_buy" label="已达成" skinName="BaseButtonSkin" width="120" height="36" right="49" top="6"/>
 </e:Skin>

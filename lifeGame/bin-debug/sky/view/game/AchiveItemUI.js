@@ -27,7 +27,7 @@ var AchiveItemUI = (function (_super) {
             return;
         }
         this.lbl_name.text = vo.content;
-        this.lbl_have.text = "已拥有：" + vo.have;
+        this.lbl_have.text = (vo.type == 1 || vo.type == 3 ? "已达成" : "已拥有：") + vo.have;
         var needstr = "需要：";
         for (var i = 0; i < vo.need.length; i++) {
             var o = vo.need[i];

@@ -90,7 +90,7 @@ var egret = window.egret;
 		t.left = 18;
 		t.size = 26;
 		t.stroke = 1;
-		t.strokeColor = 0xffffff;
+		t.strokeColor = 0x05c421;
 		t.text = "兰博基尼幻影流光定制版";
 		t.textAlign = "left";
 		t.textColor = 0x000000;
@@ -123,11 +123,10 @@ var egret = window.egret;
 		t.fontFamily = "SimHei";
 		t.left = 18;
 		t.size = 20;
-		t.stroke = 1;
 		t.strokeColor = 0x888888;
 		t.text = "需要：现金100000000 声望1000";
 		t.textAlign = "left";
-		t.textColor = 0xf2ee0c;
+		t.textColor = 0xffffff;
 		t.touchEnabled = false;
 		t.y = 47;
 		return t;
@@ -2406,10 +2405,10 @@ var egret = window.egret;
 	__extends(StartSkin, _super);
 	function StartSkin() {
 		_super.call(this);
-		this.skinParts = ["img_bg","img_sound","lbl_name","lbl_log","lbl_content","btn_1","btn_10","btn_11","btn_12","btn_2","btn_3","lbl_prop"];
+		this.skinParts = ["img_bg","img_sound","lbl_name","lbl_log","lbl_content","btn_1","btn_10","btn_11","btn_12","btn_2","btn_3","lbl_prop","lbl_cd"];
 		
 		this.width = 750;
-		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i(),this._Image4_i()];
+		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i(),this._Image4_i(),this.lbl_cd_i()];
 	}
 	var _proto = StartSkin.prototype;
 
@@ -2621,6 +2620,20 @@ var egret = window.egret;
 		t.width = 20;
 		t.x = 205;
 		t.y = 949.5;
+		return t;
+	};
+	_proto.lbl_cd_i = function () {
+		var t = new eui.Label();
+		this.lbl_cd = t;
+		t.anchorOffsetX = 0;
+		t.fontFamily = "SimHei";
+		t.size = 22;
+		t.text = "00:00:00";
+		t.textAlign = "center";
+		t.verticalAlign = "middle";
+		t.width = 125.67;
+		t.x = 151.65;
+		t.y = 1004.66;
 		return t;
 	};
 	return StartSkin;

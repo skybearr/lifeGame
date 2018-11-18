@@ -27,8 +27,13 @@ class GameLogic extends egret.EventDispatcher {
 
 		this.initData();
 		this.getHiscore();
+		//视频cd
+		let cd = WxApi.getInstance().getStorage(GameConst.localdata_key_reward_cd);
+		WxApi.getInstance().starttime = cd == null || cd == "" ? null : parseInt(cd);
+
 		this.openStart();//要放在initShareInfo之前，share可能有群排行点进来的
 		WxApi.getInstance().initShareInfo();
+
 	}
 
 	public openStart() {
@@ -74,7 +79,7 @@ class GameLogic extends egret.EventDispatcher {
 
 			//初始化已达成成就
 			this.arrives = WxApi.getInstance().getLocalData("achieve");
-			if(this.arrives == null || this.arrives == ""){
+			if (this.arrives == null || this.arrives == "") {
 				this.arrives = {};
 			}
 		}
@@ -83,12 +88,12 @@ class GameLogic extends egret.EventDispatcher {
 	public titles: Object;
 	public achieves: Object;
 	/**成就数据 1:[10,20,30]	2:[{10:1},{20:3}] */
-	public arrives:Object = {};
+	public arrives: Object = {};
 
 	/**获取称号 */
 	public getTitle(): string {
 		let data = GameLogic.getInstance().titles;
-		let titleId:string = "10";
+		let titleId: string = "10";
 		let titleobj;
 		for (let id in data) {
 			let o = data[id];
@@ -118,42 +123,95 @@ class GameLogic extends egret.EventDispatcher {
 		}
 		titleobj = data[titleId];
 		//加入成就
-		this.saveAchieve(ACHIVE.TITLE,titleId);
+		this.saveAchieve(ACHIVE.TITLE, titleId);
 		return titleobj.name;
 	}
 
 	/**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]*/
-	public saveAchieve(type:number,id:string,num:number=0){
+	public saveAchieve(type: number, id: string, num: number = 1) {
 		let arr = this.arrives[type];
-		if(arr == null){
+		if (arr == null) {
 			arr = [];
 		}
-		if(type == ACHIVE.ARIVED || type == ACHIVE.TITLE){
-			if(arr.indexOf(id) == null){
-				arr.push(id);
-			}
-			else{
-				return;
-			}
-		}
-		else if(type == ACHIVE.BUY){
-			let has:boolean = false;
-			for(let key in arr){
-				if(id == key){//已经有了，更新数量
-					has = true;
-					arr[key].num += num;
-				}
-			}
-			if(!has){//没有的，加入
-				arr.push({id:id,num:num});
+		// if (type == ACHIVE.ARIVED || type == ACHIVE.TITLE) {
+		// 	if (arr.indexOf(id) == null) {
+		// 		arr.push(id);
+		// 	}
+		// 	else {
+		// 		return;
+		// 	}
+		// }
+		// else if (type == ACHIVE.BUY) {
+		let has: boolean = false;
+		for (let key in arr) {
+			if (id == key) {//已经有了，更新数量
+				has = true;
+				arr[key].num += num;
 			}
 		}
+		if (!has) {//没有的，加入
+			arr.push({ id: id, num: num });
+		}
+		// }
 		this.arrives[type] = arr;
 
-		WxApi.getInstance().setLocalDataByObject("achieve",this.arrives);
+		WxApi.getInstance().setLocalDataByObject("achieve", this.arrives);
 	}
 
-	public getArrives():Object{
+	/** 游戏结束保存达成类成就 */
+	public saveAchieveByGameOver() {
+		// for (let id in this.achieves) {
+		// 	let o = this.achieves[id];
+		// 	if (o.type == 1) {
+		// 		let n = 0;
+		// 		let arr = o.need.split(";");
+		// 		for (let i = 0; i < arr.length; i++) {
+		// 			let a = arr[i].split("_");
+		// 			let id = parseInt(a[0]);
+		// 			let value = parseInt(a[1]);
+		// 			let b = false;
+		// 			switch (id) {
+		// 				case COINTYPE.MONEY:
+		// 					if (value >= DataBase.money) {
+		// 						b = true;
+		// 					}
+		// 					break;
+		// 				case COINTYPE.DEPT:
+		// 					if (value == 0 && value == DataBase.debt) {
+		// 						b = true;
+		// 					}
+		// 					else if (value > 0 && value >= DataBase.debt) {
+		// 						b = true;
+		// 					}
+		// 					break;
+		// 				case COINTYPE.FAME:
+		// 					if (value >= DataBase.fame) {
+		// 						b = true;
+		// 					}
+		// 					break;
+		// 				case COINTYPE.DEPOSIT:
+		// 					if (value >= DataBase.deposit) {
+		// 						b = true;
+		// 					}
+		// 					break;
+		// 				case COINTYPE.POW:
+		// 					if (value >= DataBase.pow) {
+		// 						b = true;
+		// 					}
+		// 					break;
+		// 			}
+		// 			if (b) {
+		// 				n++;
+		// 			}
+		// 		}
+		// 		if (n == arr.length) {
+		// 			this.saveAchieve(ACHIVE.ARIVED, id);
+		// 		}
+		// 	}
+		// }
+	}
+
+	public getArrives(): Object {
 		return this.arrives;
 	}
 
@@ -162,8 +220,9 @@ class GameLogic extends egret.EventDispatcher {
 	public startGame() {
 		this.main.removeChildren();
 		WxApi.getInstance().watched = false;
+		WxApi.getInstance().sharenum = 0;
 		this.main.addChild(new GameUI());
-		
+
 	}
 
 

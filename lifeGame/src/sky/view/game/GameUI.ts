@@ -56,6 +56,25 @@ class GameUI extends eui.Component {
 		GameCommand.getInstance().startGame();
 
 		this.checkNewHand();
+
+		egret.lifecycle.onPause = () => {
+            console.log("onPause:",WxApi.getInstance().sharenum);
+        }
+
+        egret.lifecycle.onResume = () => {
+            console.log("onResume:",WxApi.getInstance().sharenum);
+            
+			if(WxApi.getInstance().sharenum == 1){
+				this.addMoneyreal();
+			}
+			else if(WxApi.getInstance().sharenum == 3){
+				this.addMoneyreal();
+				WxApi.getInstance().sharenum ++;
+			}
+            else if(WxApi.getInstance().sharenum == 2){
+                platform.toast("请分享到不同的群");
+            }
+        }
 	}
 
 	private checkFit() {
@@ -239,11 +258,15 @@ class GameUI extends eui.Component {
 				str += StringUtil.getSwfLangStrVarByID("s1" + (3 + i), [DataBase.achives[i] + ""]) + "\n";
 			}
 			str += StringUtil.getSwfLangStr("s19") + "\n";
-			str += GameLogic.getInstance().getTitle();
+			let title = GameLogic.getInstance().getTitle();
+			title = "<font size=42 color=0xA310E5>" + title + "</font>"
+			str += title;
 			this['btn_27'].visible = true;
 		}
 
-		this['lbl_over_1'].text = str;
+		this['lbl_over_1'].textFlow = new egret.HtmlTextParser().parser(str);
+
+		GameLogic.getInstance().saveAchieveByGameOver();
 	}
 
 	public errorRsp(i: number) {
@@ -378,13 +401,7 @@ class GameUI extends eui.Component {
 				this['lbl_num5'].text = this.max_num + "";
 				break;
 			case 9://转发
-				console.log("watched", WxApi.getInstance().watched);
-
-				if (WxApi.getInstance().watched == true) {
-					this.popEvent("单局游戏只能获取一次");
-					return;
-				}
-				WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
+				this.share();
 				break;
 			case 10://玩法说明
 				this.addChild(new NewGuild());
@@ -447,9 +464,9 @@ class GameUI extends eui.Component {
 				this.eventNext();
 				break;
 			case 27://炫耀
-				let title:string = "球球来苏40天，一共赚了" + DataBase.money + "元，买了豪车买了房，只差一个靓媳妇！快来帮我介绍个";
-				let img:string = "resource/assets/img/share5.jpg";
-				WxApi.getInstance().sharenew(SHARETYPE.SHOWOFF,title,img);
+				let title: string = "我40天赚了" + DataBase.money + "元，买了豪车买了房，只差一个靓媳妇！";
+				let img: string = "resource/assets/img/share5.jpg";
+				WxApi.getInstance().sharenew(SHARETYPE.SHOWOFF, title, img);
 				break;
 			case 28://成就
 				platform.toast("尽请期待")
@@ -457,6 +474,40 @@ class GameUI extends eui.Component {
 				break;
 		}
 	}
+
+	private share() {
+		if (WxApi.getInstance().checkVersion()) {
+			if (WxApi.getInstance().watched == true) {
+				this.popEvent("单局游戏只能获取一次");
+				return;
+			}
+			WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
+		}
+		else {
+			//先分享
+			if (WxApi.getInstance().sharenum == 0) {
+				WxApi.getInstance().share();
+				WxApi.getInstance().sharenum++;
+			}
+			else if (WxApi.getInstance().sharenum == 1) {//在分享不同群
+				WxApi.getInstance().share();
+				WxApi.getInstance().sharenum++;
+			}
+			else if (WxApi.getInstance().sharenum == 2) {//在分享不同群
+				WxApi.getInstance().share();
+				WxApi.getInstance().sharenum++;
+			}
+			else {
+				//看视频
+				if (WxApi.getInstance().watched == true) {
+					this.popEvent("单局游戏只能获取一次");
+					return;
+				}
+				WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
+			}
+		}
+	}
+	private sharetime: number;
 
 	private pop(i: number) {
 		if (this.crtPop != null) {
@@ -529,9 +580,14 @@ class GameUI extends eui.Component {
 
 	private addMoney(e: GameEvent) {
 		if (e.data.type == WATCHTYPE.ADDMONEY && e.data.data == 0) {
-			DataBase.money += 5000;
-			this.lbl_1.text = DataBase.money.toString();
+			this.addMoneyreal();
+			WxApi.getInstance().watched = true;
 		}
 
+	}
+
+	private addMoneyreal() {
+		DataBase.money += 5000;
+		this.lbl_1.text = DataBase.money.toString();
 	}
 }

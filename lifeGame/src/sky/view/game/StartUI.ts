@@ -4,21 +4,21 @@ class StartUI extends eui.Component {
 		this.skinName = "StartSkin";
 	}
 
-	private img_bg:eui.Image;
+	private img_bg: eui.Image;
 	private lbl_content: eui.Label;
-	private lbl_log:eui.Label;
-	private lbl_prop:eui.Label;
-	
-	private btn_10:eui.Button;
-	private btn_11:eui.Button;
-	private btn_12:eui.Button;
+	private lbl_log: eui.Label;
+	private lbl_prop: eui.Label;
 
-	private img_sound:eui.Image;
+	private btn_10: eui.Button;
+	private btn_11: eui.Button;
+	private btn_12: eui.Button;
+
+	private img_sound: eui.Image;
 	protected childrenCreated() {
 		super.childrenCreated();
 
 		this.checkFit();
-		
+		this.rewardCD();
 		platform.bannershow(GameConst.bannerAdId);
 
 		let data = GameLogic.getInstance().data;
@@ -34,19 +34,19 @@ class StartUI extends eui.Component {
 			if (i == 2) {
 				str += "(可获炒房证)";
 			}
-			let btn:eui.Button = this['btn_' + i];
+			let btn: eui.Button = this['btn_' + i];
 			btn.label = str;
 			btn.name = i + "";
 			btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
 
-		this.addEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
+		this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
 		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
-		GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE,this.updateProp,this);
+		GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
 
-		this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
-		this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
-		this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+		this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 
 		// if(WxApi.getInstance().checkWx()){
 		// 	this.button = wx.createGameClubButton({
@@ -60,30 +60,78 @@ class StartUI extends eui.Component {
 		// 	}
 		// })
 		// }
-		
+
+	}
+	private canwatch: boolean;
+	private lbl_cd:eui.Label;
+	private rewardCD() {
+		let cd = WxApi.getInstance().getRewardCD();
+
+		this.canwatch = cd <= 0;
+		if (cd > 0) {
+			this.lbl_cd.text = this.ParseTime2Format(cd);
+			this.lbl_cd.visible = true;
+		}
+		else {
+			this.lbl_cd.text = "";
+		}
 	}
 	private button: any;
 
-	private initSound(){
+	public ParseTime2Format(t:number, f:string = "h:m:s"):string{
+		
+		var h:number = Math.floor(t/3600);
+		var m:number = Math.floor((t%3600)/60);
+		var s:number = (t%3600)%60;
+
+		function parse_format(t:number):string{
+			var s:string = t.toString();
+			if (t < 10){
+				s = "0" + t;
+			}
+			return s;
+		}
+
+		if (f.indexOf("h") != -1){
+			f = f.replace(/h/g, parse_format(h));
+		}else{
+			m += h*60;
+		}
+		if (f.indexOf("m") != -1){
+			f = f.replace(/m/g, parse_format(m));
+		}else{
+			if (f.indexOf("h") != -1){
+				s += m*60;
+			}else{
+				s = t;
+			}
+		}
+		if (f.indexOf("s") != -1){
+			f = f.replace(/s/g, parse_format(s));
+		}
+		return f;
+	}
+
+	private initSound() {
 		let b = SoundManager.getInstance().sound_switch;
 		this.img_sound.source = RES.getRes(b ? "game_json.noice1_zb" : "game_json.noice2_zb")
 	}
 
-	private checkFit(){
+	private checkFit() {
 		this.img_bg.height = GameLogic.getInstance().GameStage.stageHeight;
 	}
-	
-	private updateProp(){
+
+	private updateProp() {
 		this.lbl_prop.text = "分享可获得炒房券（炒房券 X" + PlayerConst.prop_num + "）";
 	}
 
 	private clickBtn(e: egret.TouchEvent) {
-		if(GameLogic.getInstance().strings == null){
+		if (GameLogic.getInstance().strings == null) {
 			this.lbl_log.text = "正在形成市场，请稍后...";
 			return;
 		}
 		let i = parseInt(e.currentTarget.name);
-		if(i == 2 && PlayerConst.prop_num <= 0){
+		if (i == 2 && PlayerConst.prop_num <= 0) {
 			WxApi.getInstance().showToast("邀请好友进入游戏可获得炒房券");
 			return;
 		}
@@ -91,17 +139,22 @@ class StartUI extends eui.Component {
 		GameLogic.getInstance().startGame();
 	}
 
-	private clickbtn1(e:egret.TouchEvent){
-		switch(e.currentTarget){
+	private clickbtn1(e: egret.TouchEvent) {
+		switch (e.currentTarget) {
 			case this.btn_10:
-			WxApi.getInstance().showRewardAd(WATCHTYPE.NONE);
-			break;
+				if (!this.canwatch) {
+					let cd = WxApi.getInstance().getRewardCD();
+					WxApi.getInstance().toast("观看视频过快，请稍微再来")
+					return;
+				}
+				WxApi.getInstance().showRewardAd(WATCHTYPE.NONE);
+				break;
 			case this.btn_11:
-			this.addChild(new RankUI());
-			break;
+				this.addChild(new RankUI());
+				break;
 			case this.btn_12:
-			WxApi.getInstance().share();
-			break;
+				WxApi.getInstance().share();
+				break;
 
 		}
 	}
@@ -115,16 +168,16 @@ class StartUI extends eui.Component {
 		for (let i: number = 1; i <= 3; i++) {
 			this['btn_' + i].removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
-		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE,this.clear,this);
+		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
 		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
-		GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE,this.updateProp,this);
-		this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
-		this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
-		this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP,this.clickbtn1,this);
+		GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+		this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 
 		platform.bannerdestroy();
 
-		if(this.button != null){
+		if (this.button != null) {
 			this.button.destroy();
 		}
 	}

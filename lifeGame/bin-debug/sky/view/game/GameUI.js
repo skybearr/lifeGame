@@ -16,6 +16,7 @@ var GameUI = (function (_super) {
         return _this;
     }
     GameUI.prototype.childrenCreated = function () {
+        var _this = this;
         _super.prototype.childrenCreated.call(this);
         this.checkFit();
         GameLogic.getInstance().gameui = this;
@@ -26,6 +27,22 @@ var GameUI = (function (_super) {
         this.initEvent();
         GameCommand.getInstance().startGame();
         this.checkNewHand();
+        egret.lifecycle.onPause = function () {
+            console.log("onPause:", WxApi.getInstance().sharenum);
+        };
+        egret.lifecycle.onResume = function () {
+            console.log("onResume:", WxApi.getInstance().sharenum);
+            if (WxApi.getInstance().sharenum == 1) {
+                _this.addMoneyreal();
+            }
+            else if (WxApi.getInstance().sharenum == 3) {
+                _this.addMoneyreal();
+                WxApi.getInstance().sharenum++;
+            }
+            else if (WxApi.getInstance().sharenum == 2) {
+                platform.toast("请分享到不同的群");
+            }
+        };
     };
     GameUI.prototype.checkFit = function () {
         this.rect_bg.height = this.img_over_bg0.height = this.img_over_bg1.height =
@@ -182,10 +199,13 @@ var GameUI = (function (_super) {
                 str += StringUtil.getSwfLangStrVarByID("s1" + (3 + i), [DataBase.achives[i] + ""]) + "\n";
             }
             str += StringUtil.getSwfLangStr("s19") + "\n";
-            str += GameLogic.getInstance().getTitle();
+            var title = GameLogic.getInstance().getTitle();
+            title = "<font size=42 color=0xA310E5>" + title + "</font>";
+            str += title;
             this['btn_27'].visible = true;
         }
-        this['lbl_over_1'].text = str;
+        this['lbl_over_1'].textFlow = new egret.HtmlTextParser().parser(str);
+        GameLogic.getInstance().saveAchieveByGameOver();
     };
     GameUI.prototype.errorRsp = function (i) {
         this.eventAppear(StringUtil.getSwfLangStr("e" + i));
@@ -309,12 +329,7 @@ var GameUI = (function (_super) {
                 this['lbl_num5'].text = this.max_num + "";
                 break;
             case 9://转发
-                console.log("shared", WxApi.getInstance().shared);
-                if (WxApi.getInstance().shared == true) {
-                    this.popEvent("单局游戏只能获取一次");
-                    return;
-                }
-                WxApi.getInstance().share();
+                this.share();
                 break;
             case 10://玩法说明
                 this.addChild(new NewGuild());
@@ -377,17 +392,46 @@ var GameUI = (function (_super) {
                 this.eventNext();
                 break;
             case 27://炫耀
-                console.log("watched", WxApi.getInstance().watched);
-                if (WxApi.getInstance().watched == true) {
-                    this.popEvent("单局游戏只能获取一次");
-                    return;
-                }
-                WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
+                var title = "我40天赚了" + DataBase.money + "元，买了豪车买了房，只差一个靓媳妇！";
+                var img = "resource/assets/img/share5.jpg";
+                WxApi.getInstance().sharenew(SHARETYPE.SHOWOFF, title, img);
                 break;
             case 28://成就
                 platform.toast("尽请期待");
                 // this.addChild(new AchieveUI());
                 break;
+        }
+    };
+    GameUI.prototype.share = function () {
+        if (WxApi.getInstance().checkVersion()) {
+            if (WxApi.getInstance().watched == true) {
+                this.popEvent("单局游戏只能获取一次");
+                return;
+            }
+            WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
+        }
+        else {
+            //先分享
+            if (WxApi.getInstance().sharenum == 0) {
+                WxApi.getInstance().share();
+                WxApi.getInstance().sharenum++;
+            }
+            else if (WxApi.getInstance().sharenum == 1) {
+                WxApi.getInstance().share();
+                WxApi.getInstance().sharenum++;
+            }
+            else if (WxApi.getInstance().sharenum == 2) {
+                WxApi.getInstance().share();
+                WxApi.getInstance().sharenum++;
+            }
+            else {
+                //看视频
+                if (WxApi.getInstance().watched == true) {
+                    this.popEvent("单局游戏只能获取一次");
+                    return;
+                }
+                WxApi.getInstance().showRewardAd(WATCHTYPE.ADDMONEY);
+            }
         }
     };
     GameUI.prototype.pop = function (i) {
@@ -452,9 +496,13 @@ var GameUI = (function (_super) {
     };
     GameUI.prototype.addMoney = function (e) {
         if (e.data.type == WATCHTYPE.ADDMONEY && e.data.data == 0) {
-            DataBase.money += 5000;
-            this.lbl_1.text = DataBase.money.toString();
+            this.addMoneyreal();
+            WxApi.getInstance().watched = true;
         }
+    };
+    GameUI.prototype.addMoneyreal = function () {
+        DataBase.money += 5000;
+        this.lbl_1.text = DataBase.money.toString();
     };
     return GameUI;
 }(eui.Component));

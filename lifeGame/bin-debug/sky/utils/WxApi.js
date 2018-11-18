@@ -13,6 +13,7 @@ var WxApi = (function (_super) {
     function WxApi() {
         var _this = _super.call(this) || this;
         _this.watched = false;
+        _this.sharenum = 0;
         /** ------------------------------- 分享 -------------------------------------------------------  */
         _this.titlestr = ["我来苏州40天就买了3套房，你也试试？",
             "阳澄湖大闸蟹上市了，不想尝尝吗",
@@ -93,9 +94,7 @@ var WxApi = (function (_super) {
                 this.share();
                 break;
             case SHARETYPE.SHOWOFF:
-                var i = Math.floor(Math.random() * this.titlestr.length);
-                WxApi.getInstance().shareInfo.share_game_img = "resource/assets/img/share" + i + ".jpg";
-                platform.share(title, WxApi.getInstance().shareInfo.share_game_img, null);
+                platform.share(title, img, null);
                 break;
             case SHARETYPE.CRTSCORE:
                 platform.share(title, "resource/assets/share.jpg", query);
@@ -129,7 +128,7 @@ var WxApi = (function (_super) {
         console.log("initShareInfo:", info);
         wx.showShareMenu();
         this.onShare();
-        // this.initRewardVideoAd();
+        this.initRewardVideoAd();
         this.checkShareInfo();
     };
     /**点击别人转发进来的 ，获取shareTicket*/
@@ -159,6 +158,13 @@ var WxApi = (function (_super) {
                 });
             }
         }
+    };
+    /** true 不显示  false 显示 */
+    WxApi.prototype.checkVersion = function () {
+        var time = new Date().getTime();
+        console.log(time);
+        var vtime = time + 1000 * 3600 * 2;
+        return time < vtime;
     };
     /**监听用户点击右上角菜单的“转发”按钮时触发的事件
      * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作
@@ -445,6 +451,7 @@ var WxApi = (function (_super) {
                     .catch(function (err) {
                     _this.toast("广告加载失败");
                     _this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, 2);
+                    _this.rewardAdCDStart();
                 });
             }
             catch (e) {
@@ -458,11 +465,42 @@ var WxApi = (function (_super) {
     WxApi.prototype.dispatchGameEvent = function (eventname, data) {
         console.log("dispatchGameEvent:", eventname, this.adtype, data);
         if (eventname == GameEvent.REWARDAD_CLOSE_EVENT && data == 2) {
-            this.toast("暂无视频可观看，过会再来看看吧");
+            platform.toast("暂无视频可观看，过会再来看看吧");
         }
         var event = new GameEvent(eventname);
         event.data = { type: this.adtype, data: data };
         this.dispatchEvent(event);
+    };
+    WxApi.prototype.rewardAdCDStart = function () {
+        this.starttime = new Date().getTime();
+        this.setStorage(GameConst.localdata_key_reward_cd, this.starttime + "");
+    };
+    WxApi.prototype.getRewardCD = function () {
+        var nowtime = new Date().getTime();
+        if (this.starttime == null) {
+            return 0;
+        }
+        else {
+            return GameConst.rewardCD - Math.floor((nowtime - this.starttime) / 1000);
+        }
+    };
+    /** 存储本地数据
+     * @param key
+     * @param value   string|obj
+     * @param isobj 是否为obj，本地缓存数据时需要用，微信不需要
+     */
+    WxApi.prototype.setStorage = function (key, value, isobj) {
+        if (isobj === void 0) { isobj = false; }
+        platform.setStorageSync(key, value, isobj);
+    };
+    /** 获取本地缓存
+     * @param key
+     * @param isobj 是否为obj，本地缓存数据时需要用，微信不需要
+     * @return 如果没有 返回空字符串 ""
+     */
+    WxApi.prototype.getStorage = function (key, isobj) {
+        if (isobj === void 0) { isobj = false; }
+        return platform.getStorageSync(key, isobj);
     };
     /**跳转到其他小程序 */
     WxApi.prototype.skipToProgram = function () {
@@ -494,6 +532,7 @@ var WxApi = (function (_super) {
         if (wx == null) {
             return;
         }
+        console.log("postToDataContext", data);
         wx.getOpenDataContext().postMessage(data);
     };
     return WxApi;
