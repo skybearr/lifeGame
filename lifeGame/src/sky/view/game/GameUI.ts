@@ -58,23 +58,23 @@ class GameUI extends eui.Component {
 		this.checkNewHand();
 
 		egret.lifecycle.onPause = () => {
-            console.log("onPause:",WxApi.getInstance().sharenum);
-        }
+			console.log("onPause:", WxApi.getInstance().sharenum);
+		}
 
-        egret.lifecycle.onResume = () => {
-            console.log("onResume:",WxApi.getInstance().sharenum);
-            
-			if(WxApi.getInstance().sharenum == 1){
+		egret.lifecycle.onResume = () => {
+			console.log("onResume:", WxApi.getInstance().sharenum);
+
+			if (WxApi.getInstance().sharenum == 1) {
 				this.addMoneyreal();
 			}
-			else if(WxApi.getInstance().sharenum == 3){
+			else if (WxApi.getInstance().sharenum == 3) {
 				this.addMoneyreal();
-				WxApi.getInstance().sharenum ++;
+				WxApi.getInstance().sharenum++;
 			}
-            else if(WxApi.getInstance().sharenum == 2){
-                platform.toast("请分享到不同的群");
-            }
-        }
+			else if (WxApi.getInstance().sharenum == 2) {
+				platform.toast("请分享到不同的群");
+			}
+		}
 	}
 
 	private checkFit() {
@@ -477,6 +477,12 @@ class GameUI extends eui.Component {
 
 	private share() {
 		if (WxApi.getInstance().checkVersion()) {
+			//看视频
+			let cd = WxApi.getInstance().getRewardCD();
+			if (cd > 0) {
+				platform.toast(cd + "秒后再来观看")
+				return;
+			}
 			if (WxApi.getInstance().watched == true) {
 				this.popEvent("单局游戏只能获取一次");
 				return;
@@ -499,6 +505,12 @@ class GameUI extends eui.Component {
 			}
 			else {
 				//看视频
+				let cd = WxApi.getInstance().getRewardCD();
+				if (cd > 0) {
+					platform.toast(cd + "秒后再来观看")
+					return;
+				}
+
 				if (WxApi.getInstance().watched == true) {
 					this.popEvent("单局游戏只能获取一次");
 					return;

@@ -43,6 +43,7 @@ class StartUI extends eui.Component {
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
 		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
 		GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+		TimerManager.getInstance().addTimerCallBack(this.rewardCD, this);
 
 		this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
@@ -144,7 +145,7 @@ class StartUI extends eui.Component {
 			case this.btn_10:
 				if (!this.canwatch) {
 					let cd = WxApi.getInstance().getRewardCD();
-					WxApi.getInstance().toast("观看视频过快，请稍微再来")
+					platform.toast("观看视频过快，请稍微再来")
 					return;
 				}
 				WxApi.getInstance().showRewardAd(WATCHTYPE.NONE);
@@ -174,6 +175,7 @@ class StartUI extends eui.Component {
 		this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		TimerManager.getInstance().removeFun(this.rewardCD, this);
 
 		platform.bannerdestroy();
 

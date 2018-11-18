@@ -14,7 +14,7 @@ class GameConst {
 
 	/** 缓存在本地的key */
 	public static localdata_key_reward_cd: string = "rewardadcd";
-	public static rewardCD:number;
+	public static rewardCD:number = 180;
 
 }
 

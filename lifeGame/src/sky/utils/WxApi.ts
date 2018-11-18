@@ -178,7 +178,7 @@ class WxApi extends egret.EventDispatcher {
 		let time = new Date().getTime();
 		console.log(time);
 		time = 1542503026438;
-		let vtime = time + 1000 * 3600 * 2;
+		let vtime = time + 1000 * 3600 * 12;
 		return time < vtime;
 	}
 
@@ -485,11 +485,12 @@ class WxApi extends egret.EventDispatcher {
 			if (res && res.isEnded || res === undefined) {
 				// 正常播放结束，可以下发游戏奖励
 				state = 0;
-				// this.rewardAdCDStart();
+				this.rewardAdCDStart();
 			}
 			else {
 				// 播放中途退出，不下发游戏奖励
 				state = 1;
+				this.rewardAdCDStart();
 			}
 			this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, state);
 		})
@@ -509,7 +510,6 @@ class WxApi extends egret.EventDispatcher {
 						this.toast("广告加载失败")
 
 						this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, 2);
-						this.rewardAdCDStart();
 					})
 			}
 			catch (e) {
