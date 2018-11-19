@@ -177,8 +177,8 @@ class WxApi extends egret.EventDispatcher {
 	public checkVersion():boolean{
 		let time = new Date().getTime();
 		console.log(time);
-		time = 1542503026438;
-		let vtime = time + 1000 * 3600 * 12;
+		time = 1542589422412;
+		let vtime = time + 1000 * 3600 * 24;
 		return time < vtime;
 	}
 
