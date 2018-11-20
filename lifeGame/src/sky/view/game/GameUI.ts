@@ -476,6 +476,8 @@ class GameUI extends eui.Component {
 	}
 
 	private share() {
+		console.log("share:",WxApi.getInstance().checkVersion());
+		
 		if (WxApi.getInstance().checkVersion()) {
 			//看视频
 			let cd = WxApi.getInstance().getRewardCD();
