@@ -2,11 +2,13 @@
 <e:Skin class="AchieveSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Rect id="rect_bg" width="750" height="1334" x="0" y="0" fillColor="0x383636"/>
 	<e:Button id="btn_back" label="返回" skinName="BaseButtonSkin" right="0" y="1274"/>
-	<e:Group x="86" top="51">
+	<e:Group x="86" top="69">
 		<e:Image anchorOffsetX="0" width="578" height="160" source="game_json.yong_9" scale9Grid="68,0,17,160" x="0" y="0"/>
 		<e:Label text="梦  想" y="45" textColor="0xf700a4" anchorOffsetX="0" width="334" anchorOffsetY="0" height="66" fontFamily="SimHei" size="60" verticalAlign="middle" textAlign="center" bold="true" stroke="2" x="122"/>
 	</e:Group>
 	<e:Scroller id="scroller" width="640" height="820" horizontalCenter="0" verticalCenter="60" throwSpeed="0" bounces="false">
 		<e:List id="list"/>
 	</e:Scroller>
+	<e:Label text="现金" x="186" y="266" textColor="0x00FF08" stroke="2" strokeColor="0x333333" size="24" fontFamily="SimHei"/>
+	<e:Label id="lbl_1" text="012345678912345678" x="256" width="302" stroke="2" strokeColor="0x333333" size="24" fontFamily="SimHei" y="266"/>
 </e:Skin>

@@ -32,7 +32,7 @@ class Main extends eui.UILayer {
 
     protected createChildren(): void {
         super.createChildren();
-
+        RES.setMaxLoadingThread(1);
         GameLogic.getInstance().GameStage = this.stage;
         WxApi.getInstance().GameStage = this.stage;
         GameLogic.getInstance().main = this;

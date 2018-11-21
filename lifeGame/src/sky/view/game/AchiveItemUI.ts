@@ -9,6 +9,7 @@ class AchiveItemUI extends eui.ItemRenderer {
 	private lbl_have: eui.Label;
 	private lbl_need: eui.Label;
 	private btn_buy: eui.Button;
+	
 
 	protected childrenCreated() {
 		super.childrenCreated();
@@ -16,7 +17,9 @@ class AchiveItemUI extends eui.ItemRenderer {
 		this.initView();
 
 		this.btn_buy.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBuy, this);
+		
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
+
 	}
 
 	private initView() {
@@ -25,14 +28,19 @@ class AchiveItemUI extends eui.ItemRenderer {
 			return;
 		}
 		this.lbl_name.text = vo.content;
-		this.lbl_have.text = (vo.type == 1 || vo.type == 3 ? "已达成" : "已拥有：") + vo.have;
+		this.lbl_have.text = (vo.type == 1 || vo.type == 3 ? "已达成：" : "已拥有：") + vo.have + "次";
 		let needstr = "需要：";
 		for (let i = 0; i < vo.need.length; i++) {
 			let o: { id: number, value: number } = vo.need[i];
 			needstr += GameConst.coinstr[o.id] + o.value + "  ";
 		}
 		this.lbl_need.text = needstr;
-		this.btn_buy.label = vo.state == 0 ? "未达成" : (vo.state == 1 ? "已达成" : "购买");
+		if(vo.type == 1 || vo.type == 3){
+			this.btn_buy.label = vo.state == 0 ? "未达成" : (vo.state == 1 ? "已达成" : "购买");
+		}
+		else{
+			this.btn_buy.label = vo.state == 0 ? "未达成" : (vo.state == 1 ? "已达成" : "购买");
+		}
 		this.btn_buy.touchEnabled = vo.state == 2;
 	}
 
@@ -46,7 +54,7 @@ class AchiveItemUI extends eui.ItemRenderer {
 		let coins = [DataBase.money, DataBase.deposit, DataBase.debt, DataBase.pow, DataBase.fame];
 		for (let i = 0; i < vo.need.length; i++) {
 			let o: { id: number, value: number } = vo.need[i];
-			let index = parseInt(vo.id) - 1;
+			let index = o.id - 1;
 			if (coins[index] >= o.value) {
 				arrives++;
 			}
@@ -58,6 +66,9 @@ class AchiveItemUI extends eui.ItemRenderer {
 				let o: { id: number, value: number } = vo.need[i];
 				if (o.id == COINTYPE.MONEY) {
 					DataBase.money -= o.value;
+					if(GameLogic.getInstance().achieveui != null){
+						GameLogic.getInstance().achieveui.updateCoin();
+					}
 				}
 			}
 

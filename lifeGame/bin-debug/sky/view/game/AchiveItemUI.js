@@ -27,14 +27,19 @@ var AchiveItemUI = (function (_super) {
             return;
         }
         this.lbl_name.text = vo.content;
-        this.lbl_have.text = (vo.type == 1 || vo.type == 3 ? "已达成" : "已拥有：") + vo.have;
+        this.lbl_have.text = (vo.type == 1 || vo.type == 3 ? "已达成：" : "已拥有：") + vo.have + "次";
         var needstr = "需要：";
         for (var i = 0; i < vo.need.length; i++) {
             var o = vo.need[i];
             needstr += GameConst.coinstr[o.id] + o.value + "  ";
         }
         this.lbl_need.text = needstr;
-        this.btn_buy.label = vo.state == 0 ? "未达成" : (vo.state == 1 ? "已达成" : "购买");
+        if (vo.type == 1 || vo.type == 3) {
+            this.btn_buy.label = vo.state == 0 ? "未达成" : (vo.state == 1 ? "已达成" : "购买");
+        }
+        else {
+            this.btn_buy.label = vo.state == 0 ? "未达成" : (vo.state == 1 ? "已达成" : "购买");
+        }
         this.btn_buy.touchEnabled = vo.state == 2;
     };
     AchiveItemUI.prototype.dataChanged = function () {
@@ -46,7 +51,7 @@ var AchiveItemUI = (function (_super) {
         var coins = [DataBase.money, DataBase.deposit, DataBase.debt, DataBase.pow, DataBase.fame];
         for (var i = 0; i < vo.need.length; i++) {
             var o = vo.need[i];
-            var index = parseInt(vo.id) - 1;
+            var index = o.id - 1;
             if (coins[index] >= o.value) {
                 arrives++;
             }
@@ -58,6 +63,9 @@ var AchiveItemUI = (function (_super) {
                 var o = vo.need[i];
                 if (o.id == COINTYPE.MONEY) {
                     DataBase.money -= o.value;
+                    if (GameLogic.getInstance().achieveui != null) {
+                        GameLogic.getInstance().achieveui.updateCoin();
+                    }
                 }
             }
             this.data['have'] = vo.have + 1;

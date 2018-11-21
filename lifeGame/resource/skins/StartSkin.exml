@@ -4,6 +4,7 @@
 	<e:Image id="img_bg" source="game_json.yong_11" scale9Grid="22,18,139,114" height="1334" width="750" x="0" verticalCenter="0"/>
 	<e:Image id="img_sound" x="12.6" y="404.8" anchorOffsetX="0" width="73" anchorOffsetY="0" height="69" source="game_json.noice1_zb" scaleX="0.8" scaleY="0.8"/>
 	<e:Image anchorOffsetX="0" width="578" height="160" horizontalCenter="0" source="game_json.yong_9" scale9Grid="68,0,17,160" top="46"/>
+	<e:Label text="欢乐球球买房记" y="87" anchorOffsetX="0" width="498" anchorOffsetY="0" height="67" fontFamily="SimHei" size="60" textColor="0xEA0E0E" verticalAlign="middle" textAlign="center" horizontalCenter="0"/>
 	<e:Image anchorOffsetX="0" width="578" height="636" source="game_json.yong_4" scale9Grid="68,66,129,96" anchorOffsetY="0" horizontalCenter="0" top="216"/>
 	<e:Label id="lbl_name" text="134534457447" y="120" horizontalCenter="1" verticalAlign="middle" textAlign="center" size="65" strokeColor="0x545454" bold="false" border="false" fontFamily="Microsoft YaHei" textColor="0x7a3232" visible="false"/>
 	<e:Label id="lbl_log" text="" y="873" verticalAlign="middle" textAlign="center" size="40" horizontalCenter="0" textColor="0x8ef202"/>
@@ -19,7 +20,7 @@
 	</e:Group>
 	<e:Button id="btn_2" label="开始游戏" width="578" height="160" y="1070" skinName="MainBtn" horizontalCenter="0" visible="false"/>
 	<e:Button id="btn_3" label="Button" skinName="BaseButtonSkin" horizontalCenter="0" width="300" height="80" y="1100" visible="false"/>
-	<e:Image width="438" height="50" source="game_json.yong_10" horizontalCenter="15" top="100"/>
+	<e:Image width="438" height="50" source="game_json.yong_10" horizontalCenter="15" top="100" visible="false"/>
 	<e:Label id="lbl_prop" text="分享可获得炒房券（炒房券X0）" y="1219" size="24" textColor="0x888888" fontFamily="SimHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" visible="false"/>
 	<e:Image source="1_png" x="205" y="949.5" width="20" height="20" touchEnabled="false"/>
 	<e:Label id="lbl_cd" text="00:00:00" x="151.65" y="1004.66" anchorOffsetX="0" width="125.67" fontFamily="SimHei" size="22" verticalAlign="middle" textAlign="center"/>

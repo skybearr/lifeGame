@@ -15,6 +15,8 @@ class GameLogic extends egret.EventDispatcher {
 	public GameStage: egret.Stage;
 	public main: eui.UILayer;
 
+	public achieveui:AchieveUI;
+
 
 	public data: Object;
 	public goods: Object;
@@ -78,7 +80,9 @@ class GameLogic extends egret.EventDispatcher {
 			this.achieves = this.goods['dreams'];
 
 			//初始化已达成成就
-			this.arrives = WxApi.getInstance().getLocalData("achieve");
+			this.arrives = WxApi.getInstance().getLocalData("newachieves");
+			console.log("this.arrives:",this.arrives);
+			
 			if (this.arrives == null || this.arrives == "") {
 				this.arrives = {};
 			}
@@ -127,24 +131,24 @@ class GameLogic extends egret.EventDispatcher {
 		return titleobj.name;
 	}
 
-	/**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]*/
+	/**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]
+	 * @param type  1达成类  2购买类  3称号
+	 * @param id
+	 * @param num 数量
+	*/
 	public saveAchieve(type: number, id: string, num: number = 1) {
+		console.log("saveAchieve：",type,id,num);
+		
 		let arr = this.arrives[type];
+		console.log("arr:",this.arrives,arr);
+		
 		if (arr == null) {
 			arr = [];
 		}
-		// if (type == ACHIVE.ARIVED || type == ACHIVE.TITLE) {
-		// 	if (arr.indexOf(id) == null) {
-		// 		arr.push(id);
-		// 	}
-		// 	else {
-		// 		return;
-		// 	}
-		// }
-		// else if (type == ACHIVE.BUY) {
 		let has: boolean = false;
+		console.log("arr1:",arr);
 		for (let key in arr) {
-			if (id == key) {//已经有了，更新数量
+			if (id == arr[key].id) {//已经有了，更新数量
 				has = true;
 				arr[key].num += num;
 			}
@@ -155,60 +159,60 @@ class GameLogic extends egret.EventDispatcher {
 		// }
 		this.arrives[type] = arr;
 
-		WxApi.getInstance().setLocalDataByObject("achieve", this.arrives);
+		WxApi.getInstance().setLocalDataByObject("newachieves", this.arrives);
 	}
 
 	/** 游戏结束保存达成类成就 */
 	public saveAchieveByGameOver() {
-		// for (let id in this.achieves) {
-		// 	let o = this.achieves[id];
-		// 	if (o.type == 1) {
-		// 		let n = 0;
-		// 		let arr = o.need.split(";");
-		// 		for (let i = 0; i < arr.length; i++) {
-		// 			let a = arr[i].split("_");
-		// 			let id = parseInt(a[0]);
-		// 			let value = parseInt(a[1]);
-		// 			let b = false;
-		// 			switch (id) {
-		// 				case COINTYPE.MONEY:
-		// 					if (value >= DataBase.money) {
-		// 						b = true;
-		// 					}
-		// 					break;
-		// 				case COINTYPE.DEPT:
-		// 					if (value == 0 && value == DataBase.debt) {
-		// 						b = true;
-		// 					}
-		// 					else if (value > 0 && value >= DataBase.debt) {
-		// 						b = true;
-		// 					}
-		// 					break;
-		// 				case COINTYPE.FAME:
-		// 					if (value >= DataBase.fame) {
-		// 						b = true;
-		// 					}
-		// 					break;
-		// 				case COINTYPE.DEPOSIT:
-		// 					if (value >= DataBase.deposit) {
-		// 						b = true;
-		// 					}
-		// 					break;
-		// 				case COINTYPE.POW:
-		// 					if (value >= DataBase.pow) {
-		// 						b = true;
-		// 					}
-		// 					break;
-		// 			}
-		// 			if (b) {
-		// 				n++;
-		// 			}
-		// 		}
-		// 		if (n == arr.length) {
-		// 			this.saveAchieve(ACHIVE.ARIVED, id);
-		// 		}
-		// 	}
-		// }
+		for (let id in this.achieves) {
+			let o = this.achieves[id];
+			if (o.type == 1) {
+				let n = 0;
+				let arr = o.need.split(";");
+				for (let i = 0; i < arr.length; i++) {
+					let a = arr[i].split("_");
+					let coinId = parseInt(a[0]);
+					let value = parseInt(a[1]);
+					let b = false;
+					switch (coinId) {
+						case COINTYPE.MONEY:
+							if (value >= DataBase.money) {
+								b = true;
+							}
+							break;
+						case COINTYPE.DEPT:
+							if (value == 0 && value == DataBase.debt) {
+								b = true;
+							}
+							else if (value > 0 && value >= DataBase.debt) {
+								b = true;
+							}
+							break;
+						case COINTYPE.FAME:
+							if (value >= DataBase.fame) {
+								b = true;
+							}
+							break;
+						case COINTYPE.DEPOSIT:
+							if (value >= DataBase.deposit) {
+								b = true;
+							}
+							break;
+						case COINTYPE.POW:
+							if (DataBase.pow >= value) {
+								b = true;
+							}
+							break;
+					}
+					if (b) {
+						n++;
+					}
+				}
+				if (n == arr.length) {
+					this.saveAchieve(ACHIVE.ARIVED, id);
+				}
+			}
+		}
 	}
 
 	public getArrives(): Object {

@@ -162,8 +162,9 @@ var WxApi = (function (_super) {
     /** true 不显示  false 显示 */
     WxApi.prototype.checkVersion = function () {
         var time = new Date().getTime();
+        var vtime = time + 1000 * 3600 * 24;
         console.log(time);
-        var vtime = time + 1000 * 3600 * 2;
+        console.log(vtime);
         return time < vtime;
     };
     /**监听用户点击右上角菜单的“转发”按钮时触发的事件
@@ -242,8 +243,7 @@ var WxApi = (function (_super) {
     /**------------------------------------------ 读写删 本地数据 -----------------------------------------*/
     /**存取本地数据 */
     WxApi.prototype.setLocalDataByObject = function (key, obj) {
-        var value = JSON.stringify(obj);
-        this.setLocalDataByString(key, value);
+        this.setLocalDataByString(key, obj);
     };
     /**存取本地数据 */
     WxApi.prototype.setLocalDataByString = function (key, value) {
@@ -430,11 +430,12 @@ var WxApi = (function (_super) {
             if (res && res.isEnded || res === undefined) {
                 // 正常播放结束，可以下发游戏奖励
                 state = 0;
-                // this.rewardAdCDStart();
+                _this.rewardAdCDStart();
             }
             else {
                 // 播放中途退出，不下发游戏奖励
                 state = 1;
+                _this.rewardAdCDStart();
             }
             _this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, state);
         });
@@ -451,7 +452,6 @@ var WxApi = (function (_super) {
                     .catch(function (err) {
                     _this.toast("广告加载失败");
                     _this.dispatchGameEvent(GameEvent.REWARDAD_CLOSE_EVENT, 2);
-                    _this.rewardAdCDStart();
                 });
             }
             catch (e) {

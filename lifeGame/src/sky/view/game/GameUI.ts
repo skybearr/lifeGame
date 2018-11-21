@@ -469,8 +469,8 @@ class GameUI extends eui.Component {
 				WxApi.getInstance().sharenew(SHARETYPE.SHOWOFF, title, img);
 				break;
 			case 28://成就
-				platform.toast("尽请期待")
-				// this.addChild(new AchieveUI());
+				// platform.toast("尽请期待")
+				this.addChild(new AchieveUI());
 				break;
 		}
 	}

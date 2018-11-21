@@ -67,7 +67,8 @@ var GameLogic = (function (_super) {
             this.achieves = {};
             this.achieves = this.goods['dreams'];
             //初始化已达成成就
-            this.arrives = WxApi.getInstance().getLocalData("achieve");
+            this.arrives = WxApi.getInstance().getLocalData("newachieves");
+            console.log("this.arrives:", this.arrives);
             if (this.arrives == null || this.arrives == "") {
                 this.arrives = {};
             }
@@ -109,25 +110,23 @@ var GameLogic = (function (_super) {
         this.saveAchieve(ACHIVE.TITLE, titleId);
         return titleobj.name;
     };
-    /**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]*/
+    /**保存成就 1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]]
+     * @param type  1达成类  2购买类  3称号
+     * @param id
+     * @param num 数量
+    */
     GameLogic.prototype.saveAchieve = function (type, id, num) {
         if (num === void 0) { num = 1; }
+        console.log("saveAchieve：", type, id, num);
         var arr = this.arrives[type];
+        console.log("arr:", this.arrives, arr);
         if (arr == null) {
             arr = [];
         }
-        // if (type == ACHIVE.ARIVED || type == ACHIVE.TITLE) {
-        // 	if (arr.indexOf(id) == null) {
-        // 		arr.push(id);
-        // 	}
-        // 	else {
-        // 		return;
-        // 	}
-        // }
-        // else if (type == ACHIVE.BUY) {
         var has = false;
+        console.log("arr1:", arr);
         for (var key in arr) {
-            if (id == key) {
+            if (id == arr[key].id) {
                 has = true;
                 arr[key].num += num;
             }
@@ -137,59 +136,59 @@ var GameLogic = (function (_super) {
         }
         // }
         this.arrives[type] = arr;
-        WxApi.getInstance().setLocalDataByObject("achieve", this.arrives);
+        WxApi.getInstance().setLocalDataByObject("newachieves", this.arrives);
     };
     /** 游戏结束保存达成类成就 */
     GameLogic.prototype.saveAchieveByGameOver = function () {
-        // for (let id in this.achieves) {
-        // 	let o = this.achieves[id];
-        // 	if (o.type == 1) {
-        // 		let n = 0;
-        // 		let arr = o.need.split(";");
-        // 		for (let i = 0; i < arr.length; i++) {
-        // 			let a = arr[i].split("_");
-        // 			let id = parseInt(a[0]);
-        // 			let value = parseInt(a[1]);
-        // 			let b = false;
-        // 			switch (id) {
-        // 				case COINTYPE.MONEY:
-        // 					if (value >= DataBase.money) {
-        // 						b = true;
-        // 					}
-        // 					break;
-        // 				case COINTYPE.DEPT:
-        // 					if (value == 0 && value == DataBase.debt) {
-        // 						b = true;
-        // 					}
-        // 					else if (value > 0 && value >= DataBase.debt) {
-        // 						b = true;
-        // 					}
-        // 					break;
-        // 				case COINTYPE.FAME:
-        // 					if (value >= DataBase.fame) {
-        // 						b = true;
-        // 					}
-        // 					break;
-        // 				case COINTYPE.DEPOSIT:
-        // 					if (value >= DataBase.deposit) {
-        // 						b = true;
-        // 					}
-        // 					break;
-        // 				case COINTYPE.POW:
-        // 					if (value >= DataBase.pow) {
-        // 						b = true;
-        // 					}
-        // 					break;
-        // 			}
-        // 			if (b) {
-        // 				n++;
-        // 			}
-        // 		}
-        // 		if (n == arr.length) {
-        // 			this.saveAchieve(ACHIVE.ARIVED, id);
-        // 		}
-        // 	}
-        // }
+        for (var id in this.achieves) {
+            var o = this.achieves[id];
+            if (o.type == 1) {
+                var n = 0;
+                var arr = o.need.split(";");
+                for (var i = 0; i < arr.length; i++) {
+                    var a = arr[i].split("_");
+                    var coinId = parseInt(a[0]);
+                    var value = parseInt(a[1]);
+                    var b = false;
+                    switch (coinId) {
+                        case COINTYPE.MONEY:
+                            if (value >= DataBase.money) {
+                                b = true;
+                            }
+                            break;
+                        case COINTYPE.DEPT:
+                            if (value == 0 && value == DataBase.debt) {
+                                b = true;
+                            }
+                            else if (value > 0 && value >= DataBase.debt) {
+                                b = true;
+                            }
+                            break;
+                        case COINTYPE.FAME:
+                            if (value >= DataBase.fame) {
+                                b = true;
+                            }
+                            break;
+                        case COINTYPE.DEPOSIT:
+                            if (value >= DataBase.deposit) {
+                                b = true;
+                            }
+                            break;
+                        case COINTYPE.POW:
+                            if (DataBase.pow >= value) {
+                                b = true;
+                            }
+                            break;
+                    }
+                    if (b) {
+                        n++;
+                    }
+                }
+                if (n == arr.length) {
+                    this.saveAchieve(ACHIVE.ARIVED, id);
+                }
+            }
+        }
     };
     GameLogic.prototype.getArrives = function () {
         return this.arrives;

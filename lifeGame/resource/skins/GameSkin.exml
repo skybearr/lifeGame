@@ -8,7 +8,8 @@
 		         height="420" y="-43" scale9Grid="197,31,277,52" touchEnabled="false" />
 		<e:Image height="420" source="game_json.b_bg43" anchorOffsetX="0" anchorOffsetY="0" y="-43" scaleX="-1" right="0"
 		         width="320" x="763" scaleY="1" scale9Grid="197,32,277,55" touchEnabled="false" />
-		<e:Image width="438" height="50" source="game_json.yong_10" x="171" y="17.33" scaleX="1" scaleY="1" />
+		<e:Image width="438" height="50" source="game_json.yong_10" x="171" y="17.33" scaleX="1" scaleY="1"  visible="false"/>
+		<e:Label text="欢乐球球买房记" y="20" anchorOffsetX="0" width="498" anchorOffsetY="0" height="67" fontFamily="SimHei" size="60" textColor="0xea0e0e" verticalAlign="middle" textAlign="center" horizontalCenter="0"/>
 		<e:Image width="520" height="98" y="108" source="game_json.yong_16" scale9Grid="53,0,164,97" anchorOffsetX="0"
 		         scaleX="0.6" scaleY="0.6" left="12" />
 		<e:Image width="692" height="98" source="game_json.yong_16" scale9Grid="53,0,164,97" anchorOffsetX="0" scaleX="0.6"

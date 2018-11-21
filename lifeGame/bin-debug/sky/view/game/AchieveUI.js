@@ -17,9 +17,14 @@ var AchieveUI = (function (_super) {
     }
     AchieveUI.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        GameLogic.getInstance().achieveui = this;
         this.checkFit();
         this.initView();
         this.initEvent();
+        this.updateCoin();
+    };
+    AchieveUI.prototype.updateCoin = function () {
+        this.lbl_1.text = DataBase.money + "";
     };
     AchieveUI.prototype.checkFit = function () {
         this.rect_bg.height = GameLogic.getInstance().GameStage.stageHeight;
@@ -30,10 +35,11 @@ var AchieveUI = (function (_super) {
         this.arr_data = new eui.ArrayCollection();
         var obj = GameLogic.getInstance().achieves;
         /**1:[10,20,30]	2:[{10:1},{20:3}	3:[10,20]] */
-        var arrives = GameLogic.getInstance().arrives;
+        var arrives = GameLogic.getInstance().getArrives();
         for (var id in obj) {
             var o = obj[id];
             var vo = new AchieveVO();
+            vo.id = id;
             vo.content = o.content;
             vo.type = o.type;
             var a1 = o.need.split(":");
@@ -44,24 +50,20 @@ var AchieveUI = (function (_super) {
                 a3.push(oo);
             }
             vo.need = a3;
+            vo.state = vo.type == ACHIVE.BUY ? 2 : 0;
+            vo.have = 0;
             //已达成数据
             var a4 = arrives[vo.type];
             if (a4 == null) {
-                vo.state = 0;
-                vo.have = 0;
                 this.arr_data.addItem(vo);
                 continue;
             }
-            if (vo.type != ACHIVE.BUY) {
-                vo.state = a4.indexOf(vo.id) == -1 ? 0 : 1;
-            }
-            else {
-                for (var i = 0; i < a4.length; i++) {
-                    var ooo = a4[i];
-                    if (ooo.id == id) {
-                        vo.have = ooo.value;
-                        break;
-                    }
+            p2: for (var i = 0; i < a4.length; i++) {
+                var ooo = a4[i];
+                if (ooo.id == id) {
+                    vo.have = ooo.num;
+                    vo.state = vo.type == ACHIVE.BUY ? 2 : 1;
+                    break p2;
                 }
             }
             this.arr_data.addItem(vo);
@@ -80,6 +82,7 @@ var AchieveUI = (function (_super) {
     AchieveUI.prototype.clear = function () {
         this.btn_back.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBack, this);
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
+        GameLogic.getInstance().achieveui = null;
     };
     return AchieveUI;
 }(eui.Component));

@@ -78,6 +78,7 @@ var Main = (function (_super) {
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
+        RES.setMaxLoadingThread(1);
         GameLogic.getInstance().GameStage = this.stage;
         WxApi.getInstance().GameStage = this.stage;
         GameLogic.getInstance().main = this;

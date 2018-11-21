@@ -176,9 +176,8 @@ class WxApi extends egret.EventDispatcher {
 	/** true 不显示  false 显示 */
 	public checkVersion():boolean{
 		let time = new Date().getTime();
-		
-		let vtime = time + 1000 * 3600 * 24;
-		
+		time = 1542808692635;
+		let vtime = time + 1000 * 3600 * 20;
 		return time < vtime;
 	}
 
@@ -269,11 +268,10 @@ class WxApi extends egret.EventDispatcher {
 
 	/**存取本地数据 */
 	public setLocalDataByObject(key: string, obj: Object) {
-		let value: string = JSON.stringify(obj);
-		this.setLocalDataByString(key, value);
+		this.setLocalDataByString(key, obj);
 	}
 	/**存取本地数据 */
-	public setLocalDataByString(key: string, value: string) {
+	public setLocalDataByString(key: string, value: any) {
 		if (!this.checkWx()) {
 			return null;
 		}

@@ -147,10 +147,10 @@ var egret = window.egret;
 	__extends(AchieveSkin, _super);
 	function AchieveSkin() {
 		_super.call(this);
-		this.skinParts = ["rect_bg","btn_back","list","scroller"];
+		this.skinParts = ["rect_bg","btn_back","list","scroller","lbl_1"];
 		
 		this.width = 750;
-		this.elementsContent = [this.rect_bg_i(),this.btn_back_i(),this._Group1_i(),this.scroller_i()];
+		this.elementsContent = [this.rect_bg_i(),this.btn_back_i(),this._Group1_i(),this.scroller_i(),this._Label2_i(),this.lbl_1_i()];
 	}
 	var _proto = AchieveSkin.prototype;
 
@@ -175,7 +175,7 @@ var egret = window.egret;
 	};
 	_proto._Group1_i = function () {
 		var t = new eui.Group();
-		t.top = 51;
+		t.top = 69;
 		t.x = 86;
 		t.elementsContent = [this._Image1_i(),this._Label1_i()];
 		return t;
@@ -224,6 +224,31 @@ var egret = window.egret;
 	_proto.list_i = function () {
 		var t = new eui.List();
 		this.list = t;
+		return t;
+	};
+	_proto._Label2_i = function () {
+		var t = new eui.Label();
+		t.fontFamily = "SimHei";
+		t.size = 24;
+		t.stroke = 2;
+		t.strokeColor = 0x333333;
+		t.text = "现金";
+		t.textColor = 0x00FF08;
+		t.x = 186;
+		t.y = 266;
+		return t;
+	};
+	_proto.lbl_1_i = function () {
+		var t = new eui.Label();
+		this.lbl_1 = t;
+		t.fontFamily = "SimHei";
+		t.size = 24;
+		t.stroke = 2;
+		t.strokeColor = 0x333333;
+		t.text = "012345678912345678";
+		t.width = 302;
+		t.x = 256;
+		t.y = 266;
 		return t;
 	};
 	return AchieveSkin;
@@ -315,7 +340,7 @@ var egret = window.egret;
 		t.touchEnabled = true;
 		t.width = 750;
 		t.x = 0;
-		t.elementsContent = [this._Image1_i(),this._Image2_i(),this._Image3_i(),this._Image4_i(),this._Image5_i(),this._Image6_i(),this._Image7_i(),this._Image8_i(),this._Image9_i(),this.gp_title_i()];
+		t.elementsContent = [this._Image1_i(),this._Image2_i(),this._Image3_i(),this._Label1_i(),this._Image4_i(),this._Image5_i(),this._Image6_i(),this._Image7_i(),this._Image8_i(),this._Image9_i(),this.gp_title_i()];
 		return t;
 	};
 	_proto._Image1_i = function () {
@@ -355,9 +380,26 @@ var egret = window.egret;
 		t.scaleX = 1;
 		t.scaleY = 1;
 		t.source = "game_json.yong_10";
+		t.visible = false;
 		t.width = 438;
 		t.x = 171;
 		t.y = 17.33;
+		return t;
+	};
+	_proto._Label1_i = function () {
+		var t = new eui.Label();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.fontFamily = "SimHei";
+		t.height = 67;
+		t.horizontalCenter = 0;
+		t.size = 60;
+		t.text = "欢乐球球买房记";
+		t.textAlign = "center";
+		t.textColor = 0xea0e0e;
+		t.verticalAlign = "middle";
+		t.width = 498;
+		t.y = 20;
 		return t;
 	};
 	_proto._Image4_i = function () {
@@ -452,10 +494,10 @@ var egret = window.egret;
 		t.width = 700;
 		t.x = 18;
 		t.y = 0;
-		t.elementsContent = [this._Label1_i(),this._Label2_i(),this._Label3_i(),this._Label4_i(),this._Label5_i(),this._Label6_i(),this.lbl_store_i(),this._Label7_i(),this.lbl_day_i()];
+		t.elementsContent = [this._Label2_i(),this._Label3_i(),this._Label4_i(),this._Label5_i(),this._Label6_i(),this._Label7_i(),this.lbl_store_i(),this._Label8_i(),this.lbl_day_i()];
 		return t;
 	};
-	_proto._Label1_i = function () {
+	_proto._Label2_i = function () {
 		var t = new eui.Label();
 		t.bold = true;
 		t.fontFamily = "SimHei";
@@ -469,7 +511,7 @@ var egret = window.egret;
 		t.y = 125.09;
 		return t;
 	};
-	_proto._Label2_i = function () {
+	_proto._Label3_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.scaleX = 1;
@@ -483,7 +525,7 @@ var egret = window.egret;
 		t.y = 174;
 		return t;
 	};
-	_proto._Label3_i = function () {
+	_proto._Label4_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.size = 24;
@@ -496,7 +538,7 @@ var egret = window.egret;
 		t.y = 174;
 		return t;
 	};
-	_proto._Label4_i = function () {
+	_proto._Label5_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.size = 24;
@@ -509,7 +551,7 @@ var egret = window.egret;
 		t.y = 174;
 		return t;
 	};
-	_proto._Label5_i = function () {
+	_proto._Label6_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.size = 24;
@@ -522,7 +564,7 @@ var egret = window.egret;
 		t.y = 174;
 		return t;
 	};
-	_proto._Label6_i = function () {
+	_proto._Label7_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.size = 24;
@@ -549,7 +591,7 @@ var egret = window.egret;
 		t.y = 128.08;
 		return t;
 	};
-	_proto._Label7_i = function () {
+	_proto._Label8_i = function () {
 		var t = new eui.Label();
 		t.bold = true;
 		t.fontFamily = "SimHei";
@@ -1442,10 +1484,10 @@ var egret = window.egret;
 		t.width = 720;
 		t.x = 15;
 		t.y = 0;
-		t.elementsContent = [this._Label8_i(),this._Label9_i(),this._Label10_i(),this._Label11_i(),this._Label12_i(),this._Label13_i(),this.lbl_1_i(),this.lbl_4_i(),this.lbl_5_i(),this.lbl_6_i(),this.lbl_2_i(),this.lbl_3_i()];
+		t.elementsContent = [this._Label9_i(),this._Label10_i(),this._Label11_i(),this._Label12_i(),this._Label13_i(),this._Label14_i(),this.lbl_1_i(),this.lbl_4_i(),this.lbl_5_i(),this.lbl_6_i(),this.lbl_2_i(),this.lbl_3_i()];
 		return t;
 	};
-	_proto._Label8_i = function () {
+	_proto._Label9_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.size = 24;
@@ -1457,7 +1499,7 @@ var egret = window.egret;
 		t.y = 0;
 		return t;
 	};
-	_proto._Label9_i = function () {
+	_proto._Label10_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.size = 24;
@@ -1469,7 +1511,7 @@ var egret = window.egret;
 		t.y = 36;
 		return t;
 	};
-	_proto._Label10_i = function () {
+	_proto._Label11_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.size = 24;
@@ -1481,7 +1523,7 @@ var egret = window.egret;
 		t.y = 72;
 		return t;
 	};
-	_proto._Label11_i = function () {
+	_proto._Label12_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.scaleX = 1;
@@ -1494,7 +1536,7 @@ var egret = window.egret;
 		t.x = 446.69;
 		return t;
 	};
-	_proto._Label12_i = function () {
+	_proto._Label13_i = function () {
 		var t = new eui.Label();
 		t.fontFamily = "SimHei";
 		t.scaleX = 1;
@@ -1508,7 +1550,7 @@ var egret = window.egret;
 		t.y = 36;
 		return t;
 	};
-	_proto._Label13_i = function () {
+	_proto._Label14_i = function () {
 		var t = new eui.Label();
 		t.anchorOffsetX = 0;
 		t.scaleX = 1;
@@ -2408,7 +2450,7 @@ var egret = window.egret;
 		this.skinParts = ["img_bg","img_sound","lbl_name","lbl_log","lbl_content","btn_1","btn_10","btn_11","btn_12","btn_2","btn_3","lbl_prop","lbl_cd"];
 		
 		this.width = 750;
-		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i(),this._Image4_i(),this.lbl_cd_i()];
+		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Label1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i(),this._Image4_i(),this.lbl_cd_i()];
 	}
 	var _proto = StartSkin.prototype;
 
@@ -2446,6 +2488,22 @@ var egret = window.egret;
 		t.source = "game_json.yong_9";
 		t.top = 46;
 		t.width = 578;
+		return t;
+	};
+	_proto._Label1_i = function () {
+		var t = new eui.Label();
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.fontFamily = "SimHei";
+		t.height = 67;
+		t.horizontalCenter = 0;
+		t.size = 60;
+		t.text = "欢乐球球买房记";
+		t.textAlign = "center";
+		t.textColor = 0xEA0E0E;
+		t.verticalAlign = "middle";
+		t.width = 498;
+		t.y = 87;
 		return t;
 	};
 	_proto._Image2_i = function () {
@@ -2595,6 +2653,7 @@ var egret = window.egret;
 		t.horizontalCenter = 15;
 		t.source = "game_json.yong_10";
 		t.top = 100;
+		t.visible = false;
 		t.width = 438;
 		return t;
 	};

@@ -397,13 +397,20 @@ var GameUI = (function (_super) {
                 WxApi.getInstance().sharenew(SHARETYPE.SHOWOFF, title, img);
                 break;
             case 28://成就
-                platform.toast("尽请期待");
-                // this.addChild(new AchieveUI());
+                // platform.toast("尽请期待")
+                this.addChild(new AchieveUI());
                 break;
         }
     };
     GameUI.prototype.share = function () {
+        console.log("share:", WxApi.getInstance().checkVersion());
         if (WxApi.getInstance().checkVersion()) {
+            //看视频
+            var cd = WxApi.getInstance().getRewardCD();
+            if (cd > 0) {
+                platform.toast(cd + "秒后再来观看");
+                return;
+            }
             if (WxApi.getInstance().watched == true) {
                 this.popEvent("单局游戏只能获取一次");
                 return;
@@ -426,6 +433,11 @@ var GameUI = (function (_super) {
             }
             else {
                 //看视频
+                var cd = WxApi.getInstance().getRewardCD();
+                if (cd > 0) {
+                    platform.toast(cd + "秒后再来观看");
+                    return;
+                }
                 if (WxApi.getInstance().watched == true) {
                     this.popEvent("单局游戏只能获取一次");
                     return;
