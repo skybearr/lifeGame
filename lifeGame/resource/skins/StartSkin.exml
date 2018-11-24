@@ -14,14 +14,18 @@
 		<e:Button id="btn_10" label="鼓励作者" width="130" height="50" y="0" skinName="BaseButtonSkin" x="143"/>
 		<e:Button id="btn_11" label="排行榜" width="130" height="50" y="0" skinName="BaseButtonSkin" x="355"/>
 		<e:Button id="btn_12" label="分享" width="130" height="50" y="1" skinName="BaseButtonSkin" x="0"/>
+		<e:Button id="btn_13" label="梦想" width="130" height="50" y="11" skinName="BaseButtonSkin" x="10"/>
+		<e:Button id="btn_14" label="注意力训练" width="130" height="50" y="21" skinName="BaseButtonSkin" x="20"/>
+		<e:Button id="btn_15" label="记忆力训练" width="130" height="50" y="31" skinName="BaseButtonSkin" x="30"/>
 		<e:layout>
-			<e:HorizontalLayout gap="30"/>
+			<e:TileLayout orientation="rows" requestedColumnCount="3" horizontalGap="16" verticalGap="30"/>
 		</e:layout>
+
 	</e:Group>
 	<e:Button id="btn_2" label="开始游戏" width="578" height="160" y="1070" skinName="MainBtn" horizontalCenter="0" visible="false"/>
 	<e:Button id="btn_3" label="Button" skinName="BaseButtonSkin" horizontalCenter="0" width="300" height="80" y="1100" visible="false"/>
 	<e:Image width="438" height="50" source="game_json.yong_10" horizontalCenter="15" top="100" visible="false"/>
 	<e:Label id="lbl_prop" text="分享可获得炒房券（炒房券X0）" y="1219" size="24" textColor="0x888888" fontFamily="SimHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" visible="false"/>
 	<e:Image source="1_png" x="205" y="949.5" width="20" height="20" touchEnabled="false"/>
-	<e:Label id="lbl_cd" text="00:00:00" x="151.65" y="1004.66" anchorOffsetX="0" width="125.67" fontFamily="SimHei" size="22" verticalAlign="middle" textAlign="center"/>
+	<e:Label id="lbl_cd" text="00:00:00" x="163.65" y="1004.66" anchorOffsetX="0" width="125.67" fontFamily="SimHei" size="22" verticalAlign="middle" textAlign="center"/>
 </e:Skin>

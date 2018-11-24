@@ -12,6 +12,9 @@ class StartUI extends eui.Component {
 	private btn_10: eui.Button;
 	private btn_11: eui.Button;
 	private btn_12: eui.Button;
+	private btn_13: eui.Button;
+	private btn_14: eui.Button;
+	private btn_15: eui.Button;
 
 	private img_sound: eui.Image;
 	protected childrenCreated() {
@@ -48,6 +51,9 @@ class StartUI extends eui.Component {
 		this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_13.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_14.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_15.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 
 		// if(WxApi.getInstance().checkWx()){
 		// 	this.button = wx.createGameClubButton({
@@ -156,6 +162,16 @@ class StartUI extends eui.Component {
 			case this.btn_12:
 				WxApi.getInstance().share();
 				break;
+				case this.btn_13:
+				DataBase.money = 0;
+				this.addChild(new AchieveUI());
+				break;
+				case this.btn_14:
+				platform.skipToProgram("wxd4950745d08c9e90",null);
+				break;
+				case this.btn_15:
+				platform.skipToProgram("wxedfbcd2e9d68611e",null);
+				break;
 
 		}
 	}
@@ -175,6 +191,9 @@ class StartUI extends eui.Component {
 		this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_13.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_14.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+		this.btn_15.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		TimerManager.getInstance().removeFun(this.rewardCD, this);
 
 		platform.bannerdestroy();

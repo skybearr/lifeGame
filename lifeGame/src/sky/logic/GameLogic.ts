@@ -25,6 +25,7 @@ class GameLogic extends egret.EventDispatcher {
 	public cbSelected: boolean;
 
 	public init() {
+		platform.checkVersion();
 		SoundManager.getInstance().playBgSound(true);
 
 		this.initData();
