@@ -230,7 +230,7 @@
 			</e:Skin>
 		</e:CheckBox>
 	</e:Group>
-	<e:Group id="gp_over" width="750" horizontalCenter="0" top="0">
+	<e:Group id="gp_over" width="750" horizontalCenter="0" top="0" visible="false">
 		<e:Image id="img_over_bg1" y="0" width="500" height="1334" source="game_json.yong_15" scale9Grid="32,26,104,7"
 		         left="0" />
 		<e:Image id="img_over_bg0" source="game_json.yong_15" width="500" height="1334" scale9Grid="32,26,104,7" scaleX="-1"

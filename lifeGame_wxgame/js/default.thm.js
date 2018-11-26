@@ -1732,6 +1732,7 @@ var egret = window.egret;
 		this.gp_over = t;
 		t.horizontalCenter = 0;
 		t.top = 0;
+		t.visible = false;
 		t.width = 750;
 		t.elementsContent = [this.img_over_bg1_i(),this.img_over_bg0_i(),this._Image16_i(),this.lbl_over_1_i(),this.btn_26_i(),this.btn_28_i(),this.btn_27_i()];
 		return t;
