@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="StartSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+<e:Skin class="StartSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" >
+	<w:Declarations>
+		<tween:TweenGroup id="mc">
+			<tween:TweenItem target="{img_game}">
+				<tween:props>
+					<e:Object loop="true" />
+				</tween:props>
+				<tween:Set/>
+				<tween:To duration="250">
+					<tween:props>
+						<e:Object rotation="{30}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="250">
+					<tween:props>
+						<e:Object rotation="{-30}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="250">
+					<tween:props>
+						<e:Object rotation="{30}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="250">
+					<tween:props>
+						<e:Object rotation="{-30}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="250">
+					<tween:props>
+						<e:Object rotation="{30}"/>
+					</tween:props>
+				</tween:To>
+				<tween:To duration="250">
+					<tween:props>
+						<e:Object rotation="{-30}"/>
+					</tween:props>
+				</tween:To>
+				<tween:Wait duration="1000"/>
+				<tween:Set/>
+			</tween:TweenItem>
+		</tween:TweenGroup>
+	</w:Declarations>
 	<w:Config id="162d237403c" ></w:Config>
 	<e:Image id="img_bg" source="game_json.yong_11" scale9Grid="22,18,139,114" height="1334" width="750" x="0" verticalCenter="0"/>
 	<e:Image id="img_sound" x="12.6" y="404.8" anchorOffsetX="0" width="73" anchorOffsetY="0" height="69" source="game_json.noice1_zb" scaleX="0.8" scaleY="0.8"/>
@@ -28,4 +70,5 @@
 	<e:Label id="lbl_prop" text="分享可获得炒房券（炒房券X0）" y="1219" size="24" textColor="0x888888" fontFamily="SimHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" visible="false"/>
 	<e:Image source="1_png" x="205" y="949.5" width="20" height="20" touchEnabled="false"/>
 	<e:Label id="lbl_cd" text="00:00:00" x="163.65" y="1004.66" anchorOffsetX="0" width="125.67" fontFamily="SimHei" size="22" verticalAlign="middle" textAlign="center"/>
+	<e:Image id="img_game" source="game_json.yong_13" y="902" width="100" height="100" anchorOffsetX="50" anchorOffsetY="50" x="700" rotation="-30"/>
 </e:Skin>

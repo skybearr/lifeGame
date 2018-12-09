@@ -17,9 +17,14 @@ class StartUI extends eui.Component {
 	private btn_15: eui.Button;
 
 	private img_sound: eui.Image;
+
+	private img_game:eui.Image;
+	private clickGame(){
+		platform.skipToProgram("","wx6a3ca3523aaa4e34");
+	}
 	protected childrenCreated() {
 		super.childrenCreated();
-
+		this['mc'].play();
 		this.checkFit();
 		this.rewardCD();
 		platform.bannershow(GameConst.bannerAdId);
@@ -42,7 +47,7 @@ class StartUI extends eui.Component {
 			btn.name = i + "";
 			btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
-
+		this.img_game.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickGame, this);
 		this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
 		this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
 		GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
@@ -185,6 +190,7 @@ class StartUI extends eui.Component {
 		for (let i: number = 1; i <= 3; i++) {
 			this['btn_' + i].removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
+		this['mc'].stop();
 		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
 		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
 		GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
@@ -195,6 +201,7 @@ class StartUI extends eui.Component {
 		this.btn_14.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_15.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		TimerManager.getInstance().removeFun(this.rewardCD, this);
+		this.img_game.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickGame, this);
 
 		platform.bannerdestroy();
 
