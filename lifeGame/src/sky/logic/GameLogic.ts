@@ -230,6 +230,12 @@ class GameLogic extends egret.EventDispatcher {
 
 	}
 
+	public startGame1() {
+		this.main.removeChildren();
+		this.main.addChild(new Game1UI());
+
+	}
+
 
 
 

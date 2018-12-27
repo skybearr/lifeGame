@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "config_json,goods_json,strings_json,game_json,bg_mp3,share5_jpg,1_png",
+			"keys": "config_json,goods_json,strings_json,game_json,bg_mp3,share5_jpg,1_png,xiuzhen_png",
 			"name": "preload"
 		}
 	],
@@ -41,6 +41,11 @@
 			"name": "1_png",
 			"type": "image",
 			"url": "assets/img/1.png"
+		},
+		{
+			"name": "xiuzhen_png",
+			"type": "image",
+			"url": "assets/img/xiuzhen.png"
 		}
 	]
 }

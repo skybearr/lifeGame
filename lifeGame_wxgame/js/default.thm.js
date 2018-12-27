@@ -2447,13 +2447,119 @@ var egret = window.egret;
 	__extends(StartSkin, _super);
 	function StartSkin() {
 		_super.call(this);
-		this.skinParts = ["img_bg","img_sound","lbl_name","lbl_log","lbl_content","btn_1","btn_10","btn_11","btn_12","btn_13","btn_14","btn_15","btn_2","btn_3","lbl_prop","lbl_cd"];
+		this.skinParts = ["mc","img_bg","img_sound","lbl_name","lbl_log","lbl_content","btn_1","btn_10","btn_11","btn_12","btn_13","btn_14","btn_15","btn_2","btn_3","lbl_prop","lbl_cd","img_game"];
 		
 		this.width = 750;
-		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Label1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i(),this._Image4_i(),this.lbl_cd_i()];
+		this.mc_i();
+		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Label1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i(),this._Image4_i(),this.lbl_cd_i(),this.img_game_i()];
+		
+		eui.Binding.$bindProperties(this, ["img_game"],[0],this._TweenItem1,"target");
+		eui.Binding.$bindProperties(this, [15],[],this._Object2,"rotation");
+		eui.Binding.$bindProperties(this, [-15],[],this._Object3,"rotation");
+		eui.Binding.$bindProperties(this, [15],[],this._Object4,"rotation");
+		eui.Binding.$bindProperties(this, [-15],[],this._Object5,"rotation");
+		eui.Binding.$bindProperties(this, [15],[],this._Object6,"rotation");
+		eui.Binding.$bindProperties(this, [-15],[],this._Object7,"rotation");
 	}
 	var _proto = StartSkin.prototype;
 
+	_proto.mc_i = function () {
+		var t = new egret.tween.TweenGroup();
+		this.mc = t;
+		t.items = [this._TweenItem1_i()];
+		return t;
+	};
+	_proto._TweenItem1_i = function () {
+		var t = new egret.tween.TweenItem();
+		this._TweenItem1 = t;
+		t.props = this._Object1_i();
+		t.paths = [this._Set1_i(),this._To1_i(),this._To2_i(),this._To3_i(),this._To4_i(),this._To5_i(),this._To6_i(),this._Wait1_i(),this._Set2_i()];
+		return t;
+	};
+	_proto._Object1_i = function () {
+		var t = {};
+		t.loop = "true";
+		return t;
+	};
+	_proto._Set1_i = function () {
+		var t = new egret.tween.Set();
+		return t;
+	};
+	_proto._To1_i = function () {
+		var t = new egret.tween.To();
+		t.duration = 250;
+		t.props = this._Object2_i();
+		return t;
+	};
+	_proto._Object2_i = function () {
+		var t = {};
+		this._Object2 = t;
+		return t;
+	};
+	_proto._To2_i = function () {
+		var t = new egret.tween.To();
+		t.duration = 250;
+		t.props = this._Object3_i();
+		return t;
+	};
+	_proto._Object3_i = function () {
+		var t = {};
+		this._Object3 = t;
+		return t;
+	};
+	_proto._To3_i = function () {
+		var t = new egret.tween.To();
+		t.duration = 250;
+		t.props = this._Object4_i();
+		return t;
+	};
+	_proto._Object4_i = function () {
+		var t = {};
+		this._Object4 = t;
+		return t;
+	};
+	_proto._To4_i = function () {
+		var t = new egret.tween.To();
+		t.duration = 250;
+		t.props = this._Object5_i();
+		return t;
+	};
+	_proto._Object5_i = function () {
+		var t = {};
+		this._Object5 = t;
+		return t;
+	};
+	_proto._To5_i = function () {
+		var t = new egret.tween.To();
+		t.duration = 250;
+		t.props = this._Object6_i();
+		return t;
+	};
+	_proto._Object6_i = function () {
+		var t = {};
+		this._Object6 = t;
+		return t;
+	};
+	_proto._To6_i = function () {
+		var t = new egret.tween.To();
+		t.duration = 250;
+		t.props = this._Object7_i();
+		return t;
+	};
+	_proto._Object7_i = function () {
+		var t = {};
+		this._Object7 = t;
+		return t;
+	};
+	_proto._Wait1_i = function () {
+		var t = new egret.tween.Wait();
+		t.duration = 1000;
+		return t;
+	};
+	_proto._Set2_i = function () {
+		var t = new egret.tween.Set();
+		return t;
+	};
 	_proto.img_bg_i = function () {
 		var t = new eui.Image();
 		this.img_bg = t;
@@ -2729,6 +2835,19 @@ var egret = window.egret;
 		t.width = 125.67;
 		t.x = 163.65;
 		t.y = 1004.66;
+		return t;
+	};
+	_proto.img_game_i = function () {
+		var t = new eui.Image();
+		this.img_game = t;
+		t.anchorOffsetX = 50;
+		t.anchorOffsetY = 50;
+		t.height = 100;
+		t.rotation = -15;
+		t.source = "xiuzhen_png";
+		t.width = 100;
+		t.x = 671;
+		t.y = 923;
 		return t;
 	};
 	return StartSkin;

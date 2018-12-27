@@ -5,10 +5,10 @@ class StartUI extends eui.Component {
 	}
 
 	private img_bg: eui.Image;
-	private lbl_content: eui.Label;
 	private lbl_log: eui.Label;
 	private lbl_prop: eui.Label;
 
+	private btn_0: eui.Button;
 	private btn_10: eui.Button;
 	private btn_11: eui.Button;
 	private btn_12: eui.Button;
@@ -20,7 +20,7 @@ class StartUI extends eui.Component {
 
 	private img_game:eui.Image;
 	private clickGame(){
-		platform.skipToProgram("","wx6a3ca3523aaa4e34");
+		platform.skipToProgram("wxdf77c92683d0ad32","wx6a3ca3523aaa4e34");
 	}
 	protected childrenCreated() {
 		super.childrenCreated();
@@ -30,7 +30,6 @@ class StartUI extends eui.Component {
 		platform.bannershow(GameConst.bannerAdId);
 
 		let data = GameLogic.getInstance().data;
-		this.lbl_content.text = StringUtil.getSwfLangStr("s2");
 		this.updateProp();
 
 		for (let i: number = 1; i <= 3; i++) {
@@ -53,6 +52,7 @@ class StartUI extends eui.Component {
 		GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
 		TimerManager.getInstance().addTimerCallBack(this.rewardCD, this);
 
+		this.btn_0.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
@@ -153,6 +153,9 @@ class StartUI extends eui.Component {
 
 	private clickbtn1(e: egret.TouchEvent) {
 		switch (e.currentTarget) {
+			case this.btn_0:
+				GameLogic.getInstance().startGame1();
+				break;
 			case this.btn_10:
 				if (!this.canwatch) {
 					let cd = WxApi.getInstance().getRewardCD();
@@ -194,6 +197,7 @@ class StartUI extends eui.Component {
 		this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
 		this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
 		GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+		this.btn_0.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
 		this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
