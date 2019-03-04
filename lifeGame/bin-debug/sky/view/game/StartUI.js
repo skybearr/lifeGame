@@ -15,13 +15,16 @@ var StartUI = (function (_super) {
         _this.skinName = "StartSkin";
         return _this;
     }
+    StartUI.prototype.clickGame = function () {
+        platform.skipToProgram("wxdf77c92683d0ad32", "wx6a3ca3523aaa4e34");
+    };
     StartUI.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        this['mc'].play();
         this.checkFit();
         this.rewardCD();
         platform.bannershow(GameConst.bannerAdId);
         var data = GameLogic.getInstance().data;
-        this.lbl_content.text = StringUtil.getSwfLangStr("s2");
         this.updateProp();
         for (var i = 1; i <= 3; i++) {
             var o = data['config' + i];
@@ -32,17 +35,21 @@ var StartUI = (function (_super) {
                 str += "(可获炒房证)";
             }
             var btn = this['btn_' + i];
-            btn.label = str;
             btn.name = i + "";
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
+        this.img_game.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickGame, this);
         this.addEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
         this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
         GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
         TimerManager.getInstance().addTimerCallBack(this.rewardCD, this);
+        this.btn_0.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_13.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_14.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_15.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         // if(WxApi.getInstance().checkWx()){
         // 	this.button = wx.createGameClubButton({
         // 	icon: 'white',
@@ -126,6 +133,12 @@ var StartUI = (function (_super) {
     };
     StartUI.prototype.clickbtn1 = function (e) {
         switch (e.currentTarget) {
+            case this.btn_0:
+                GameLogic.getInstance().startGame1();
+                break;
+            case this.btn_1:
+                GameLogic.getInstance().startGame1();
+                break;
             case this.btn_10:
                 if (!this.canwatch) {
                     var cd = WxApi.getInstance().getRewardCD();
@@ -140,6 +153,16 @@ var StartUI = (function (_super) {
             case this.btn_12:
                 WxApi.getInstance().share();
                 break;
+            case this.btn_13:
+                DataBase.money = 0;
+                this.addChild(new AchieveUI());
+                break;
+            case this.btn_14:
+                platform.skipToProgram("wxd4950745d08c9e90", null);
+                break;
+            case this.btn_15:
+                platform.skipToProgram("wxedfbcd2e9d68611e", null);
+                break;
         }
     };
     StartUI.prototype.clickSound = function () {
@@ -151,13 +174,19 @@ var StartUI = (function (_super) {
         for (var i = 1; i <= 3; i++) {
             this['btn_' + i].removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
+        this['mc'].stop();
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
         this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
         GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+        this.btn_0.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_13.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_14.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
+        this.btn_15.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         TimerManager.getInstance().removeFun(this.rewardCD, this);
+        this.img_game.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickGame, this);
         platform.bannerdestroy();
         if (this.button != null) {
             this.button.destroy();

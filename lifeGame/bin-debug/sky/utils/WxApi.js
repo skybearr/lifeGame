@@ -162,9 +162,7 @@ var WxApi = (function (_super) {
     /** true 不显示  false 显示 */
     WxApi.prototype.checkVersion = function () {
         var time = new Date().getTime();
-        var vtime = time + 1000 * 3600 * 24;
-        console.log(time);
-        console.log(vtime);
+        var vtime = 1543037708162 + 1000 * 3600 * 20;
         return time < vtime;
     };
     /**监听用户点击右上角菜单的“转发”按钮时触发的事件

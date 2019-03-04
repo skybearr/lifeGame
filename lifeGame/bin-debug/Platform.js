@@ -45,6 +45,8 @@ var DebugPlatform = (function () {
     DebugPlatform.prototype.isdebug = function () {
         return true;
     };
+    DebugPlatform.prototype.checkVersion = function () {
+    };
     DebugPlatform.prototype.initBuryingSDK = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

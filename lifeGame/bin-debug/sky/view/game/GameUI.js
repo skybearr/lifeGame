@@ -185,6 +185,7 @@ var GameUI = (function (_super) {
     };
     /**结算 */
     GameUI.prototype.over = function () {
+        platform.bannershow(GameConst.bannerAdId);
         this['gp_over'].visible = true;
         var str = "";
         if (this.data.dwPow <= 0) {

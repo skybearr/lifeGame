@@ -23,6 +23,7 @@ var GameLogic = (function (_super) {
         return this._instance;
     };
     GameLogic.prototype.init = function () {
+        platform.checkVersion();
         SoundManager.getInstance().playBgSound(true);
         this.initData();
         this.getHiscore();
@@ -198,6 +199,10 @@ var GameLogic = (function (_super) {
         WxApi.getInstance().watched = false;
         WxApi.getInstance().sharenum = 0;
         this.main.addChild(new GameUI());
+    };
+    GameLogic.prototype.startGame1 = function () {
+        this.main.removeChildren();
+        this.main.addChild(new Game1UI());
     };
     /** 登录授权*/
     GameLogic.prototype.login = function () {
