@@ -57,4 +57,3 @@ var WATCHTYPE;
     WATCHTYPE[WATCHTYPE["NONE"] = 0] = "NONE";
     WATCHTYPE[WATCHTYPE["ADDMONEY"] = 1] = "ADDMONEY";
 })(WATCHTYPE || (WATCHTYPE = {}));
-//# sourceMappingURL=GameConst.js.map

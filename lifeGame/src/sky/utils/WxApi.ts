@@ -1,4 +1,3 @@
-declare const wx: any
 class WxApi extends egret.EventDispatcher {
 	public constructor() {
 		super();

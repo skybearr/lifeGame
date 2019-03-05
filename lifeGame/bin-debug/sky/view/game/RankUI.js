@@ -89,4 +89,3 @@ var RankUI = (function (_super) {
 }(eui.Component));
 __reflect(RankUI.prototype, "RankUI");
 window["RankUI"] = RankUI;
-//# sourceMappingURL=RankUI.js.map

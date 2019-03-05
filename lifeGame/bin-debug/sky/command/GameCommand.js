@@ -475,4 +475,3 @@ var GameCommand = (function (_super) {
     return GameCommand;
 }(egret.EventDispatcher));
 __reflect(GameCommand.prototype, "GameCommand");
-//# sourceMappingURL=GameCommand.js.map

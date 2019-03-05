@@ -1,112 +1,74 @@
-//////////////////////////////////////////////////////////////////////////////////////
-//
-//  Copyright (c) 2014-present, Egret Technology.
-//  All rights reserved.
-//  Redistribution and use in source and binary forms, with or without
-//  modification, are permitted provided that the following conditions are met:
-//
-//     * Redistributions of source code must retain the above copyright
-//       notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright
-//       notice, this list of conditions and the following disclaimer in the
-//       documentation and/or other materials provided with the distribution.
-//     * Neither the name of the Egret nor the
-//       names of its contributors may be used to endorse or promote products
-//       derived from this software without specific prior written permission.
-//
-//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
-//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
-//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
-//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//////////////////////////////////////////////////////////////////////////////////////
-
+//egret publish --target wxgame
+//egret build --target wxgame
 class Main extends eui.UILayer {
-
-
+    // private host = "http://192.168.1.137:3000";
+    private host = "https://xgw-server.wxqiyou.com";
+    /**
+     * 游戏类型-微信的配置在version.js文件里面
+     */
+    private gameType = "test";
+    /**
+     * 换皮唯一识别号-微信的配置在version.js文件里面
+     */
+    private gameID = 1;
+    /**
+     * 非热更新代码的版本号-微信的配置在version.js文件里面
+     */
+    private nativeVersion = 1;
     protected createChildren(): void {
         super.createChildren();
-        RES.setMaxLoadingThread(1);
-        GameLogic.getInstance().GameStage = this.stage;
-        WxApi.getInstance().GameStage = this.stage;
-        GameLogic.getInstance().main = this;
-
-        egret.lifecycle.addLifecycleListener((context) => {
-            // custom lifecycle plugin
-        })
-
-        egret.lifecycle.onPause = () => {
-            egret.ticker.pause();
+        if (window["gameType"] != undefined) {
+            this.gameType = window["gameType"];
         }
-
-        egret.lifecycle.onResume = () => {
-            egret.ticker.resume();
+        if (window["gameID"] != undefined) {
+            this.gameID = window["gameID"];
         }
-
-        //inject the custom material parser
-        //注入自定义的素材解析器
-        let assetAdapter = new AssetAdapter();
-        egret.registerImplementation("eui.IAssetAdapter", assetAdapter);
-        egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
-
-
-        this.runGame().catch(e => {
-            console.log(e);
-        })
-    }
-
-    private async runGame() {
-        await this.loadResource()
-        this.createGameScene();
-        // await platform.login();
-        // WxApi.getInstance().userInfo = await platform.getUserInfo();
-        // console.log("userinfo:",WxApi.getInstance().userInfo);
-    }
-
-    private loadingView: LoadingUI;
-    private async loadResource() {
-        try {
-            this.loadingView = new LoadingUI();
-            this.stage.addChild(this.loadingView);
-            await RES.loadConfig("resource/default.res.json", "resource/");
-            await this.loadTheme();
-            await RES.loadGroup("preload", 0, this.loadingView);
-            if (this.loadingView != null && this.loadingView.parent != null) {
-                this.loadingView.parent.removeChild(this.loadingView);
-            }
+        if (window["nativeVersion"] != undefined) {
+            this.nativeVersion = window["nativeVersion"];
         }
-        catch (e) {
-            console.error(e);
-        }
+        this.querySwitch();
     }
-
-    private loadTheme() {
-        return new Promise((resolve, reject) => {
-            // load skin theme configuration file, you can manually modify the file. And replace the default skin.
-            //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
-            let theme = new eui.Theme("resource/default.thm.json", this.stage);
-            theme.addEventListener(eui.UIEvent.COMPLETE, () => {
-                resolve();
-            }, this);
-
-        })
-    }
-
     /**
-     * 创建场景界面
-     * Create scene interface
+     * 请求开关
      */
-    protected createGameScene(): void {
-        if (this.loadingView != null && this.loadingView.parent != null) {
-            this.loadingView.parent.removeChild(this.loadingView);
-        }
-        this.loadingView = null;
-        GameLogic.getInstance().init();
+    private querySwitch() {
+        var request: egret.HttpRequest = new egret.HttpRequest();
+        request.open(this.host + "/qygame/getSwitch?gameType=" + this.gameType + "" + this.gameID);
+        request.withCredentials = false;
+        request.addEventListener(egret.Event.COMPLETE, () => {
+            var data = JSON.parse(request.response).data;
+            if (this.nativeVersion > data.version) {//版本过高则显示套壳游戏
+                this.addChild(new Game());
+            }
+            else {
+                this.queryCode();
+            }
+        }, this);
+        request.send();
+    }
+    /**
+     * 请求热更新代码
+     */
+    private queryCode() {
+        var request: egret.HttpRequest = new egret.HttpRequest();
+        request.open(egret.Capabilities.runtimeType != egret.RuntimeType.WXGAME
+            ? "resource/script/" + this.gameType + "" + this.gameID + ".js" : this.host + "/qygame/hot?gameType=" + this.gameType + "" + this.gameID);
+        request.withCredentials = false;
+        request.addEventListener(egret.Event.COMPLETE, () => {
+            qyscript.run(request.response,
+                {
+                    window: window,
+                    egret: egret,
+                    RES: RES,
+                    eui: eui,
+                    promise: Promise,
+                    app: this,
+                    gameType: this.gameType,
+                    gameID: this.gameID,
+                    qy: qy,
+                    how: how
+                });
+        }, this);
+        request.send();
     }
 }

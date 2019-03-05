@@ -1,6 +1,6 @@
 {
-    "engineVersion": "5.2.6",
-    "compilerVersion": "5.2.6",
+    "engineVersion": "5.2.13",
+    "compilerVersion": "5.2.13",
     "template": {},
     "target": {
         "current": "web"
@@ -14,17 +14,31 @@
         ],
         "exmlPublishPolicy": "commonjs"
     },
-    "modules": [{
-        "name": "egret"
-    }, {
-        "name": "eui"
-    }, {
-        "name": "assetsmanager"
-    }, {
-        "name": "tween"
-    }, {
-        "name": "game"
-    }, {
-        "name": "promise"
-    }]
+    "modules": [
+        {
+            "name": "egret"
+        },
+        {
+            "name": "eui"
+        },
+        {
+            "name": "assetsmanager"
+        },
+        {
+            "name": "tween"
+        },
+        {
+            "name": "game"
+        },
+        {
+            "name": "promise"
+        },
+        {
+            "name": "dragonBones"
+        },
+        {
+            "name": "qyscript",
+            "path": "./libs/qyscript"
+        }
+    ]
 }

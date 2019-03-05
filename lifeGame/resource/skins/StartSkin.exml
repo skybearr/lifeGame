@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="StartSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*" >
+<e:Skin class="StartSkin" width="640" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:tween="egret.tween.*"  height="1136">
 	<w:Declarations>
 		<tween:TweenGroup id="mc">
 			<tween:TweenItem target="{img_game}">
@@ -51,11 +51,11 @@
 	<e:Label id="lbl_name" text="134534457447" y="120" horizontalCenter="1" verticalAlign="middle" textAlign="center" size="65" strokeColor="0x545454" bold="false" border="false" fontFamily="Microsoft YaHei" textColor="0x7a3232" visible="false"/>
 	<e:Label id="lbl_log" text="" y="873" verticalAlign="middle" textAlign="center" size="40" horizontalCenter="0" textColor="0x8ef202"/>
 
-	<e:Button id="btn_1" label="高智商模式" width="260" height="80" y="780.76" skinName="BaseButtonSkin" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="-1"/>
-	<e:Button id="btn_0" label="开始游戏" width="260" height="80" y="643.76" skinName="BaseButtonSkin" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0"/>
-	<e:Group y="955" horizontalCenter="0">
+	<e:Button id="btn_0" label="高智商模式" width="260" height="80" y="780.76" skinName="BaseButtonSkin" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="-1" visible="false"/>
+	<e:Button id="btn_1" label="开始游戏" width="260" height="80" y="643.76" skinName="BaseButtonSkin" anchorOffsetX="0" anchorOffsetY="0" horizontalCenter="0"/>
+	<e:Group y="955" horizontalCenter="0" visible="false">
 		<e:Button id="btn_10" label="鼓励作者" width="130" height="50" y="0" skinName="BaseButtonSkin" x="143"/>
-		<e:Button id="btn_11" label="排行榜" width="130" height="50" y="0" skinName="BaseButtonSkin" x="355"/>
+		<e:Button id="btn_11" label="排行榜" width="130" height="50" y="0" skinName="BaseButtonSkin" x="355" visible="false"/>
 		<e:Button id="btn_12" label="分享" width="130" height="50" y="1" skinName="BaseButtonSkin" x="0"/>
 		<e:Button id="btn_13" label="梦想" width="130" height="50" y="11" skinName="BaseButtonSkin" x="10"/>
 		<e:Button id="btn_14" label="注意力训练" width="130" height="50" y="21" skinName="BaseButtonSkin" x="20"/>
@@ -69,7 +69,7 @@
 	<e:Button id="btn_3" label="Button" skinName="BaseButtonSkin" horizontalCenter="0" width="300" height="80" y="1100" visible="false"/>
 	<e:Image width="438" height="50" source="game_json.yong_10" horizontalCenter="15" top="100" visible="false"/>
 	<e:Label id="lbl_prop" text="分享可获得炒房券（炒房券X0）" y="1219" size="24" textColor="0x888888" fontFamily="SimHei" verticalAlign="middle" textAlign="center" horizontalCenter="0" visible="false"/>
-	<e:Image source="1_png" x="215" y="949.5" width="20" height="20" touchEnabled="false"/>
-	<e:Label id="lbl_cd" text="00:00:00" x="163.65" y="1004.66" anchorOffsetX="0" width="125.67" fontFamily="SimHei" size="22" verticalAlign="middle" textAlign="center"/>
-	<e:Image id="img_game" y="923" width="100" height="100" anchorOffsetX="50" anchorOffsetY="50" x="671" rotation="-15" source="xiuzhen_png"/>
+	<e:Image source="1_png" x="215" y="949.5" width="20" height="20" touchEnabled="false" visible="false"/>
+	<e:Label id="lbl_cd" text="00:00:00" x="163.65" y="1004.66" anchorOffsetX="0" width="125.67" fontFamily="SimHei" size="22" verticalAlign="middle" textAlign="center" visible="false"/>
+	<e:Image id="img_game" y="923" width="100" height="100" anchorOffsetX="50" anchorOffsetY="50" x="671" rotation="-15" source="xiuzhen_png" visible="false"/>
 </e:Skin>

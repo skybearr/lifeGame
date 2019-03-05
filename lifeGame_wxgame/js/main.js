@@ -1122,6 +1122,10 @@ var GameLogic = (function (_super) {
         WxApi.getInstance().sharenum = 0;
         this.main.addChild(new GameUI());
     };
+    GameLogic.prototype.startGame1 = function () {
+        this.main.removeChildren();
+        this.main.addChild(new Game1UI());
+    };
     /** 登录授权*/
     GameLogic.prototype.login = function () {
         var wx = window["wx"];
@@ -2747,6 +2751,19 @@ var AchiveItemUI = (function (_super) {
     return AchiveItemUI;
 }(eui.ItemRenderer));
 __reflect(AchiveItemUI.prototype, "AchiveItemUI");
+var Game1UI = (function (_super) {
+    __extends(Game1UI, _super);
+    function Game1UI() {
+        var _this = _super.call(this) || this;
+        _this.skinName = "Game1Skin";
+        return _this;
+    }
+    Game1UI.prototype.childrenCreated = function () {
+        _super.prototype.childrenCreated.call(this);
+    };
+    return Game1UI;
+}(eui.Component));
+__reflect(Game1UI.prototype, "Game1UI");
 var GameUI = (function (_super) {
     __extends(GameUI, _super);
     function GameUI() {
@@ -3442,7 +3459,6 @@ var StartUI = (function (_super) {
         this.rewardCD();
         platform.bannershow(GameConst.bannerAdId);
         var data = GameLogic.getInstance().data;
-        this.lbl_content.text = StringUtil.getSwfLangStr("s2");
         this.updateProp();
         for (var i = 1; i <= 3; i++) {
             var o = data['config' + i];
@@ -3453,7 +3469,6 @@ var StartUI = (function (_super) {
                 str += "(可获炒房证)";
             }
             var btn = this['btn_' + i];
-            btn.label = str;
             btn.name = i + "";
             btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
         }
@@ -3462,6 +3477,7 @@ var StartUI = (function (_super) {
         this.img_sound.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
         GameLogic.getInstance().addEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
         TimerManager.getInstance().addTimerCallBack(this.rewardCD, this);
+        this.btn_0.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_10.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_11.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_12.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
@@ -3551,6 +3567,12 @@ var StartUI = (function (_super) {
     };
     StartUI.prototype.clickbtn1 = function (e) {
         switch (e.currentTarget) {
+            case this.btn_0:
+                GameLogic.getInstance().startGame1();
+                break;
+            case this.btn_1:
+                GameLogic.getInstance().startGame1();
+                break;
             case this.btn_10:
                 if (!this.canwatch) {
                     var cd = WxApi.getInstance().getRewardCD();
@@ -3590,6 +3612,7 @@ var StartUI = (function (_super) {
         this.removeEventListener(egret.Event.REMOVED_FROM_STAGE, this.clear, this);
         this.img_sound.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickSound, this);
         GameLogic.getInstance().removeEventListener(GameEvent.PROP_NUM_CHANGE, this.updateProp, this);
+        this.btn_0.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_10.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_11.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);
         this.btn_12.removeEventListener(egret.TouchEvent.TOUCH_TAP, this.clickbtn1, this);

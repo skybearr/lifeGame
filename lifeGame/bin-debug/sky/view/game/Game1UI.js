@@ -21,4 +21,3 @@ var Game1UI = (function (_super) {
     return Game1UI;
 }(eui.Component));
 __reflect(Game1UI.prototype, "Game1UI");
-//# sourceMappingURL=Game1UI.js.map

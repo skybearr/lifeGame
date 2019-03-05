@@ -195,4 +195,3 @@ var StartUI = (function (_super) {
     return StartUI;
 }(eui.Component));
 __reflect(StartUI.prototype, "StartUI");
-//# sourceMappingURL=StartUI.js.map

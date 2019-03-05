@@ -18,6 +18,8 @@ var GameUI = (function (_super) {
     GameUI.prototype.childrenCreated = function () {
         var _this = this;
         _super.prototype.childrenCreated.call(this);
+        this.scaleX = 640 / 750;
+        this.scaleY = this.scaleX;
         this.checkFit();
         GameLogic.getInstance().gameui = this;
         this.market_arr = [];
@@ -520,4 +522,3 @@ var GameUI = (function (_super) {
     return GameUI;
 }(eui.Component));
 __reflect(GameUI.prototype, "GameUI");
-//# sourceMappingURL=GameUI.js.map

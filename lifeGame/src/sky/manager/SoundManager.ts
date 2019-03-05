@@ -26,29 +26,29 @@ class SoundManager {
     /**打开/关闭背景音乐*/
     public playBgSound(b:boolean):void
     {
-        this.sound_switch = b;
-        if(b) {
-            if(this.bgSound == null) {
-                this.bgSound = RES.getRes("bg_mp3");
-            }
-            if(this.bgChannel != null) {
-                this.bgChannel.stop();
-                this.bgChannel = null;
-            }
-            this.bgChannel = this.bgSound.play(this.bg_position,0);
-            this.bgChannel.volume = 0.2;
-        }
-        else {
-            if(this.bgChannel != null)
-            {
-                this.bg_position = this.bgChannel.position;
-                this.bgChannel.stop();
-                this.bgChannel = null;
-            }
-            else{
-                this.bg_position = 0;
-            }
-        }
+        // this.sound_switch = b;
+        // if(b) {
+        //     if(this.bgSound == null) {
+        //         this.bgSound = RES.getRes("bg_mp3");
+        //     }
+        //     if(this.bgChannel != null) {
+        //         this.bgChannel.stop();
+        //         this.bgChannel = null;
+        //     }
+        //     this.bgChannel = this.bgSound.play(this.bg_position,0);
+        //     this.bgChannel.volume = 0.2;
+        // }
+        // else {
+        //     if(this.bgChannel != null)
+        //     {
+        //         this.bg_position = this.bgChannel.position;
+        //         this.bgChannel.stop();
+        //         this.bgChannel = null;
+        //     }
+        //     else{
+        //         this.bg_position = 0;
+        //     }
+        // }
     }
     
     /**音效开关*/

@@ -8,9 +8,9 @@
 		"newFeature": true
 	},
 	"compileType": "game",
-	"libVersion": "game",
+	"libVersion": "2.3.0",
 	"appid": "wx6a3ca3523aaa4e34",
-	"projectname": "lifeGame",
+	"projectname": "%E6%AC%A2%E4%B9%90%E7%90%83%E7%90%83%E4%B9%B0%E6%88%BF%E8%AE%B0",
 	"condition": {
 		"search": {
 			"current": -1,

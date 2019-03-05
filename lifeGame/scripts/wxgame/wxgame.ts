@@ -7,7 +7,9 @@ export class WxgamePlugin implements plugins.Command {
     async onFile(file: plugins.File) {
         if (file.extname == '.js') {
             const filename = file.origin;
-            if (filename == "libs/modules/promise/promise.js" || filename == 'libs/modules/promise/promise.min.js') {
+            if (filename == "libs/modules/promise/promise.js" || filename == 'libs/modules/promise/promise.min.js'
+                || filename.indexOf('resource/script') == 0 || filename == 'libs/qyscript/qyscript.min.js'
+                 || filename == 'libs/qyscript/qyscript.js') {
                 return null;
             }
             if (filename == 'libs/modules/egret/egret.js' || filename == 'libs/modules/egret/egret.min.js') {
@@ -33,8 +35,14 @@ export class WxgamePlugin implements plugins.Command {
                     content += ';window.dragonBones = dragonBones';
                 }
                 content = "var egret = window.egret;" + content;
+                if (filename.indexOf('egret3d.js') >= 0 || filename.indexOf("egret3d.min.js") >= 0) {
+                    content = " var RES = window.RES;" + content;
+                    if (filename.indexOf("egret3d.min.js") >= 0)
+                        content = content.replace(new RegExp("e.web", 'g'), "e.wxgame");
+                    content = content.replace(new RegExp('egret.web', 'g'), "egret.wxgame");
+                }
                 if (filename == 'main.js') {
-                    content += ";window.Main = Main;"
+                    content += "\n;window.Main = Main;"
                 }
                 file.contents = new Buffer(content);
             }
@@ -44,6 +52,10 @@ export class WxgamePlugin implements plugins.Command {
     async onFinish(pluginContext: plugins.CommandContext) {
         //同步 index.html 配置到 game.js
         const gameJSPath = path.join(pluginContext.outputDir, "game.js");
+        if (!fs.existsSync(gameJSPath)) {
+            console.log(`${gameJSPath}不存在，请先使用 Launcher 发布微信小游戏`);
+            return;
+        }
         let gameJSContent = fs.readFileSync(gameJSPath, { encoding: "utf8" });
         const projectConfig = pluginContext.buildConfig.projectConfig;
         const optionStr =

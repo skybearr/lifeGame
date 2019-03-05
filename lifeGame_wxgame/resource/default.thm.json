@@ -4,9 +4,10 @@
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
+		"resource/skins/BaseButtonSkin.exml",
 		"resource/skins/AchieveItemSkin.exml",
 		"resource/skins/AchieveSkin.exml",
-		"resource/skins/BaseButtonSkin.exml",
+		"resource/skins/Game1Skin.exml",
 		"resource/skins/GameSkin.exml",
 		"resource/skins/MainBtn.exml",
 		"resource/skins/MarketItemSkin.exml",

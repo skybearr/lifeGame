@@ -62,7 +62,7 @@
 			          anchorOffsetY="0" height="52" />
 			<e:Button label="慈善" id="btn_4" x="456" y="0" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
-			<e:Button label="增加现金" id="btn_9" x="4" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160" anchorOffsetY="0" height="52"/>
+			<e:Button label="增加现金" id="btn_9" x="4" y="138" skinName="BaseButtonSkin" anchorOffsetX="0" width="160" anchorOffsetY="0" height="52" visible="false"/>
 
 			<e:Button label="医院" id="btn_6" x="156" y="70" skinName="BaseButtonSkin" anchorOffsetX="0" width="160"
 			          anchorOffsetY="0" height="52" />
@@ -85,7 +85,7 @@
 				              requestedRowCount="3" />
 			</e:layout>
 		</e:Group>
-		<e:Image source="1_png" x="54" y="100" width="20" height="20" touchEnabled="false"/>
+		<e:Image source="1_png" x="54" y="100" width="20" height="20" touchEnabled="false" visible="false"/>
 	</e:Group>
 	<e:Image id="img_sound" x="19.6" y="130.8" anchorOffsetX="0" width="73" anchorOffsetY="0" height="69" source="game_json.noice1_zb" scaleX="0.8" scaleY="0.8"/>
 	<e:Group id="gp_pop" height="180" anchorOffsetY="0" touchEnabled="false" width="750" top="758">

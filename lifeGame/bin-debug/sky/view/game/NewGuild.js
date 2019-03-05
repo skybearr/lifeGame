@@ -60,4 +60,3 @@ var NewGuild = (function (_super) {
     return NewGuild;
 }(eui.Component));
 __reflect(NewGuild.prototype, "NewGuild");
-//# sourceMappingURL=NewGuild.js.map
