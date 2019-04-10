@@ -161,11 +161,7 @@ var WxApi = (function (_super) {
     };
     /** true 不显示  false 显示 */
     WxApi.prototype.checkVersion = function () {
-        var time = new Date().getTime();
-        var vtime = time + 1000 * 3600 * 24;
-        console.log(time);
-        console.log(vtime);
-        return time < vtime;
+        return GameLogic.getInstance().checkVersion();
     };
     /**监听用户点击右上角菜单的“转发”按钮时触发的事件
      * @param query 转发携带参数 必须是 key1=val1&key2=val2 的格式 用于区分其他用户点开这个分享链接时是否打开排行榜等操作

@@ -44,7 +44,7 @@ declare interface Platform {
     vibrate(short): Promise<any>
 
     /** 展示banner广告 */
-    bannershow(bannerId): Promise<any>
+    bannershow(bannerId,h): Promise<any>
 
     /** 隐藏banner广告 */
     bannerhide(): Promise<any>
@@ -146,7 +146,7 @@ class DebugPlatform implements Platform {
     async vibrate(short) {
         console.log("debug_vibrate", short);
     }
-    async bannershow(bannerId) {
+    async bannershow(bannerId,h) {
         console.log("debug_bannershow");
     }
     async bannerdestroy() {

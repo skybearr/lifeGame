@@ -5,6 +5,7 @@ var mta = require('./mta_analysis.js');
 require('./utils/ald-game.js')
 var bannerAd;
 var rewardAd;
+var addresize;
 class WxgamePlatform {
 
   /** 是否debug */
@@ -253,33 +254,50 @@ class WxgamePlatform {
     }
   }
 
-  bannershow(adunitId) {
-    return new Promise((resolve, reject) => {
-      let sysInfo = wx.getSystemInfoSync();
-      let sdkVersion = sysInfo.SDKVersion;
-      sdkVersion = sdkVersion.replace(/\./g, "");
-      sdkVersion = sdkVersion.substr(0, 3);
-      let sdkVersionNum = parseInt(sdkVersion);
-      console.log("showbaner:", sdkVersionNum)
-      if (sdkVersionNum >= 204) { //基础调试库在2.0.6版本以上
-        let phoneWidth = sysInfo.screenWidth; //手机屏幕宽度
-        let phoneHeight = sysInfo.screenHeight; //手机屏幕高度
-        console.log(phoneWidth, phoneHeight)
-        bannerAd = wx.createBannerAd({
-          adUnitId: adunitId,
-          style: {
-            left: 10,
-            top: phoneHeight - 122,
-            width: phoneWidth - 20,
+  bannershow(bannerId,h) {
+    if (h < 1100) {
+      return;
+    }
+    if (bannerAd != null) {
+      bannerAd.show();
+      return;
+    }
+    let sysInfo = wx.getSystemInfoSync();
+    let sdkVersion = sysInfo.SDKVersion;
+    sdkVersion = sdkVersion.replace(/\./g, "");
+    sdkVersion = sdkVersion.substr(0, 3);
+    let sdkVersionNum = parseInt(sdkVersion);
+    if (sdkVersionNum >= 204) { //基础调试库在2.0.6版本以上
+      let phoneWidth = wx.getSystemInfoSync().screenWidth; //手机屏幕宽度
+      let phoneHeight = wx.getSystemInfoSync().screenHeight; //手机屏幕高度
+      // console.log("bannerAd:", phoneWidth, phoneHeight, this.bannerAd, bannerId)
+      bannerAd = wx.createBannerAd({
+        adUnitId: bannerId,
+        style: {
+          left: 0,
+          top: phoneHeight - 125,
+          width: phoneWidth,
+        }
+      })
+      if (!addresize) {
+        addresize = true;
+        bannerAd.onResize(res => {
+          let rh = bannerAd.style.realHeight;
+          console.log("onResize:", sysInfo.model, rh);
+          if (sysInfo.model.indexOf("iPhone X") != -1 || sysInfo.model.indexOf("iPhone XS") != -1 ||
+            sysInfo.model.indexOf("iPhone 7 Plus") != -1 || sysInfo.model.indexOf("iPhone 7") != -1 ||
+            sysInfo.model.indexOf("iPhone XR") != -1 || sysInfo.model.indexOf("iPhone XS Max") != -1) {
+            bannerAd.style.top = phoneHeight - rh - 15;
+          } else {
+            bannerAd.style.top = phoneHeight - rh;
           }
         })
-        bannerAd.onError(err => {
-          console.log("bannerAdError:", err)
-        });
-        bannerAd.show();
-        console.log(bannerAd)
       }
-    })
+      bannerAd.show();
+      bannerAd.onError(err => {
+        console.log("bannerAdError:", err)
+      })
+    }
   }
   bannerhide() {
     return new Promise((resolve, reject) => {

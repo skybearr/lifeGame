@@ -23,7 +23,10 @@ var GameLogic = (function (_super) {
         return this._instance;
     };
     GameLogic.prototype.init = function () {
-        SoundManager.getInstance().playBgSound(true);
+        platform.checkVersion();
+        if (!this.checkVersion()) {
+            SoundManager.getInstance().playBgSound(true);
+        }
         this.initData();
         this.getHiscore();
         //视频cd
@@ -31,6 +34,12 @@ var GameLogic = (function (_super) {
         WxApi.getInstance().starttime = cd == null || cd == "" ? null : parseInt(cd);
         this.openStart(); //要放在initShareInfo之前，share可能有群排行点进来的
         WxApi.getInstance().initShareInfo();
+    };
+    GameLogic.prototype.checkVersion = function () {
+        var time = new Date().getTime();
+        console.log(time);
+        var vtime = 1554775807107 + 1000 * 3600 * 48;
+        return time < vtime;
     };
     GameLogic.prototype.openStart = function () {
         this.main.removeChildren();
@@ -198,6 +207,10 @@ var GameLogic = (function (_super) {
         WxApi.getInstance().watched = false;
         WxApi.getInstance().sharenum = 0;
         this.main.addChild(new GameUI());
+    };
+    GameLogic.prototype.startGame1 = function () {
+        // this.main.removeChildren();
+        // this.main.addChild(new Game1UI());
     };
     /** 登录授权*/
     GameLogic.prototype.login = function () {

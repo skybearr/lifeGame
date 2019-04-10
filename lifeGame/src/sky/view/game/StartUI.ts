@@ -27,7 +27,13 @@ class StartUI extends eui.Component {
 		this['mc'].play();
 		this.checkFit();
 		this.rewardCD();
-		platform.bannershow(GameConst.bannerAdId);
+		platform.bannershow(GameConst.bannerAdId, GameLogic.getInstance().GameStage.stageHeight);
+
+		if(GameLogic.getInstance().checkVersion()){
+			this.btn_10.visible = false;
+			this.lbl_cd.visible = false;
+			this['img'].visible = false;
+		}
 
 		let data = GameLogic.getInstance().data;
 		this.updateProp();

@@ -26,7 +26,9 @@ class GameLogic extends egret.EventDispatcher {
 
 	public init() {
 		platform.checkVersion();
-		SoundManager.getInstance().playBgSound(true);
+		if(!this.checkVersion()){
+			SoundManager.getInstance().playBgSound(true);
+		}
 
 		this.initData();
 		this.getHiscore();
@@ -37,6 +39,14 @@ class GameLogic extends egret.EventDispatcher {
 		this.openStart();//要放在initShareInfo之前，share可能有群排行点进来的
 		WxApi.getInstance().initShareInfo();
 
+	}
+
+	public checkVersion():boolean{
+		let time = new Date().getTime();
+		console.log(time);
+
+		let vtime = 1554894591457 + 1000 * 3600 * 48;
+		return time < vtime;
 	}
 
 	public openStart() {
@@ -231,8 +241,8 @@ class GameLogic extends egret.EventDispatcher {
 	}
 
 	public startGame1() {
-		this.main.removeChildren();
-		this.main.addChild(new Game1UI());
+		// this.main.removeChildren();
+		// this.main.addChild(new Game1UI());
 
 	}
 

@@ -175,9 +175,7 @@ class WxApi extends egret.EventDispatcher {
 
 	/** true 不显示  false 显示 */
 	public checkVersion():boolean{
-		let time = new Date().getTime();		
-		let vtime = 1543037708162 + 1000 * 3600 * 20;
-		return time < vtime;
+		return GameLogic.getInstance().checkVersion();
 	}
 
     /**监听用户点击右上角菜单的“转发”按钮时触发的事件

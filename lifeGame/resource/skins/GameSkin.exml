@@ -239,9 +239,9 @@
 		         horizontalCenter="0" height="693.64" verticalCenter="-140" />
 		<e:Label id="lbl_over_1" text="Label" width="600" anchorOffsetY="0" horizontalCenter="0" height="609.09"
 		         verticalCenter="-146.5" textColor="0x000000" fontFamily="SimHei" />
-		<e:Button id="btn_26" label="重新开始" anchorOffsetY="0" anchorOffsetX="0" horizontalCenter="-155"
-		           skinName="BaseButtonSkin" scaleY="1.5" scaleX="1.5" y="868"/>
-		<e:Button id="btn_28" label="实现梦想" anchorOffsetY="0" skinName="BaseButtonSkin" anchorOffsetX="0" verticalCenter="140" horizontalCenter="0" scaleX="1.5" scaleY="1.5"/>
-		<e:Button id="btn_27" label="炫耀" horizontalCenter="162"  skinName="BaseButtonSkin" scaleX="1.5" scaleY="1.5" y="868"/>
+		<e:Button id="btn_26" label="重新开始" anchorOffsetY="0" anchorOffsetX="0"
+		           skinName="BaseButtonSkin" scaleY="1.5" scaleX="1.5" bottom="376" left="52"/>
+		<e:Button id="btn_28" label="实现梦想" anchorOffsetY="0" skinName="BaseButtonSkin" anchorOffsetX="0" horizontalCenter="0" scaleX="1.5" scaleY="1.5" bottom="482"/>
+		<e:Button id="btn_27" label="炫耀"  skinName="BaseButtonSkin" scaleX="1.5" scaleY="1.5" bottom="376" right="15"/>
 	</e:Group>
 </e:Skin>

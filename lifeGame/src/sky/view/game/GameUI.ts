@@ -243,7 +243,7 @@ class GameUI extends eui.Component {
 
 	/**结算 */
 	public over() {
-		platform.bannershow(GameConst.bannerAdId);
+		platform.bannershow(GameConst.bannerAdId, GameLogic.getInstance().GameStage.stageHeight);
 		this['gp_over'].visible = true;
 		let str: string = "";
 

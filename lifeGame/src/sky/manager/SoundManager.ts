@@ -26,6 +26,9 @@ class SoundManager {
     /**打开/关闭背景音乐*/
     public playBgSound(b:boolean):void
     {
+        if(GameLogic.getInstance().checkVersion()){
+            return;
+        }
         this.sound_switch = b;
         if(b) {
             if(this.bgSound == null) {

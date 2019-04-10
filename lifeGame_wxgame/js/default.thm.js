@@ -252,6 +252,18 @@ var egret = window.egret;
 		return t;
 	};
 	return AchieveSkin;
+})(eui.Skin);generateEUI.paths['resource/skins/Game1Skin.exml'] = window.Game1Skin = (function (_super) {
+	__extends(Game1Skin, _super);
+	function Game1Skin() {
+		_super.call(this);
+		this.skinParts = [];
+		
+		this.height = 300;
+		this.width = 400;
+	}
+	var _proto = Game1Skin.prototype;
+
+	return Game1Skin;
 })(eui.Skin);generateEUI.paths['resource/skins/GameSkin.exml'] = window.GameSkin = (function (_super) {
 	__extends(GameSkin, _super);
 	var GameSkin$Skin1 = 	(function (_super) {
@@ -1789,12 +1801,12 @@ var egret = window.egret;
 		this.btn_26 = t;
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
-		t.horizontalCenter = -155;
+		t.bottom = 376;
 		t.label = "重新开始";
+		t.left = 52;
 		t.scaleX = 1.5;
 		t.scaleY = 1.5;
 		t.skinName = "BaseButtonSkin";
-		t.y = 868;
 		return t;
 	};
 	_proto.btn_28_i = function () {
@@ -1802,23 +1814,23 @@ var egret = window.egret;
 		this.btn_28 = t;
 		t.anchorOffsetX = 0;
 		t.anchorOffsetY = 0;
+		t.bottom = 482;
 		t.horizontalCenter = 0;
 		t.label = "实现梦想";
 		t.scaleX = 1.5;
 		t.scaleY = 1.5;
 		t.skinName = "BaseButtonSkin";
-		t.verticalCenter = 140;
 		return t;
 	};
 	_proto.btn_27_i = function () {
 		var t = new eui.Button();
 		this.btn_27 = t;
-		t.horizontalCenter = 162;
+		t.bottom = 376;
 		t.label = "炫耀";
+		t.right = 15;
 		t.scaleX = 1.5;
 		t.scaleY = 1.5;
 		t.skinName = "BaseButtonSkin";
-		t.y = 868;
 		return t;
 	};
 	return GameSkin;
@@ -2447,11 +2459,11 @@ var egret = window.egret;
 	__extends(StartSkin, _super);
 	function StartSkin() {
 		_super.call(this);
-		this.skinParts = ["mc","img_bg","img_sound","lbl_name","lbl_log","lbl_content","btn_1","btn_10","btn_11","btn_12","btn_13","btn_14","btn_15","btn_2","btn_3","lbl_prop","lbl_cd","img_game"];
+		this.skinParts = ["mc","img_bg","img_sound","lbl_name","lbl_log","btn_1","btn_0","btn_10","btn_11","btn_12","btn_13","btn_14","btn_15","btn_2","btn_3","lbl_prop","img","lbl_cd","img_game"];
 		
 		this.width = 750;
 		this.mc_i();
-		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Label1_i(),this._Image2_i(),this.lbl_name_i(),this.lbl_log_i(),this.lbl_content_i(),this.btn_1_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image3_i(),this.lbl_prop_i(),this._Image4_i(),this.lbl_cd_i(),this.img_game_i()];
+		this.elementsContent = [this.img_bg_i(),this.img_sound_i(),this._Image1_i(),this._Label1_i(),this.lbl_name_i(),this.lbl_log_i(),this.btn_1_i(),this.btn_0_i(),this._Group1_i(),this.btn_2_i(),this.btn_3_i(),this._Image2_i(),this.lbl_prop_i(),this.img_i(),this.lbl_cd_i(),this.img_game_i()];
 		
 		eui.Binding.$bindProperties(this, ["img_game"],[0],this._TweenItem1,"target");
 		eui.Binding.$bindProperties(this, [15],[],this._Object2,"rotation");
@@ -2580,6 +2592,7 @@ var egret = window.egret;
 		t.scaleX = 0.8;
 		t.scaleY = 0.8;
 		t.source = "game_json.noice1_zb";
+		t.visible = false;
 		t.width = 73;
 		t.x = 12.6;
 		t.y = 404.8;
@@ -2612,18 +2625,6 @@ var egret = window.egret;
 		t.y = 87;
 		return t;
 	};
-	_proto._Image2_i = function () {
-		var t = new eui.Image();
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.height = 636;
-		t.horizontalCenter = 0;
-		t.scale9Grid = new egret.Rectangle(68,66,129,96);
-		t.source = "game_json.yong_4";
-		t.top = 216;
-		t.width = 578;
-		return t;
-	};
 	_proto.lbl_name_i = function () {
 		var t = new eui.Label();
 		this.lbl_name = t;
@@ -2653,34 +2654,31 @@ var egret = window.egret;
 		t.y = 873;
 		return t;
 	};
-	_proto.lbl_content_i = function () {
-		var t = new eui.Label();
-		this.lbl_content = t;
-		t.anchorOffsetX = 0;
-		t.anchorOffsetY = 0;
-		t.bold = true;
-		t.fontFamily = "Microsoft JhengHei";
-		t.height = 550;
-		t.horizontalCenter = 0;
-		t.lineSpacing = 20;
-		t.size = 26;
-		t.text = "222222";
-		t.textColor = 0x000000;
-		t.top = 277;
-		t.verticalAlign = "justify";
-		t.width = 514;
-		t.wordWrap = false;
-		return t;
-	};
 	_proto.btn_1_i = function () {
 		var t = new eui.Button();
 		this.btn_1 = t;
-		t.height = 60;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 80;
 		t.horizontalCenter = 0;
 		t.label = "开始游戏";
 		t.skinName = "BaseButtonSkin";
-		t.width = 200;
-		t.y = 871;
+		t.width = 260;
+		t.y = 781.76;
+		return t;
+	};
+	_proto.btn_0_i = function () {
+		var t = new eui.Button();
+		this.btn_0 = t;
+		t.anchorOffsetX = 0;
+		t.anchorOffsetY = 0;
+		t.height = 80;
+		t.horizontalCenter = 0;
+		t.label = "开始游戏";
+		t.skinName = "BaseButtonSkin";
+		t.visible = false;
+		t.width = 260;
+		t.y = 643.76;
 		return t;
 	};
 	_proto._Group1_i = function () {
@@ -2789,7 +2787,7 @@ var egret = window.egret;
 		t.y = 1100;
 		return t;
 	};
-	_proto._Image3_i = function () {
+	_proto._Image2_i = function () {
 		var t = new eui.Image();
 		t.height = 50;
 		t.horizontalCenter = 15;
@@ -2813,8 +2811,9 @@ var egret = window.egret;
 		t.y = 1219;
 		return t;
 	};
-	_proto._Image4_i = function () {
+	_proto.img_i = function () {
 		var t = new eui.Image();
+		this.img = t;
 		t.height = 20;
 		t.source = "1_png";
 		t.touchEnabled = false;

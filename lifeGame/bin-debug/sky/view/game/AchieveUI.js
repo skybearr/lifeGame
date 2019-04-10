@@ -17,6 +17,7 @@ var AchieveUI = (function (_super) {
     }
     AchieveUI.prototype.childrenCreated = function () {
         _super.prototype.childrenCreated.call(this);
+        platform.bannerhide();
         GameLogic.getInstance().achieveui = this;
         this.checkFit();
         this.initView();
