@@ -42,6 +42,8 @@ class GameUI extends eui.Component {
 
 	protected childrenCreated() {
 		super.childrenCreated();
+        this.scaleX = 640 / 750;
+        this.scaleY = this.scaleX;
 
 		this.checkFit();
 

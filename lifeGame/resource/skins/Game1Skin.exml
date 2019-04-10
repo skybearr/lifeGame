@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="Game1Skin" width="400" height="300" xmlns:e="http://ns.egret.com/eui">
+<e:Skin class="Game1Skin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Rect id="rect_bg" width="100%" height="100%" horizontalCenter="0" fillColor="0x888888" locked="true"/>
+	<e:Group id="gp_circle" y="280" horizontalCenter="0" anchorOffsetX="200" anchorOffsetY="200">
+		<e:Rect id="rect_circle" width="400" height="400" ellipseWidth="400" fillColor="0x556b9e" horizontalCenter="0" locked="true"/>
+		<e:Rect id="rect_c" width="100" height="100" ellipseWidth="400" horizontalCenter="0" verticalCenter="0" fillColor="0xd69617"/>
+		<e:Label id="lbl_c" text="1000" fontFamily="SimHei" size="40" horizontalCenter="0" verticalCenter="0" verticalAlign="middle" textAlign="center"/>
+	</e:Group>
+	<e:Rect width="100" height="100" ellipseWidth="400" id="rect_c0" verticalCenter="439" fillColor="0x1762d3" horizontalCenter="0"/>
 </e:Skin>

@@ -9,6 +9,7 @@ class StartUI extends eui.Component {
 	private lbl_prop: eui.Label;
 
 	private btn_0: eui.Button;
+	private btn_1: eui.Button;
 	private btn_10: eui.Button;
 	private btn_11: eui.Button;
 	private btn_12: eui.Button;
@@ -48,7 +49,6 @@ class StartUI extends eui.Component {
 				str += "(可获炒房证)";
 			}
 			let btn: eui.Button = this['btn_' + i];
-			btn.label = str;
 			btn.name = i + "";
 			btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.clickBtn, this);
 		}
@@ -160,6 +160,9 @@ class StartUI extends eui.Component {
 	private clickbtn1(e: egret.TouchEvent) {
 		switch (e.currentTarget) {
 			case this.btn_0:
+				GameLogic.getInstance().startGame1();
+				break;
+			case this.btn_1:
 				GameLogic.getInstance().startGame1();
 				break;
 			case this.btn_10:

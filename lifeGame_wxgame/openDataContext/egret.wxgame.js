@@ -1737,6 +1737,28 @@ if (window['HTMLVideoElement'] == undefined) {
                     if (this._response) {
                         return this._response;
                     }
+                    if (!this._xhr) {
+                        return null;
+                    }
+                    if (this._xhr.response != undefined) {
+                        return this._xhr.response;
+                    }
+                    if (this._responseType == "text") {
+                        return this._xhr.responseText;
+                    }
+                    if (this._responseType == "arraybuffer" && /msie 9.0/i.test(navigator.userAgent)) {
+                        var w = window;
+                        return w.convertResponseBodyToText(this._xhr["responseBody"]);
+                    }
+                    if (this._responseType == "document") {
+                        return this._xhr.responseXML;
+                    }
+                    /*if (this._xhr.responseXML) {
+                        return this._xhr.responseXML;
+                    }
+                    if (this._xhr.responseText != undefined) {
+                        return this._xhr.responseText;
+                    }*/
                     return null;
                 },
                 enumerable: true,
@@ -1780,6 +1802,14 @@ if (window['HTMLVideoElement'] == undefined) {
                 if (method === void 0) { method = "GET"; }
                 this._url = url;
                 this._method = method;
+                if (this._xhr) {
+                    this._xhr.abort();
+                    this._xhr = null;
+                }
+                this._xhr = new XMLHttpRequest();
+                this._xhr.onreadystatechange = this.onReadyStateChange.bind(this);
+                this._xhr.onprogress = this.updateProgress.bind(this);
+                this._xhr.open(this._method, this._url, true);
             };
             WebHttpRequest.prototype.readFileAsync = function () {
                 var self = this;
@@ -1829,36 +1859,18 @@ if (window['HTMLVideoElement'] == undefined) {
                     this.readFileAsync();
                 }
                 else {
-                    var self_1 = this;
-                    wx.request({
-                        data: data,
-                        url: this._url,
-                        method: this._method,
-                        header: this.headerObj,
-                        responseType: this.responseType,
-                        success: function success(_ref) {
-                            var data = _ref.data, statusCode = _ref.statusCode, header = _ref.header;
-                            if (statusCode != 200) {
-                                self_1.dispatchEventWith(egret.IOErrorEvent.IO_ERROR);
-                                return;
-                            }
-                            if (typeof data !== 'string' && !(data instanceof ArrayBuffer)) {
-                                try {
-                                    data = JSON.stringify(data);
-                                }
-                                catch (e) {
-                                    data = data;
-                                }
-                            }
-                            self_1._responseHeader = header;
-                            self_1._response = data;
-                            self_1.dispatchEventWith(egret.Event.COMPLETE);
-                        },
-                        fail: function fail(_ref2) {
-                            // var errMsg = _ref2.errMsg;
-                            self_1.dispatchEventWith(egret.IOErrorEvent.IO_ERROR);
+                    if (this._responseType != null) {
+                        this._xhr.responseType = this._responseType;
+                    }
+                    if (this._withCredentials != null) {
+                        this._xhr.withCredentials = this._withCredentials;
+                    }
+                    if (this.headerObj) {
+                        for (var key in this.headerObj) {
+                            this._xhr.setRequestHeader(key, this.headerObj[key]);
                         }
-                    });
+                    }
+                    this._xhr.send(data);
                 }
             };
             /**
@@ -1874,19 +1886,20 @@ if (window['HTMLVideoElement'] == undefined) {
              * 如果请求已经被发送,则立刻中止请求.
              */
             WebHttpRequest.prototype.abort = function () {
+                if (this._xhr) {
+                    this._xhr.abort();
+                }
             };
             /**
              * @private
              * 返回所有响应头信息(响应头名和值), 如果响应头还没接受,则返回"".
              */
             WebHttpRequest.prototype.getAllResponseHeaders = function () {
-                var responseHeader = this._responseHeader;
-                if (!responseHeader) {
+                if (!this._xhr) {
                     return null;
                 }
-                return Object.keys(responseHeader).map(function (header) {
-                    return header + ': ' + responseHeader[header];
-                }).join('\n');
+                var result = this._xhr.getAllResponseHeaders();
+                return result ? result : "";
             };
             /**
              * @private
@@ -1906,11 +1919,33 @@ if (window['HTMLVideoElement'] == undefined) {
              * @param header 要返回的响应头名称
              */
             WebHttpRequest.prototype.getResponseHeader = function (header) {
-                if (!this._responseHeader) {
+                if (!this._xhr) {
                     return null;
                 }
-                var result = this._responseHeader[header];
+                var result = this._xhr.getResponseHeader(header);
                 return result ? result : "";
+            };
+            /**
+             * @private
+             */
+            WebHttpRequest.prototype.onReadyStateChange = function () {
+                var xhr = this._xhr;
+                if (xhr.readyState == 4) {
+                    var ioError_1 = (xhr.status >= 400 || xhr.status == 0);
+                    var url_1 = this._url;
+                    var self_1 = this;
+                    window.setTimeout(function () {
+                        if (ioError_1) {
+                            if (true && !self_1.hasEventListener(egret.IOErrorEvent.IO_ERROR)) {
+                                egret.$error(1011, url_1);
+                            }
+                            self_1.dispatchEventWith(egret.IOErrorEvent.IO_ERROR);
+                        }
+                        else {
+                            self_1.dispatchEventWith(egret.Event.COMPLETE);
+                        }
+                    }, 0);
+                }
             };
             /**
              * @private
@@ -2455,6 +2490,7 @@ if (window['HTMLVideoElement'] == undefined) {
                     var change = false;
                     if (surface.width < width) {
                         surface.width = width;
+                        // window["sharedCanvas"].width = width;
                         if (egret.Capabilities.renderMode === 'canvas') {
                             window["sharedCanvas"].width = width;
                         }
@@ -2465,6 +2501,7 @@ if (window['HTMLVideoElement'] == undefined) {
                         if (egret.Capabilities.renderMode === 'canvas') {
                             window["sharedCanvas"].height = height;
                         }
+                        // window["sharedCanvas"].height = height;
                         change = true;
                     }
                     //尺寸没有变化时,将绘制属性重置
@@ -2480,12 +2517,14 @@ if (window['HTMLVideoElement'] == undefined) {
                         if (egret.Capabilities.renderMode === 'canvas') {
                             window["sharedCanvas"].width = width;
                         }
+                        // window["sharedCanvas"].width = width;
                     }
                     if (surface.height != height) {
                         surface.height = height;
                         if (egret.Capabilities.renderMode === 'canvas') {
                             window["sharedCanvas"].height = height;
                         }
+                        // window["sharedCanvas"].height = height;
                     }
                 }
                 this.clear();
@@ -3046,7 +3085,7 @@ if (window['HTMLVideoElement'] == undefined) {
         /**
          * 微信小游戏支持库版本号
          */
-        wxgame.version = "1.0.16";
+        wxgame.version = "1.0.13";
         /**
          * 运行环境是否为子域
          */
@@ -3095,7 +3134,6 @@ if (window['HTMLVideoElement'] == undefined) {
                 wxapp.WebGLRenderContext.antialias = !!antialias;
                 // WebGLRenderContext.antialias = (typeof antialias == undefined) ? true : antialias;
             }
-            egret.Capabilities["runtimeType" + ""] = egret.RuntimeType.WXGAME;
             egret.sys.CanvasRenderBuffer = wxapp.CanvasRenderBuffer;
             setRenderMode(options.renderMode);
             var canvasScaleFactor;
@@ -3752,8 +3790,8 @@ if (true) {
             rect.y = Math.min(rect.y, h - 1);
             rect.width = Math.min(rect.width, w - rect.x);
             rect.height = Math.min(rect.height, h - rect.y);
-            var iWidth = Math.floor(rect.width);
-            var iHeight = Math.floor(rect.height);
+            var iWidth = rect.width;
+            var iHeight = rect.height;
             var surface = sharedCanvas;
             surface["style"]["width"] = iWidth + "px";
             surface["style"]["height"] = iHeight + "px";
@@ -3771,21 +3809,11 @@ if (true) {
                 }
                 //从RenderTexture中读取像素数据，填入canvas
                 var pixels = renderTexture.$renderBuffer.getPixels(rect.x, rect.y, iWidth, iHeight);
-                var x = 0;
-                var y = 0;
-                for (var i = 0; i < pixels.length; i += 4) {
-                    sharedContext.fillStyle =
-                        'rgba(' + pixels[i]
-                            + ',' + pixels[i + 1]
-                            + ',' + pixels[i + 2]
-                            + ',' + (pixels[i + 3] / 255) + ')';
-                    sharedContext.fillRect(x, y, 1, 1);
-                    x++;
-                    if (x == iWidth) {
-                        x = 0;
-                        y++;
-                    }
+                var imageData = new ImageData(iWidth, iHeight);
+                for (var i = 0; i < pixels.length; i++) {
+                    imageData.data[i] = pixels[i];
                 }
+                sharedContext.putImageData(imageData, 0, 0);
                 if (!texture.$renderBuffer) {
                     renderTexture.dispose();
                 }
@@ -3819,18 +3847,17 @@ if (true) {
          * 有些杀毒软件认为 saveToFile 可能是一个病毒文件
          */
         function eliFoTevas(type, filePath, rect, encoderOptions) {
-            var surface = convertImageToCanvas(this, rect);
-            var result = surface.toTempFilePathSync({
-                fileType: type.indexOf("png") >= 0 ? "png" : "jpg"
-            });
-            wx.getFileSystemManager().saveFile({
-                tempFilePath: result,
-                filePath: wx.env.USER_DATA_PATH + "/" + filePath,
-                success: function (res) {
-                    //todo
-                }
-            });
-            return result;
+            var base64 = toDataURL.call(this, type, rect, encoderOptions);
+            if (base64 == null) {
+                return;
+            }
+            var href = base64.replace(/^data:image[^;]*/, "data:image/octet-stream");
+            var aLink = document.createElement('a');
+            aLink['download'] = filePath;
+            aLink.href = href;
+            var evt = document.createEvent('MouseEvents');
+            evt.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            aLink.dispatchEvent(evt);
         }
         function getPixel32(x, y) {
             egret.$warn(1041, "getPixel32", "getPixels");

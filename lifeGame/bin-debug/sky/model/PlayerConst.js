@@ -9,4 +9,3 @@ var PlayerConst = (function () {
     return PlayerConst;
 }());
 __reflect(PlayerConst.prototype, "PlayerConst");
-//# sourceMappingURL=PlayerConst.js.map
